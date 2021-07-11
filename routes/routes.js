@@ -1,0 +1,24 @@
+const express = require('express');
+var router = express.Router();
+var userRegisterController = require('../controller/authentication/userRegisterController');
+
+
+const cors = require('cors');
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// app.post('/sign-up', (req, res) => {
+//     console.log(request.body);
+//     res.send(request.body);
+// })
+//user register route
+router.route('/sign-up')
+    .post(userRegisterController.createUser);
+
+router.route('/sign-in')
+    .post(userRegisterController.loginUser);
+
+
+module.exports = router;

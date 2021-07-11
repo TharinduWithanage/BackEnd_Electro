@@ -6,7 +6,7 @@ module.exports.encryptPassword = async (password) => {
 
 };
 
-// module.exports.validatePassword = async (password, passwordInDb) => {
-//     const validationStatus = await bcrypt.compare(password, passwordInDb);
-//     return validationStatus;
-// };
+module.exports.validatePassword = async (password, passwordInDb) => {
+    const validationStatus = await bcrypt.compare(password, passwordInDb);
+    return validationStatus;
+};

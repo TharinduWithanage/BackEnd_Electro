@@ -20,5 +20,8 @@ router.route('/sign-up')
 router.route('/sign-in')
     .post(userRegisterController.loginUser);
 
+//user profile update route
+router.route('/user-profile')
+    .put(userProfileController.profileUpdate);
 
 module.exports = router;

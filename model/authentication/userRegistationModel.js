@@ -23,9 +23,9 @@ module.exports.createUserFunc = (requestData) => {
     db.query(userRegQuery, (err, result) => {
       if (err) {
         console.log("inserting error", err);
-        reject({ status: false, mesg: "user registered unsucessfull" });
+        reject({ status: false, mesg: "User registered unsucessfull" });
       } else {
-        resolve({ status: true, mesg: "user registered sucessfully" });
+        resolve({ status: true, mesg: "User registered sucessfully" });
       }
     });
   });

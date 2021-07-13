@@ -1,6 +1,8 @@
 const express = require('express');
 var router = express.Router();
 var userRegisterController = require('../controller/authentication/userRegisterController');
+var userProfileController = require('../controller/user/userProfileController');
+
 
 
 const cors = require('cors');

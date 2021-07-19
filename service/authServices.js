@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken');
 var commonResponseService = require('../service/responseService');
-
+var configs = require('../configs/configurations')
 
 /**
  * generate token when the user login
@@ -9,7 +9,7 @@ var commonResponseService = require('../service/responseService');
  */
 module.exports.generateToken = (userdata) => {
     try {
-        const jwtToken = jwt.sign({ firstName: userdata[0].First_name, lastName: userdata[0].Last_name, email: userdata[0].Email, role: userdata[0].Role }, "Electro_1@23")
+        const jwtToken = jwt.sign({ firstName: userdata[0].First_name, lastName: userdata[0].Last_name, email: userdata[0].Email, role: userdata[0].Role }, configs.jwtSecretKey, { expiresIn: '30h' })
         return jwtToken;
     } catch (error) {
         return null;
@@ -28,7 +28,7 @@ module.exports.validateToken = (request, response, next) => {
     try {
         var tokenResult = getTokenFromHeader(request);
         if (tokenResult) {
-            jwt.verify(tokenResult, "Electro_1@23", function validData(error, decordedData) {
+            jwt.verify(tokenResult, configs.jwtSecretKey, function validData(error, decordedData) {
                 if (error) {
                     commonResponseService.errorWithMessage(response, "Invalid Token");
                     console.log(decordedData);

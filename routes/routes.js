@@ -2,6 +2,7 @@ const express = require("express");
 var router = express.Router();
 var userRegisterController = require("../controller/authentication/userRegisterController");
 var userProfileController = require("../controller/user/userProfileController");
+var authService = require('../service/authServices');
 
 const cors = require("cors");
 
@@ -21,6 +22,6 @@ router.route("/sign-up").post(userRegisterController.createUser);
 router.route("/sign-in").post(userRegisterController.loginUser);
 
 //user profile update route
-router.route("/user-profile").put(userProfileController.profileUpdate);
+router.route("/user-profile").put(authService.validateToken, userProfileController.profileUpdate);
 
 module.exports = router;

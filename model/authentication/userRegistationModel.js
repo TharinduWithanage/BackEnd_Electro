@@ -1,6 +1,6 @@
 var userServiceModel = require("./userServiceModel");
 var db = require("../../database/databaseConnection");
-
+var jwt = require('jsonwebtoken');
 /**
  * user Registation
  * @param {*} requestData request body data
@@ -42,13 +42,13 @@ module.exports.loginUserFunc = (requestData) => {
     // console.log(requestData);
     console.log("inside loginUserFunc");
     var email = requestData.userEmail.trim();
-    console.log(email.substr(0, 5).length);
+
     if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
-      console.log("inside admin");
-      var selectQuery = `SELECT Password,Role FROM employee WHERE Emp_id='${email}' OR Email='${email}' ;`;
+      // console.log("inside admin");
+      var selectQuery = `SELECT * FROM employee WHERE Emp_id='${email}' OR Email='${email}' ;`;
     } else {
-      console.log("inside user");
-      var selectQuery = `SELECT Password,Role FROM customer WHERE Email='${email}';`;
+      // console.log("inside user");
+      var selectQuery = `SELECT * FROM customer WHERE Email='${email}';`;
     }
 
     db.query(selectQuery, async function (err, result) {
@@ -59,16 +59,14 @@ module.exports.loginUserFunc = (requestData) => {
           // reject({ status: false, mesg: "invalid user" });
           resolve({ status: false, mesg: "invalid email" });
         } else {
-          // console.log(result[0].password);
-          // console.log(result[0].role);
+          // console.log(result[0].Password);
+          // console.log(result[0].Role);
           let passwordValidationStatus =
-            await userServiceModel.validatePassword(
-              requestData.userPassword.trim(),
-              result[0].Password
-            );
+            await userServiceModel.validatePassword(requestData.userPassword.trim(), result[0].Password);
           //console.log(passwordValidationStatus);
           if (passwordValidationStatus) {
-            resolve({ status: true, data: `${result[0].Role}` });
+            const jwtToken = jwt.sign({ firstName: result[0].First_name, lastName: result[0].Last_name, email: result[0].Email, role: result[0].Role }, "Electro_1@23")
+            resolve({ status: true, data: jwtToken });
           } else {
             resolve({ status: false, mesg: "invalid user password" });
           }

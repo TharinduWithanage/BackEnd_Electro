@@ -17,17 +17,19 @@ module.exports.profileUpdateFunc = (requestData) => {
         var email = requestData.userEmail;
         var lastName = requestData.lastName;
         var contact = requestData.contact;
+        var nic = requestData.nic;
+        var address = requestData.address;
         var password = await userServiceModel.encryptPassword(requestData.userPassword);
 
         console.log(email.substr(0, 5));
-        if (email.substr(0, 5) == "Admin" || email.substr(0, 5) == "Ceben") {
+        if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
             console.log("inside admin");
-            var updateQuery = `UPDATE employee SET first_name ='${firstName}', last_name ='${lastName}', email ='${email}', password ='${password}', contact ='${contact}'   WHERE emp_id='${id}' OR email='${email}' ;`;
-            var selectQuery = `SELECT first_name,last_name,email,password,contact From employee WHERE emp_id='${id}'; `;
+            var updateQuery = `UPDATE employee SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}', Password ='${password}', Conatact_no ='${contact}', NIC ='${nic}', Address ='${address}'   WHERE Emp_id='${id}';`;
+            var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
         } else {
             console.log("inside user");
-            var updateQuery = `UPDATE customer SET first_name ='${firstName}', last_name ='${lastName}', email ='${email}', password ='${password}', contact ='${contact}'   WHERE id='${id}' OR email='${email}' ;`;
-            var selectQuery = `SELECT first_name,last_name,email,password,contact From customer WHERE id='${id}'; `;
+            var updateQuery = `UPDATE customer SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}', Password ='${password}' WHERE Cust_id='${id}';`;
+            var selectQuery = `SELECT * From customer WHERE Cust_id='${id}'; `;
 
         }
 
@@ -35,14 +37,16 @@ module.exports.profileUpdateFunc = (requestData) => {
         db.query(updateQuery, async function (err, result) {
 
             if (err) {
+                console.log(err);
 
-                reject("error");
+                reject({ status: false, mesg: "error updating user" });
             } else {
                 db.query(selectQuery, async function (error, result) {
 
                     if (error) {
+                        console.log(error);
 
-                        reject("error getting data");
+                        reject({ status: false, mesg: "error getting data" });
                     } else {
                         console.log(result);
 
@@ -50,21 +54,13 @@ module.exports.profileUpdateFunc = (requestData) => {
 
                     }
 
-
-
-
                 });
 
                 // resolve({ status: false, mesg: "user updated sucessfully" });
 
             }
 
-
-
-
         });
-
-
     });
 
 }

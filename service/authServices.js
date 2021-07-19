@@ -9,7 +9,13 @@ var configs = require('../configs/configurations')
  */
 module.exports.generateToken = (userdata) => {
     try {
-        const jwtToken = jwt.sign({ firstName: userdata[0].First_name, lastName: userdata[0].Last_name, email: userdata[0].Email, role: userdata[0].Role }, configs.jwtSecretKey, { expiresIn: '30h' })
+        if (userdata[0].Role == "customer") {
+            var jwtToken = jwt.sign({ id: userdata[0].Cust_id, firstName: userdata[0].First_name, lastName: userdata[0].Last_name, email: userdata[0].Email, role: userdata[0].Role }, configs.jwtSecretKey, { expiresIn: '30h' })
+
+        } else {
+            var jwtToken = jwt.sign({ id: userdata[0].Emp_id, firstName: userdata[0].First_name, lastName: userdata[0].Last_name, email: userdata[0].Email, role: userdata[0].Role }, configs.jwtSecretKey, { expiresIn: '30h' })
+
+        }
         return jwtToken;
     } catch (error) {
         return null;

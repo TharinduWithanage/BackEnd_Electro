@@ -1,6 +1,9 @@
 var userServiceModel = require("./userServiceModel");
 var db = require("../../database/databaseConnection");
-var jwt = require('jsonwebtoken');
+var authService = require('../../service/authServices');
+
+
+
 /**
  * user Registation
  * @param {*} requestData request body data
@@ -65,8 +68,8 @@ module.exports.loginUserFunc = (requestData) => {
             await userServiceModel.validatePassword(requestData.userPassword.trim(), result[0].Password);
           //console.log(passwordValidationStatus);
           if (passwordValidationStatus) {
-            const jwtToken = jwt.sign({ firstName: result[0].First_name, lastName: result[0].Last_name, email: result[0].Email, role: result[0].Role }, "Electro_1@23")
-            resolve({ status: true, data: jwtToken });
+            var token = authService.generateToken(result);
+            resolve({ status: true, data: token });
           } else {
             resolve({ status: false, mesg: "invalid user password" });
           }

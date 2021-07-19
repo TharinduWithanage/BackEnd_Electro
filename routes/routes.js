@@ -13,9 +13,11 @@ app.use(cors());
 //     console.log(request.body);
 //     res.send(request.body);
 // })
+
 //user register route
 router.route("/sign-up").post(userRegisterController.createUser);
 
+//user login route
 router.route("/sign-in").post(userRegisterController.loginUser);
 
 //user profile update route

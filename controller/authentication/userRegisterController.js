@@ -32,7 +32,7 @@ async function loginUser(request, response) {
         console.log(loginUserStatus);
         // response.send(loginUserStatus);
         if (loginUserStatus.status) {
-            commonResponseService.responseWithData(response, loginUserStatus.data);
+            commonResponseService.responseWithToken(response, loginUserStatus.data, loginUserStatus.token);
         } else {
             commonResponseService.errorWithMessage(response, loginUserStatus.mesg);
         }

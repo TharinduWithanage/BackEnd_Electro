@@ -47,18 +47,20 @@ module.exports.loginUserFunc = (requestData) => {
     var email = requestData.userEmail.trim();
 
     if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
-      // console.log("inside admin");
+      console.log("inside admin");
       var selectQuery = `SELECT * FROM employee WHERE Emp_id='${email}' OR Email='${email}' ;`;
     } else {
-      // console.log("inside user");
+      console.log("inside user");
       var selectQuery = `SELECT * FROM customer WHERE Email='${email}';`;
     }
 
     db.query(selectQuery, async function (err, result) {
       if (err) {
+
         reject("error");
       } else {
         if (result.length == 0) {
+          console.log("inside ");
           // reject({ status: false, mesg: "invalid user" });
           resolve({ status: false, mesg: "invalid email" });
         } else {
@@ -69,7 +71,7 @@ module.exports.loginUserFunc = (requestData) => {
           //console.log(passwordValidationStatus);
           if (passwordValidationStatus) {
             var token = authService.generateToken(result);
-            resolve({ status: true, data: token });
+            resolve({ status: true, data: result, token: token });
           } else {
             resolve({ status: false, mesg: "invalid user password" });
           }

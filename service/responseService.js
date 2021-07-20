@@ -4,7 +4,13 @@ module.exports.responseWithData = (response, dataVal) => {
         data: dataVal
     });
 }
-
+module.exports.responseWithToken = (response, dataVal, token) => {
+    return response.send({
+        status: true,
+        data: dataVal,
+        token: token
+    });
+}
 
 module.exports.errorWithMessage = (response, message) => {
     return response.send({

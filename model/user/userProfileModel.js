@@ -3,6 +3,46 @@ var userServiceModel = require('../authentication/userServiceModel');
 
 
 /**
+ * user Profile 
+ * @param {*} requestData request body data
+ * @returns 
+ */
+module.exports.profileGetDataFunc = (id) => {
+    return new Promise(async (resolve, reject) => {
+
+        // console.log(requestData);
+        console.log("inside profileGetDataFunc");
+
+
+        if (id < 1000) {
+            console.log("inside admin and ceb engineer");
+            var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
+        } else {
+            console.log("inside user");
+            var selectQuery = `SELECT * From customer WHERE Cust_id='${id}'; `;
+
+        }
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+/**
  * user Profile update
  * @param {*} requestData request body data
  * @returns 

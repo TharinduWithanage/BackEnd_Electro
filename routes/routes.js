@@ -22,7 +22,7 @@ router.route("/sign-up").post(userRegisterController.createUser);
 router.route("/sign-in").post(userRegisterController.loginUser);
 
 //user profile update route
-router.route("/user-profile").put(authService.validateToken, userProfileController.profileUpdate);
+router.route("/user-profile/:id").put(authService.validateToken, userProfileController.profileUpdate);
 
 //user profile  route
 router.route("/user-profile/:id").get(authService.validateToken, userProfileController.profileGetData);

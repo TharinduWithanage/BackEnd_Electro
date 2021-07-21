@@ -41,10 +41,10 @@ async function profileUpdate(request, response) {
 
         console.log("inside userProfileController");
 
-        var profileUpdate = await userProfileModel.profileUpdateFunc(request.body);
+        var profileUpdate = await userProfileModel.profileUpdateFunc(request.body, request.params.id);
         console.log(profileUpdate);
-        commonResponseService.responseWithData(response, profileUpdate.data);
-        console.log(profileUpdate.data);
+        commonResponseService.successWithMessage(response, profileUpdate.mesg);
+        // console.log(profileUpdate.data);
 
 
     } catch (error) {

@@ -47,28 +47,28 @@ module.exports.profileGetDataFunc = (id) => {
  * @param {*} requestData request body data
  * @returns 
  */
-module.exports.profileUpdateFunc = (requestData) => {
+module.exports.profileUpdateFunc = (requestData, id) => {
     return new Promise(async (resolve, reject) => {
 
         // console.log(requestData);
         console.log("inside profileUpdateFunc");
-        var id = requestData.id;
+        // var id = requestData.id;
         var firstName = requestData.firstName;
         var email = requestData.userEmail;
         var lastName = requestData.lastName;
         var contact = requestData.contact;
         var nic = requestData.nic;
         var address = requestData.address;
-        var password = await userServiceModel.encryptPassword(requestData.userPassword);
+        // var password = await userServiceModel.encryptPassword(requestData.userPassword);
 
-        console.log(email.substr(0, 5));
-        if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
-            console.log("inside admin");
+        console.log(id);
+        if (id < 1000) {
+            console.log("inside admin and ceb engineer");
             var updateQuery = `UPDATE employee SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}', Password ='${password}', Conatact_no ='${contact}', NIC ='${nic}', Address ='${address}'   WHERE Emp_id='${id}';`;
             var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
         } else {
             console.log("inside user");
-            var updateQuery = `UPDATE customer SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}', Password ='${password}' WHERE Cust_id='${id}';`;
+            var updateQuery = `UPDATE customer SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}' WHERE Cust_id='${id}';`;
             var selectQuery = `SELECT * From customer WHERE Cust_id='${id}'; `;
 
         }
@@ -81,20 +81,9 @@ module.exports.profileUpdateFunc = (requestData) => {
 
                 reject({ status: false, mesg: "error updating user" });
             } else {
-                db.query(selectQuery, async function (error, result) {
+                resolve({ status: true, mesg: "updated successfully" });
 
-                    if (error) {
-                        console.log(error);
 
-                        reject({ status: false, mesg: "error getting data" });
-                    } else {
-                        console.log(result);
-
-                        resolve({ status: true, data: result });
-
-                    }
-
-                });
 
                 // resolve({ status: false, mesg: "user updated sucessfully" });
 

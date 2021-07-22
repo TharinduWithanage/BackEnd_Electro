@@ -54,7 +54,7 @@ module.exports.profileUpdateFunc = (requestData, id) => {
         console.log("inside profileUpdateFunc");
         // var id = requestData.id;
         var firstName = requestData.firstName;
-        var email = requestData.userEmail;
+        // var email = requestData.userEmail;
         var lastName = requestData.lastName;
         var contact = requestData.contact;
         var nic = requestData.nic;
@@ -64,7 +64,7 @@ module.exports.profileUpdateFunc = (requestData, id) => {
         console.log(id);
         if (id < 1000) {
             console.log("inside admin and ceb engineer");
-            var updateQuery = `UPDATE employee SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}', Password ='${password}', Conatact_no ='${contact}', NIC ='${nic}', Address ='${address}'   WHERE Emp_id='${id}';`;
+            var updateQuery = `UPDATE employee SET First_name ='${firstName}', Last_name ='${lastName}', Conatact_no ='${contact}', NIC ='${nic}', Address ='${address}'   WHERE Emp_id='${id}';`;
             var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
         } else {
             console.log("inside user");

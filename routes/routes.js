@@ -2,6 +2,8 @@ const express = require("express");
 var router = express.Router();
 var userRegisterController = require("../controller/authentication/userRegisterController");
 var userProfileController = require("../controller/user/userProfileController");
+var unitChargesController = require("../controller/cebengineer/unitChargesController");
+
 var authService = require('../service/authServices');
 
 const cors = require("cors");
@@ -26,5 +28,8 @@ router.route("/user-profile/:id").put(authService.validateToken, userProfileCont
 
 //user profile  route
 router.route("/user-profile/:id").get(authService.validateToken, userProfileController.profileGetData);
+
+router.route("/unit-charges0to60").get(unitChargesController.getUnitChargesData);
+
 
 module.exports = router;

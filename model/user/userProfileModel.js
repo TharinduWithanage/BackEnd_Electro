@@ -54,7 +54,7 @@ module.exports.profileUpdateFunc = (requestData, id) => {
         console.log("inside profileUpdateFunc");
         // var id = requestData.id;
         var firstName = requestData.firstName;
-        // var email = requestData.userEmail;
+        var email = requestData.userEmail;
         var lastName = requestData.lastName;
         var contact = requestData.contact;
         var nic = requestData.nic;

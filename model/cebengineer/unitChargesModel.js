@@ -55,7 +55,7 @@ module.exports.getUnitChargesDataFun = (id) => {
 
                     reject({ status: false, mesg: "error getting data" });
                 } else {
-                    // console.log(result1);
+
                     db.query(selectQuery1, async function (error, result2) {
 
                         if (error) {
@@ -63,9 +63,10 @@ module.exports.getUnitChargesDataFun = (id) => {
 
                             reject({ status: false, mesg: "error getting data" });
                         } else {
-                            // console.log(result2);
+
                             var result = { result1, result2 };
-                            // console.log(result[0]);
+                            console.log(" this is result:", result.result1);
+                            console.log(" end this is result:");
 
                             resolve({ status: true, data: result });
 

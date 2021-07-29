@@ -32,5 +32,7 @@ router.route("/user-profile/:id").get(authService.validateToken, userProfileCont
 //unit charges route
 router.route("/unit-charges/:id").get(authService.validateToken, unitChargesController.getUnitChargesData);
 
+//unit charges information route
+router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 
 module.exports = router;

@@ -32,6 +32,10 @@ router.route("/user-profile/:id").get(authService.validateToken, userProfileCont
 //unit charges route
 router.route("/unit-charges/:id").get(authService.validateToken, unitChargesController.getUnitChargesData);
 
+
+//unit charges update route
+router.route("/unit-charges-update/:id").post(authService.validateToken, unitChargesController.updateUnitChargesData);
+
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 

@@ -21,10 +21,15 @@ module.exports.getUnitChargesDataFun = (id) => {
                 var selectQuery1 = `SELECT * From tou_ucharge;`;
 
 
-            }
-            else {
-                var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="0-30";`;
+            } else {
+                if (id == "tou") {
+                    var selectQuery = `SELECT * From tou_ucharge;`;
 
+                }
+                else {
+                    var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="0-30";`;
+
+                }
             }
         }
 
@@ -80,6 +85,55 @@ module.exports.getUnitChargesDataFun = (id) => {
 
         }
 
+    });
+
+}
+
+
+/**
+ * unit charges update
+ * @param {*} requestData request body data
+ * @returns 
+ */
+module.exports.updateUnitChargesDataFun = (requestData) => {
+    return new Promise(async (resolve, reject) => {
+
+        // console.log(requestData);
+        console.log("inside updateUnitChargesDataFun");
+        // var id = requestData.id;
+        var newPrice = requestData.newPrice;
+        var categoryName = requestData.categoryName;
+        var timePeriod = requestData.timePeriod;
+
+
+        if (categoryName == "Unit") {
+            console.log("inside Unit charges");
+            var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+
+        } else {
+            console.log("inside Fixed charges");
+            var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+
+
+        }
+
+
+        db.query(updateQuery, async function (err, result) {
+
+            if (err) {
+                console.log(err);
+
+                reject({ status: false, mesg: "error updating user" });
+            } else {
+                resolve({ status: true, mesg: "updated successfully" });
+
+
+
+                // resolve({ status: false, mesg: "user updated sucessfully" });
+
+            }
+
+        });
     });
 
 }

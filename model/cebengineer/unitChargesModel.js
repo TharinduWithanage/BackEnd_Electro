@@ -13,7 +13,7 @@ module.exports.getUnitChargesDataFun = (id) => {
         console.log("inside getUnitChargesData");
 
         if (id == "60+") {
-            var selectQuery = `SELECT * From fixed_ucharge WHERE NOT Unit_category="31-60" AND NOT Unit_category="0-30";`;
+            var selectQuery = `SELECT * From fixed_ucharge WHERE NOT Unit_category="31-60" AND NOT Unit_category="00-30";`;
 
         } else {
             if (id == "all") {

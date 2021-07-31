@@ -42,9 +42,9 @@ async function updateUnitChargesData(request, response) {
     try {
 
         console.log("inside updateUnitChargesData Controller");
-        console.log(request.params.id);
-        console.log(request.body.newPrice);
-        var updateUnitChargesData = await unitChargesModel.updateUnitChargesDataFun(request.body);
+        // console.log(request.params.id);
+        // console.log(request.body.newPrice);
+        var updateUnitChargesData = await unitChargesModel.updateUnitChargesDataFun(request.body, request.params.id);
         // console.log(profileData.data);
         commonResponseService.successWithMessage(response, updateUnitChargesData.mesg);
 

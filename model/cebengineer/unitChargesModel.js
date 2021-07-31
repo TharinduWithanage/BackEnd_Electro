@@ -13,7 +13,7 @@ module.exports.getUnitChargesDataFun = (id) => {
         console.log("inside getUnitChargesData");
 
         if (id == "60+") {
-            var selectQuery = `SELECT * From fixed_ucharge WHERE NOT Unit_category="31-60" AND NOT Unit_category="0-30"`;
+            var selectQuery = `SELECT * From fixed_ucharge WHERE NOT Unit_category="31-60" AND NOT Unit_category="0-30";`;
 
         } else {
             if (id == "all") {
@@ -27,7 +27,7 @@ module.exports.getUnitChargesDataFun = (id) => {
 
                 }
                 else {
-                    var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="0-30";`;
+                    var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="00-30";`;
 
                 }
             }
@@ -95,27 +95,41 @@ module.exports.getUnitChargesDataFun = (id) => {
  * @param {*} requestData request body data
  * @returns 
  */
-module.exports.updateUnitChargesDataFun = (requestData) => {
+module.exports.updateUnitChargesDataFun = (requestData, id) => {
     return new Promise(async (resolve, reject) => {
 
-        // console.log(requestData);
+
         console.log("inside updateUnitChargesDataFun");
         // var id = requestData.id;
         var newPrice = requestData.newPrice;
         var categoryName = requestData.categoryName;
         var timePeriod = requestData.timePeriod;
+        var unitPeriod = requestData.unitPeriod;
+
+        if (id == "normal") {
+            if (categoryName == "Unit") {
+                console.log("inside normal Unit charges");
+                var updateQuery = `UPDATE fixed_ucharge SET Unit_charge ='${newPrice}' WHERE Unit_category='${unitPeriod}';`;
+
+            } else {
+                console.log("inside normal Fixed charges");
+                var updateQuery = `UPDATE fixed_ucharge SET Fixed_charge ='${newPrice}' WHERE Unit_category='${unitPeriod}';`;
 
 
-        if (categoryName == "Unit") {
-            console.log("inside Unit charges");
-            var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
-
+            }
         } else {
-            console.log("inside Fixed charges");
-            var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+            if (categoryName == "Unit") {
+                console.log("inside tou Unit charges");
+                var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+
+            } else {
+                console.log("inside tou Fixed charges");
+                var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
 
 
+            }
         }
+
 
 
         db.query(updateQuery, async function (err, result) {
@@ -125,6 +139,7 @@ module.exports.updateUnitChargesDataFun = (requestData) => {
 
                 reject({ status: false, mesg: "error updating user" });
             } else {
+                console.log("updated successfully11")
                 resolve({ status: true, mesg: "updated successfully" });
 
 

@@ -2,6 +2,16 @@ var jwt = require('jsonwebtoken');
 var commonResponseService = require('../service/responseService');
 var configs = require('../configs/configurations')
 
+const nodemailer = require('nodemailer');
+const sendgridtransport = require('nodemailer-sendgrid-transport');
+
+var transporter = nodemailer.createTransport(sendgridtransport({
+    auth: {
+        api_key: configs.mailApiKey
+    }
+}));
+
+
 /**
  * generate token when the user login
  * @param {*} userdata result get from the data base
@@ -66,4 +76,23 @@ function getTokenFromHeader(request) {
         }
     }
     return token;
+}
+
+
+
+/**
+ * send mail when new user registerd
+ * @param {*} mailto recepient
+ * @param {*} mailfrom sender
+ * @param {*} subject mail subject
+ * @param {*} mailbody mail body
+ * @returns 
+ */
+module.exports.successWithMail = (mailto, mailfrom, subject, mailbody) => {
+    return transporter.sendMail({
+        to: mailto,
+        from: mailfrom,
+        subject: subject,
+        html: mailbody
+    });
 }

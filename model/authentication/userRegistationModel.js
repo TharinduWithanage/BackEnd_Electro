@@ -2,7 +2,7 @@ var userServiceModel = require("./userServiceModel");
 var db = require("../../database/databaseConnection");
 var authService = require('../../service/authServices');
 
-
+// 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
 
 /**
  * user Registation
@@ -28,6 +28,7 @@ module.exports.createUserFunc = (requestData) => {
         console.log("inserting error", err);
         reject({ status: false, mesg: "User registered unsucessfull" });
       } else {
+        authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to ElectroLanka</h2>")
         resolve({ status: true, mesg: "User registered sucessfully" });
       }
     });

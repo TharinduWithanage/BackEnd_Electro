@@ -1,5 +1,8 @@
 var commonResponseService = require('../../service/responseService');
 var userRegisterModel = require('../../model/authentication/userRegistationModel');
+
+
+
 /**
  * user registation controller function
  * @param {*} request 

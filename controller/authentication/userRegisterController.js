@@ -47,4 +47,30 @@ async function loginUser(request, response) {
     }
 }
 
-module.exports = { createUser, loginUser };
+/**
+ * check email is valid or not
+ * @param {*} request email address
+ * @param {*} response 
+ */
+async function checkEmail(request, response) {
+
+    try {
+        var chechMailStatus = await userRegisterModel.checkEmailFunc(request.body);
+
+        console.log("inside checkEmail controller");
+
+        if (chechMailStatus.status) {
+            commonResponseService.successWithMessage(response, chechMailStatus.mesg);
+        } else {
+            commonResponseService.errorWithMessage(response, chechMailStatus.mesg);
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+module.exports = { createUser, loginUser, checkEmail };

@@ -81,3 +81,44 @@ module.exports.loginUserFunc = (requestData) => {
     });
   });
 };
+
+
+
+/**
+ * user email validity check
+ * @param {*} requestData request body data
+ * @returns
+ */
+module.exports.checkEmailFunc = (requestData) => {
+  return new Promise(async (resolve, reject) => {
+    console.log(requestData);
+
+
+    var email = requestData.userEmail.trim();
+
+    if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
+      console.log("inside admin and ceb");
+      var selectQuery = `SELECT COUNT(Email) email_count FROM employee WHERE Email='${email}' ;`;
+    } else {
+      console.log("inside user");
+      var selectQuery = `SELECT COUNT(Email) as email_count FROM customer WHERE Email='${email}';`;
+    }
+
+    db.query(selectQuery, (err, result) => {
+      if (err) {
+        console.log("inserting error", err);
+        reject({ status: false, mesg: "Invalid Email" });
+      } else {
+
+        if (result[0].email_count == 1) {
+          // authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to ElectroLanka</h2>")
+          resolve({ status: true, mesg: "Valid Email" });
+        } else {
+          resolve({ status: false, mesg: "Invalid Email" });
+
+        }
+
+      }
+    });
+  });
+};

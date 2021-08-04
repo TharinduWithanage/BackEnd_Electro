@@ -23,6 +23,10 @@ router.route("/sign-up").post(userRegisterController.createUser);
 //user login route
 router.route("/sign-in").post(userRegisterController.loginUser);
 
+//forgot password route
+router.route("/forgot-password").post(userRegisterController.checkEmail);
+
+
 //user profile update route
 router.route("/user-profile/:id").put(authService.validateToken, userProfileController.profileUpdate);
 

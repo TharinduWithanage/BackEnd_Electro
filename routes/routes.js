@@ -26,6 +26,8 @@ router.route("/sign-in").post(userRegisterController.loginUser);
 //forgot password route
 router.route("/forgot-password").post(userRegisterController.checkEmail);
 
+//reset password route
+router.route("/reset-password/:eid").post(userRegisterController.resetPassword);
 
 //user profile update route
 router.route("/user-profile/:id").put(authService.validateToken, userProfileController.profileUpdate);

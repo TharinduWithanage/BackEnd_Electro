@@ -90,7 +90,7 @@ module.exports.loginUserFunc = (requestData) => {
  * @returns
  */
 module.exports.checkEmailFunc = (requestData) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     console.log(requestData);
 
 
@@ -104,14 +104,18 @@ module.exports.checkEmailFunc = (requestData) => {
       var selectQuery = `SELECT COUNT(Email) as email_count FROM customer WHERE Email='${email}';`;
     }
 
-    db.query(selectQuery, (err, result) => {
+    db.query(selectQuery, async function (err, result) {
       if (err) {
         console.log("inserting error", err);
         reject({ status: false, mesg: "Invalid Email" });
       } else {
 
         if (result[0].email_count == 1) {
-          // authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to ElectroLanka</h2>")
+
+          var hashemail = await authService.encrypt(email)
+
+          // console.log("hash email :", hashemail);
+          authService.successWithMail(email, "electrosys84@gmail.com", "Reset Your Electro Password", `<p>You requested for reset your password</p><h5>Click in this <a href="http://localhost:3000/reset-password/${hashemail}">Link</a> to reset your password</h5>`)
           resolve({ status: true, mesg: "Valid Email" });
         } else {
           resolve({ status: false, mesg: "Invalid Email" });
@@ -119,6 +123,49 @@ module.exports.checkEmailFunc = (requestData) => {
         }
 
       }
+    });
+  });
+};
+
+
+/**
+ * password reset model function
+ * @param {*} requestData 
+ * @param {*} eid user email
+ * @returns 
+ */
+module.exports.resetPasswordFunc = (requestData, eid) => {
+  return new Promise(async (resolve, reject) => {
+    console.log(requestData);
+
+
+    var userPassword = requestData.userPassword.trim();
+    var userMail = await authService.decrypt(eid);
+    var password = await userServiceModel.encryptPassword(userPassword);
+
+    if (userMail.substr(0, 5) == "admin" || userMail.substr(0, 5) == "ceben") {
+      console.log("inside admin and ceb engineer");
+      var updateQuery = `UPDATE employee SET Password ='${password}'  WHERE Email='${userMail}';`;
+    } else {
+      console.log("inside user");
+      var updateQuery = `UPDATE customer SET Password ='${password}'  WHERE Email='${userMail}';`;
+
+    }
+
+
+    db.query(updateQuery, async function (err, result) {
+
+      if (err) {
+        console.log(err);
+
+        reject({ status: false, mesg: "error updating password" });
+      } else {
+        authService.successWithMail(userMail, "electrosys84@gmail.com", "password changed", `<p>You have successfuly reset your password</p>`)
+
+        resolve({ status: true, mesg: "password updated successfully" });
+
+      }
+
     });
   });
 };

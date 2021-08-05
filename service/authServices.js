@@ -1,9 +1,11 @@
 var jwt = require('jsonwebtoken');
 var commonResponseService = require('../service/responseService');
 var configs = require('../configs/configurations')
-
+const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridtransport = require('nodemailer-sendgrid-transport');
+const Cryptr = require('cryptr');
+const cryptrKey = new Cryptr(configs.cryptKey);
 
 var transporter = nodemailer.createTransport(sendgridtransport({
     auth: {
@@ -96,3 +98,33 @@ module.exports.successWithMail = (mailto, mailfrom, subject, mailbody) => {
         html: mailbody
     });
 }
+
+
+
+/**
+ * encrypt function
+ * @param {*} text string that want to encrypt
+ * @returns 
+ */
+module.exports.encrypt = (text) => {
+
+    const encryptedString = cryptrKey.encrypt(text);
+    return encryptedString;
+};
+
+
+/**
+ * decrypt function
+ * @param {*} hash encrypted string
+ * @returns 
+ */
+module.exports.decrypt = (hash) => {
+    return new Promise((resolve, reject) => {
+        const decryptedString = cryptrKey.decrypt(hash);
+        resolve(decryptedString);
+    })
+
+};
+
+
+

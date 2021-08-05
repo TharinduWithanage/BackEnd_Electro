@@ -73,4 +73,26 @@ async function checkEmail(request, response) {
 }
 
 
-module.exports = { createUser, loginUser, checkEmail };
+async function resetPassword(request, response) {
+
+    try {
+        var resetPasswordStatus = await userRegisterModel.resetPasswordFunc(request.body, request.params.eid);
+
+        console.log("inside resetPassword controller");
+
+        if (resetPasswordStatus.status) {
+            commonResponseService.successWithMessage(response, resetPasswordStatus.mesg);
+        } else {
+            commonResponseService.errorWithMessage(response, resetPasswordStatus.mesg);
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+
+module.exports = { createUser, loginUser, checkEmail, resetPassword };

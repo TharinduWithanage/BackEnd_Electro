@@ -174,11 +174,11 @@ module.exports.acceptedUnitChargesUpdateFun = (requestData, id) => {
             if (categoryName == "Unit") {
                 console.log("inside normal Unit charges");
 
-                var updateQuery = `UPDATE fixed_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='0' WHERE Unit_category='${unitPeriod}';`;
+                var updateQuery = `UPDATE fixed_ucharge SET Unit_charge ='${newPrice}',Update_ucharge_status='0' WHERE Unit_category='${unitPeriod}' AND Update_ucharge_status=1;`;
 
             } else {
                 console.log("inside normal Fixed charges");
-                var updateQuery = `UPDATE fixed_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='0' WHERE Unit_category='${unitPeriod}';`;
+                var updateQuery = `UPDATE fixed_ucharge SET Fixed_charge ='${newPrice}',Update_fcharge_status='0' WHERE Unit_category='${unitPeriod}' AND Update_fcharge_status=1;`;
 
 
             }

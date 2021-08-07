@@ -28,7 +28,7 @@ module.exports.createUserFunc = (requestData) => {
         console.log("inserting error", err);
         reject({ status: false, mesg: "User registered unsucessfull" });
       } else {
-        authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to ElectroLanka</h2>")
+        authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to Electro</h2>")
         resolve({ status: true, mesg: "User registered sucessfully" });
       }
     });

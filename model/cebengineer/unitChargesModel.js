@@ -109,22 +109,87 @@ module.exports.updateUnitChargesDataFun = (requestData, id) => {
         if (id == "normal") {
             if (categoryName == "Unit") {
                 console.log("inside normal Unit charges");
-                var updateQuery = `UPDATE fixed_ucharge SET Unit_charge ='${newPrice}' WHERE Unit_category='${unitPeriod}';`;
+                var updateQuery = `UPDATE fixed_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='1' WHERE Unit_category='${unitPeriod}';`;
 
             } else {
                 console.log("inside normal Fixed charges");
-                var updateQuery = `UPDATE fixed_ucharge SET Fixed_charge ='${newPrice}' WHERE Unit_category='${unitPeriod}';`;
+                var updateQuery = `UPDATE fixed_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='1' WHERE Unit_category='${unitPeriod}';`;
 
 
             }
         } else {
             if (categoryName == "Unit") {
                 console.log("inside tou Unit charges");
-                var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+                var updateQuery = `UPDATE tou_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='1' WHERE Time_category='${timePeriod}';`;
 
             } else {
                 console.log("inside tou Fixed charges");
-                var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}' WHERE Time_category='${timePeriod}';`;
+                var updateQuery = `UPDATE tou_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='1' WHERE Time_category='${timePeriod}';`;
+
+
+            }
+        }
+
+
+
+        db.query(updateQuery, async function (err, result) {
+
+            if (err) {
+                console.log(err);
+
+                reject({ status: false, mesg: "error updating user" });
+            } else {
+                console.log("updated successfully11")
+                resolve({ status: true, mesg: "updated successfully" });
+
+
+
+                // resolve({ status: false, mesg: "user updated sucessfully" });
+
+            }
+
+        });
+    });
+
+}
+
+
+/**
+ * unit charges update
+ * @param {*} requestData request body data
+ * @returns 
+ */
+module.exports.acceptedUnitChargesUpdateFun = (requestData, id) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("inside acceptedUnitChargesUpdateFun");
+        // var id = requestData.id;
+        var newPrice = requestData.newPrice;
+        var categoryName = requestData.categoryName;
+        var timePeriod = requestData.timePeriod;
+        var unitPeriod = requestData.unitPeriod;
+
+        if (id == "normal") {
+            if (categoryName == "Unit") {
+                console.log("inside normal Unit charges");
+
+                var updateQuery = `UPDATE fixed_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='0' WHERE Unit_category='${unitPeriod}';`;
+
+            } else {
+                console.log("inside normal Fixed charges");
+                var updateQuery = `UPDATE fixed_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='0' WHERE Unit_category='${unitPeriod}';`;
+
+
+            }
+        } else {
+            if (categoryName == "Unit") {
+                console.log("inside tou Unit charges");
+                var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}',Update_ucharge_status='0' WHERE Time_category='${timePeriod}' AND Update_ucharge_status=1 ;`;
+
+            } else {
+                console.log("inside tou Fixed charges");
+                var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}',Update_fcharge_status='0' WHERE Time_category='${timePeriod}' AND Update_fcharge_status=1;`;
 
 
             }

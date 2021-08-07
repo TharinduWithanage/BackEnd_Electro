@@ -42,6 +42,9 @@ router.route("/unit-charges/:id").get(authService.validateToken, unitChargesCont
 //unit charges update route
 router.route("/unit-charges-update/:id").post(authService.validateToken, unitChargesController.updateUnitChargesData);
 
+//accepted unit charges update route
+router.route("/accepted-unit-charges-update/:id").post(authService.validateToken, unitChargesController.acceptedUnitChargesUpdate);
+
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 

@@ -45,6 +45,9 @@ router.route("/unit-charges-update/:id").post(authService.validateToken, unitCha
 //accepted unit charges update route
 router.route("/accepted-unit-charges-update/:id").post(authService.validateToken, unitChargesController.acceptedUnitChargesUpdate);
 
+//add new ceb engineer route
+router.route("/add-cebengineer").post(authService.validateToken, userRegisterController.addNewCebEngineer);
+
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 

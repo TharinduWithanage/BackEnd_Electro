@@ -3,6 +3,7 @@ var router = express.Router();
 var userRegisterController = require("../controller/authentication/userRegisterController");
 var userProfileController = require("../controller/user/userProfileController");
 var unitChargesController = require("../controller/cebengineer/unitChargesController");
+var dashBoardController = require("../controller/dashboard/dashBoardController");
 
 var authService = require('../service/authServices');
 
@@ -50,5 +51,9 @@ router.route("/add-cebengineer").post(authService.validateToken, userRegisterCon
 
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
+
+//get dash board details
+router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);
+
 
 module.exports = router;

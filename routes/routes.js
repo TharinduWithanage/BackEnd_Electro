@@ -3,6 +3,7 @@ var router = express.Router();
 var userRegisterController = require("../controller/authentication/userRegisterController");
 var userProfileController = require("../controller/user/userProfileController");
 var unitChargesController = require("../controller/cebengineer/unitChargesController");
+var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalculate");
 
 var authService = require('../service/authServices');
 
@@ -47,5 +48,8 @@ router.route("/accepted-unit-charges-update/:id").post(authService.validateToken
 
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
+
+//add device data
+router.route("/add-device-main-bill").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
 
 module.exports = router;

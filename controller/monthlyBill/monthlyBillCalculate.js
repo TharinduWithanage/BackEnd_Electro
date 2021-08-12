@@ -9,10 +9,10 @@ async function AddDeviceDataMain(request, response) {
         // console.log(request.params.id);
         var DeviceData = await addDeviceModel.AddDeviceMailBill(request.body);
         // console.log(profileData.data);
-        
-            commonResponseService.responseWithData(response, DeviceData.mesg);
-            
-        
+
+        commonResponseService.responseWithData(response, DeviceData.mesg);
+
+
 
 
 
@@ -22,3 +22,4 @@ async function AddDeviceDataMain(request, response) {
     }
 }
 
+module.exports = { AddDeviceDataMain };

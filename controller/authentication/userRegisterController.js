@@ -94,5 +94,25 @@ async function resetPassword(request, response) {
 }
 
 
+/**
+ * new ceb engineer registation controller function
+ * @param {*} request 
+ * @param {*} response 
+ */
+async function addNewCebEngineer(request, response) {
 
-module.exports = { createUser, loginUser, checkEmail, resetPassword };
+    try {
+
+        var createUser = await userRegisterModel.addNewCebEngineerFunc(request.body);
+        console.log(createUser);
+        commonResponseService.responseWithData(response, createUser);
+        console.log("createUser");
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+module.exports = { createUser, loginUser, checkEmail, resetPassword, addNewCebEngineer };

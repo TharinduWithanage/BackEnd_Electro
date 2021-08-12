@@ -4,6 +4,8 @@ var userRegisterController = require("../controller/authentication/userRegisterC
 var userProfileController = require("../controller/user/userProfileController");
 var unitChargesController = require("../controller/cebengineer/unitChargesController");
 var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalculate");
+var dashBoardController = require("../controller/dashboard/dashBoardController");
+
 
 var authService = require('../service/authServices');
 
@@ -46,10 +48,17 @@ router.route("/unit-charges-update/:id").post(authService.validateToken, unitCha
 //accepted unit charges update route
 router.route("/accepted-unit-charges-update/:id").post(authService.validateToken, unitChargesController.acceptedUnitChargesUpdate);
 
+//add new ceb engineer route
+router.route("/add-cebengineer").post(authService.validateToken, userRegisterController.addNewCebEngineer);
+
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 
 //add device data
 router.route("/add-device-main-bill").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
+
+//get dash board details
+router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);
+
 
 module.exports = router;

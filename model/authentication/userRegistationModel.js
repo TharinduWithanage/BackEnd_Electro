@@ -169,3 +169,43 @@ module.exports.resetPasswordFunc = (requestData, eid) => {
     });
   });
 };
+
+
+
+/**
+ * new ceb engineer Registation
+ * @param {*} requestData request body data
+ * @returns
+ */
+module.exports.addNewCebEngineerFunc = (requestData) => {
+  return new Promise(async (resolve, reject) => {
+    console.log(requestData);
+
+    var firstName = requestData.firstName;
+    var email = requestData.email.trim();
+    var lastName = requestData.lastName;
+    var contact = requestData.contact.trim();
+    var nic = requestData.nic;
+    var address = requestData.address;
+
+    var userpassword = requestData.password.trim();
+    var role = "cebengineer";
+
+    var today = new Date();
+    var enrollmentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var password = await userServiceModel.encryptPassword(userpassword);
+
+    var userRegQuery = `INSERT INTO employee (First_name,Last_name,Email,Conatact_no,Password,NIC,Address,Enrollment_date,Role) VALUES("${firstName}","${lastName}","${email}","${contact}","${password}","${nic}","${address}","${enrollmentDate}","${role}");`;
+
+    // insert data to employee table
+    db.query(userRegQuery, (err, result) => {
+      if (err) {
+        console.log("inserting error", err);
+        reject({ status: false, mesg: "new ceb engineer added unsucessfull" });
+      } else {
+        // authService.successWithMail(email, "electrosys84@gmail.com", "Your are appointed", "<h2>Welcome to Electro Family</h2>")
+        resolve({ status: true, mesg: "new ceb engineer added sucessfully" });
+      }
+    });
+  });
+};

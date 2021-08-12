@@ -4,15 +4,33 @@ module.exports.AddDeviceMailBill = (devicedata) => {
     return new Promise(async (resolve, reject) => {
 
         // console.log(requestData);
-        console.log("Add New Device Model");
+        // console.log(devicedata);
+        var Bill_id = devicedata.Bill_id
+        var Device_name = devicedata.Device_name
+        var Quantity = devicedata.Quantity
+        var Priority = devicedata.Priority
+        var Using_hours_peak_time = devicedata.Using_hours_peak_time
+        var Using_hours_off_peak_time = devicedata.Using_hours_off_peak_time
+        var Using_hours_day_time = devicedata.Using_hours_day_time
+        var Power = devicedata.Power
+        var Total_units_fixed = devicedata.Total_units_fixed
+        var Units_peak_time = devicedata.Units_peak_time
+        var Units_off_peak_time = devicedata.Units_off_peak_time
+        var Units_day_time = devicedata.Units_day_time
+        var Total_cost_fixed = devicedata.Total_cost_fixed
+        var Cost_peak_time = devicedata.Cost_peak_time
+        var Cost_off_peak_time = devicedata.Cost_off_peak_time
+        var Cost_day_time = devicedata.Cost_day_time
+        var Cust_id = devicedata.Cust_id
+
 
         var addDeviceQuery = `INSERT INTO electric_device_mplan 
         (Bill_id, Device_name, Quantity, Priority, Using_hours_peak_time, Using_hours_off_peak_time, Using_hours_day_time, Power, Total_units_fixed, Units_peak_time,
         Units_off_peak_time, Units_day_time, Total_cost_fixed, Cost_peak_time, Cost_off_peak_time, Cost_day_time, Cust_id) 
-        VALUES("${devicedata.Bill_id}","${devicedata.Device_name}",${devicedata.Quantity}",${devicedata.Priority}",${devicedata.Using_hours_peak_time}",
-        ${devicedata.Using_hours_off_peak_time}",${devicedata.Using_hours_day_time}",${devicedata.Power}",${devicedata.Total_units_fixed}",${devicedata.Units_peak_time}",
-        ${devicedata.Units_off_peak_time}",${devicedata.Units_day_time}",${devicedata.Total_cost_fixed}",${devicedata.Cost_peak_time}",${devicedata.Cost_off_peak_time}",
-        ${devicedata.Cost_day_time}",${devicedata.Cust_id}");`;
+        VALUES("${Bill_id}","${Device_name}","${Quantity}","${Priority}","${Using_hours_peak_time}",
+        "${Using_hours_off_peak_time}","${Using_hours_day_time}","${Power}","${Total_units_fixed}","${Units_peak_time}",
+        "${Units_off_peak_time}","${Units_day_time}","${Total_cost_fixed}","${Cost_peak_time}","${Cost_off_peak_time}",
+        "${Cost_day_time}","${Cust_id}");`;
 
 
 

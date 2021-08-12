@@ -54,7 +54,7 @@ router.route("/add-cebengineer").post(authService.validateToken, userRegisterCon
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 
-//add device data
+// //add device data
 router.route("/add-device-main-bill").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
 
 //get dash board details

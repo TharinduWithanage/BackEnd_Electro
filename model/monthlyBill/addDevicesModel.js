@@ -12,7 +12,7 @@ module.exports.AddDeviceMailBill = (devicedata) => {
         var Using_minutes_peak_time = devicedata.Using_minutes_peak_time
         var Using_minutes_off_peak_time = devicedata.Using_minutes_off_peak_time
         var Using_minutes_day_time = devicedata.Using_minutes_day_time
-        var Power = devicedata.Power
+        var Power = devicedata.power
         var Total_units_fixed = devicedata.Total_units_fixed
         var Units_peak_time = devicedata.Units_peak_time
         var Units_off_peak_time = devicedata.Units_off_peak_time

@@ -9,9 +9,9 @@ module.exports.AddDeviceMailBill = (devicedata) => {
         var Device_name = devicedata.Device_name
         var Quantity = devicedata.Quantity
         var Priority = devicedata.Priority
-        var Using_hours_peak_time = devicedata.Using_hours_peak_time
-        var Using_hours_off_peak_time = devicedata.Using_hours_off_peak_time
-        var Using_hours_day_time = devicedata.Using_hours_day_time
+        var Using_minutes_peak_time = devicedata.Using_minutes_peak_time
+        var Using_minutes_off_peak_time = devicedata.Using_minutes_off_peak_time
+        var Using_minutes_day_time = devicedata.Using_minutes_day_time
         var Power = devicedata.Power
         var Total_units_fixed = devicedata.Total_units_fixed
         var Units_peak_time = devicedata.Units_peak_time
@@ -25,10 +25,10 @@ module.exports.AddDeviceMailBill = (devicedata) => {
 
 
         var addDeviceQuery = `INSERT INTO electric_device_mplan 
-        (Bill_id, Device_name, Quantity, Priority, Using_hours_peak_time, Using_hours_off_peak_time, Using_hours_day_time, Power, Total_units_fixed, Units_peak_time,
+        (Bill_id, Device_name, Quantity, Priority, Using_minutes_peak_time, Using_minutes_off_peak_time, Using_minutes_day_time, Power, Total_units_fixed, Units_peak_time,
         Units_off_peak_time, Units_day_time, Total_cost_fixed, Cost_peak_time, Cost_off_peak_time, Cost_day_time, Cust_id) 
-        VALUES("${Bill_id}","${Device_name}","${Quantity}","${Priority}","${Using_hours_peak_time}",
-        "${Using_hours_off_peak_time}","${Using_hours_day_time}","${Power}","${Total_units_fixed}","${Units_peak_time}",
+        VALUES("${Bill_id}","${Device_name}","${Quantity}","${Priority}","${Using_minutes_peak_time}",
+        "${Using_minutes_off_peak_time}","${Using_minutes_day_time}","${Power}","${Total_units_fixed}","${Units_peak_time}",
         "${Units_off_peak_time}","${Units_day_time}","${Total_cost_fixed}","${Cost_peak_time}","${Cost_off_peak_time}",
         "${Cost_day_time}","${Cust_id}");`;
 

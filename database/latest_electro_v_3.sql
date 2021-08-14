@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2021 at 08:29 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.3.28
+-- Generation Time: Aug 14, 2021 at 06:18 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `electro`
+-- Database: `latest_electro_v_3`
 --
 
 -- --------------------------------------------------------
@@ -96,23 +96,29 @@ CREATE TABLE `ebill_specialevent` (
 --
 
 CREATE TABLE `electric_device_mplan` (
-  `Device_id` int(11) NOT NULL,
-  `Bill_id` varchar(10) NOT NULL,
-  `Device_name` varchar(50) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `Priority` varchar(20) NOT NULL,
-  `Using_minutes_peak_time` float NOT NULL,
-  `Using_minutes_off_peak_time` float NOT NULL,
-  `Using_minutes_day_time` float NOT NULL,
-  `Power` float NOT NULL,
-  `Total_units_fixed` float NOT NULL,
-  `Units_peak_time` float NOT NULL,
-  `Units_off_peak_time` float NOT NULL,
-  `Units_day_time` float NOT NULL,
-  `Total_cost_TOU` float NOT NULL,
-  `Cost_peak_time` float NOT NULL,
-  `Cost_off_peak_time` float NOT NULL,
-  `Cost_day_time` float NOT NULL,
+  `device_id` int(11) NOT NULL,
+  `bill_id` varchar(10) NOT NULL,
+  `appliance` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `hPeak` int(11) DEFAULT NULL,
+  `mPeak` int(11) DEFAULT NULL,
+  `hOffPeak` int(11) DEFAULT NULL,
+  `mOffPeak` int(11) DEFAULT NULL,
+  `hDay` int(11) DEFAULT NULL,
+  `mDay` int(11) DEFAULT NULL,
+  `priority` varchar(20) NOT NULL,
+  `using_minutes_peak_time` float NOT NULL,
+  `using_minutes_off_peak_time` float NOT NULL,
+  `using_minutes_day_time` float NOT NULL,
+  `power` float NOT NULL,
+  `total_units_fixed` float NOT NULL,
+  `units_peak_time` float NOT NULL,
+  `units_off_peak_time` float NOT NULL,
+  `units_day_time` float NOT NULL,
+  `total_cost_TOU` float NOT NULL,
+  `cost_peak_time` float NOT NULL,
+  `cost_off_peak_time` float NOT NULL,
+  `cost_day_time` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -120,13 +126,13 @@ CREATE TABLE `electric_device_mplan` (
 -- Dumping data for table `electric_device_mplan`
 --
 
-INSERT INTO `electric_device_mplan` (`Device_id`, `Bill_id`, `Device_name`, `Quantity`, `Priority`, `Using_minutes_peak_time`, `Using_minutes_off_peak_time`, `Using_minutes_day_time`, `Power`, `Total_units_fixed`, `Units_peak_time`, `Units_off_peak_time`, `Units_day_time`, `Total_cost_TOU`, `Cost_peak_time`, `Cost_off_peak_time`, `Cost_day_time`, `Cust_id`) VALUES
-(1, '1', 'iron', 1, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
-(2, '1', 'iron', 1, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
-(3, '1', 'iron', 1, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
-(4, '1', 'iron', 1, 'low', 150, 75, 60, 500, 0, 0, 0, 0, 0, 0, 0, 0, 1018),
-(5, '1', 'iron', 1, 'low', 150, 75, 60, 500, 2, 1, 1, 1, 88.125, 67.5, 8.125, 12.5, 1018),
-(6, '1', 'iron', 1, 'low', 150, 75, 60, 500, 2.375, 1.25, 0.625, 0.5, 88.125, 67.5, 8.125, 12.5, 1018);
+INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units_fixed`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
+(1, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
+(2, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
+(3, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 0, 1, 1, 12, 15, 5, 5, 5, 1500, 500, 500, 500, 1018),
+(4, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 150, 75, 60, 500, 0, 0, 0, 0, 0, 0, 0, 0, 1018),
+(5, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 150, 75, 60, 500, 2, 1, 1, 1, 88.125, 67.5, 8.125, 12.5, 1018),
+(6, '1', 'iron', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'low', 150, 75, 60, 500, 2.375, 1.25, 0.625, 0.5, 88.125, 67.5, 8.125, 12.5, 1018);
 
 -- --------------------------------------------------------
 
@@ -282,7 +288,7 @@ ALTER TABLE `ebill_specialevent`
 -- Indexes for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
-  ADD PRIMARY KEY (`Device_id`,`Bill_id`) USING BTREE,
+  ADD PRIMARY KEY (`device_id`,`bill_id`) USING BTREE,
   ADD KEY `FK4` (`Cust_id`);
 
 --
@@ -335,7 +341,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
-  MODIFY `Device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -372,15 +378,6 @@ ALTER TABLE `electric_device_special_event`
   ADD CONSTRAINT `FK6` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK7` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK8` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `suggestions_tou`
---
-ALTER TABLE `suggestions_tou`
-  ADD CONSTRAINT `FK10` FOREIGN KEY (`Device_id`) REFERENCES `electric_device_mplan` (`Device_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK11` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK12` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK9` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

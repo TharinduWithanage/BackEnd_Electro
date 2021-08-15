@@ -27,7 +27,8 @@ async function AddDeviceDataMain(request, response) {
 
     try {
 
-        var Device_details = request.body;
+        var Device_details = request.body.data;
+        console.log(Device_details);
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
         console.log(UnitPrice.data[0].Unit_charge);
@@ -41,17 +42,17 @@ async function AddDeviceDataMain(request, response) {
         
 
 
-        Device_details.Using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
-        Device_details.Using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
-        Device_details.Using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
-        Device_details.Units_peak_time = await CalculateUnits(Device_details.power, Device_details.Using_minutes_peak_time);
-        Device_details.Units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.Using_minutes_off_peak_time);
-        Device_details.Units_day_time = await CalculateUnits(Device_details.power, Device_details.Using_minutes_day_time);
-        Device_details.Cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.Units_peak_time);
-        Device_details.Cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.Units_off_peak_time);
-        Device_details.Cost_day_time = await CalculateCost(DayUnitCost, Device_details.Units_day_time);
-        Device_details.Total_units_fixed = Device_details.Units_peak_time + Device_details.Units_off_peak_time + Device_details.Units_day_time;
-        Device_details.Total_cost_TOU = Device_details.Cost_peak_time + Device_details.Cost_off_peak_time + Device_details.Cost_day_time;
+        Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
+        Device_details.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
+        Device_details.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
+        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time);
+        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time);
+        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time);
+        Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
+        Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
+        Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
+        Device_details.total_units_fixed = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
+        Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
 
 
         console.log("inside addDeviceDataMain Controller");

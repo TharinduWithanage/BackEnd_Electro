@@ -1,5 +1,10 @@
 var db = require('../../database/databaseConnection');
 
+/**
+ * Add device data to main bill plan
+ * @param {*} devicedata data of devices
+ * @returns 
+ */
 module.exports.AddDeviceMailBill = (devicedata) => {
     return new Promise(async (resolve, reject) => {
 
@@ -48,6 +53,36 @@ module.exports.AddDeviceMailBill = (devicedata) => {
                 // console.log(result);
 
                 resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+/**
+ * 
+ * @returns device data
+ */
+module.exports.getDeviceMailBill = () => {
+    return new Promise(async (resolve, reject) => {
+
+
+
+
+        var selectQuery = `SELECT * From electric_device_mplan;`;
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log(result);
+
+                resolve({ status: true, data: result });
 
             }
 

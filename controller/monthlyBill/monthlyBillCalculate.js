@@ -22,7 +22,9 @@ function CalculateCost(uPrice, Units) {
     return cost;
 
 }
-
+/**
+ * add device data to main bill plan
+ */
 async function AddDeviceDataMain(request, response) {
 
     try {
@@ -39,7 +41,7 @@ async function AddDeviceDataMain(request, response) {
         var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
         var PeakUnitCost = UnitPrice.data[2].Unit_charge;
 
-        
+
 
 
         Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
@@ -72,4 +74,28 @@ async function AddDeviceDataMain(request, response) {
     }
 }
 
-module.exports = { AddDeviceDataMain };
+/**
+ * add device data to main bill plan
+ */
+async function getDeviceDataMain(request, response) {
+
+    try {
+
+        console.log("inside getDeviceDataMain Controller");
+        var DeviceData = await addDeviceModel.getDeviceMailBill();
+        if (DeviceData.data.length != 0) {
+            commonResponseService.responseWithData(response, DeviceData.data);
+            console.log("1jedefhb")
+        } else {
+            console.log("jedefhb")
+            commonResponseService.errorWithMessage(response, "something went wrong");
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+module.exports = { AddDeviceDataMain, getDeviceDataMain };

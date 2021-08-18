@@ -5,7 +5,7 @@ var db = require('../../database/databaseConnection');
  * @param {*} devicedata data of devices
  * @returns 
  */
-module.exports.AddDeviceMailBill = (devicedata) => {
+module.exports.AddDeviceMailBill = (devicedata, id) => {
     return new Promise(async (resolve, reject) => {
 
         var bill_id = devicedata.bill_id
@@ -24,7 +24,7 @@ module.exports.AddDeviceMailBill = (devicedata) => {
         var cost_peak_time = devicedata.cost_peak_time
         var cost_off_peak_time = devicedata.cost_off_peak_time
         var cost_day_time = devicedata.cost_day_time
-        var Cust_id = devicedata.Cust_id
+        var Cust_id = id
         var hPeak = devicedata.hPeak
         var mPeak = devicedata.mPeak
         var hOffPeak = devicedata.hOffPeak
@@ -80,7 +80,7 @@ module.exports.getDeviceMailBill = () => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
-                console.log(result);
+                // console.log(result);
 
                 resolve({ status: true, data: result });
 

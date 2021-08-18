@@ -44,6 +44,7 @@ module.exports.generateToken = (userdata) => {
  */
 module.exports.validateToken = (request, response, next) => {
     try {
+
         var tokenResult = getTokenFromHeader(request);
         if (tokenResult) {
             jwt.verify(tokenResult, configs.jwtSecretKey, function validData(error, decordedData) {

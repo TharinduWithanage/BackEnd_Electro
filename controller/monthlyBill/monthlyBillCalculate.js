@@ -31,6 +31,7 @@ async function AddDeviceDataMain(request, response) {
 
         var Device_details = request.body.data;
         console.log(Device_details);
+        console.log(request.params.id);
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
         console.log(UnitPrice.data[0].Unit_charge);
@@ -59,7 +60,7 @@ async function AddDeviceDataMain(request, response) {
 
         console.log("inside addDeviceDataMain Controller");
         // console.log(request.params.id);
-        var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details);
+        var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);
 
         commonResponseService.responseWithData(response, DeviceData.mesg);
@@ -82,12 +83,13 @@ async function getDeviceDataMain(request, response) {
     try {
 
         console.log("inside getDeviceDataMain Controller");
+        console.log(request.params.id)
         var DeviceData = await addDeviceModel.getDeviceMailBill();
         if (DeviceData.data.length != 0) {
             commonResponseService.responseWithData(response, DeviceData.data);
-            console.log("1jedefhb")
+
         } else {
-            console.log("jedefhb")
+
             commonResponseService.errorWithMessage(response, "something went wrong");
 
         }

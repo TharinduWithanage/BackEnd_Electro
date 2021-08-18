@@ -55,10 +55,10 @@ router.route("/add-cebengineer").post(authService.validateToken, userRegisterCon
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 
 // //add device data
-router.route("/add-device-main-bill").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
+router.route("/add-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
 
 // //add device data
-router.route("/get-device-main-bill").get(authService.validateToken, monthlyBillCalculate.getDeviceDataMain);
+router.route("/get-device-main-bill/:id").get(authService.validateToken, monthlyBillCalculate.getDeviceDataMain);
 
 //get dash board details
 router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);

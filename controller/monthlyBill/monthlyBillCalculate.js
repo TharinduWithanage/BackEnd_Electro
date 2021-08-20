@@ -22,6 +22,7 @@ function CalculateCost(uPrice, Units) {
     return cost;
 
 }
+
 /**
  * add device data to main bill plan
  */
@@ -74,6 +75,30 @@ async function AddDeviceDataMain(request, response) {
     }
 }
 
+
+async function getBillId(request, response) {
+
+    try {
+
+        console.log("inside getDeviceDataMain Controller");
+        var DeviceData = await addDeviceModel.getDeviceMailBill();
+        commonResponseService.responseWithData(response, DeviceData.data);
+        // if (DeviceData.data.length != 0) {
+            
+        //     console.log("1jedefhb")
+        // } else {
+        //     console.log("jedefhb")
+        //     commonResponseService.errorWithMessage(response, "something went wrong");
+
+        // }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
 /**
  * add device data to main bill plan
  */
@@ -99,4 +124,4 @@ async function getDeviceDataMain(request, response) {
     }
 }
 
-module.exports = { AddDeviceDataMain, getDeviceDataMain };
+module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId };

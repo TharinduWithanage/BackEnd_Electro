@@ -64,6 +64,9 @@ router.route("/get-device-main-bill/:id").get(authService.validateToken, monthly
 //get dash board details
 router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);
 
+
+router.route("/get-bill-id/:id").get(authService.validateToken, monthlyBillCalculate.getBillId);
+
 //get device details
 // router.route("/#").get(authService.validateToken, deviceWiseUsageController.getDeviceDetail);
 

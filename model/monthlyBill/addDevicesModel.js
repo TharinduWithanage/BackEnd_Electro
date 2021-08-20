@@ -60,10 +60,48 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
     });
 
 }
+
+/**
+ * 
+ * @returns get Bill id
+ */
+
+ module.exports.getBillIdFunc = (CustId) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        //console.log("Inside get bill id model function query"+ CustId);
+
+        var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
+        FROM ebill_monthly_plan
+        Where Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+               //  console.log(result[0].max_bill_id);
+                resolve({ status: true, data: result[0].max_bill_id });
+
+            }
+
+        });
+    });
+
+}
+
+
 /**
  * 
  * @returns device data
  */
+
 module.exports.getDeviceMailBill = () => {
     return new Promise(async (resolve, reject) => {
 

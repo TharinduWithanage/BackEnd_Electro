@@ -81,17 +81,19 @@ async function getBillId(request, response) {
 
     try {
 
-        console.log("inside getDeviceDataMain Controller");
-        var DeviceData = await addDeviceModel.getDeviceMailBill();
-        commonResponseService.responseWithData(response, DeviceData.data);
-        // if (DeviceData.data.length != 0) {
+        console.log("inside getBillId Controller");
+        var Cust_id = request.params.id;
+        var bill_id = await addDeviceModel.getBillIdFunc(Cust_id);
+        
+        if (bill_id.data != null) {
+            commonResponseService.responseWithData(response, bill_id.data);
             
-        //     console.log("1jedefhb")
-        // } else {
-        //     console.log("jedefhb")
-        //     commonResponseService.errorWithMessage(response, "something went wrong");
+        } else {
+            
+            bill_id.data = 0;
+            commonResponseService.responseWithData(response, bill_id.data);
 
-        // }
+        }
 
     } catch (error) {
         console.log(error);

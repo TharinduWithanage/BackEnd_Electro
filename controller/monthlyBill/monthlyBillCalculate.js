@@ -85,6 +85,7 @@ async function getDeviceDataMain(request, response) {
         console.log("inside getDeviceDataMain Controller");
         console.log(request.params.id)
         var DeviceData = await addDeviceModel.getDeviceMailBill();
+
         if (DeviceData.data.length != 0) {
             commonResponseService.responseWithData(response, DeviceData.data);
 
@@ -93,6 +94,7 @@ async function getDeviceDataMain(request, response) {
             commonResponseService.errorWithMessage(response, "something went wrong");
 
         }
+
 
     } catch (error) {
         console.log(error);

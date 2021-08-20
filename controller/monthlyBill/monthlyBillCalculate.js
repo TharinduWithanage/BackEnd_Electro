@@ -83,14 +83,15 @@ async function getDeviceDataMain(request, response) {
 
         console.log("inside getDeviceDataMain Controller");
         var DeviceData = await addDeviceModel.getDeviceMailBill();
-        if (DeviceData.data.length != 0) {
-            commonResponseService.responseWithData(response, DeviceData.data);
-            console.log("1jedefhb")
-        } else {
-            console.log("jedefhb")
-            commonResponseService.errorWithMessage(response, "something went wrong");
+        commonResponseService.responseWithData(response, DeviceData.data);
+        // if (DeviceData.data.length != 0) {
+            
+        //     console.log("1jedefhb")
+        // } else {
+        //     console.log("jedefhb")
+        //     commonResponseService.errorWithMessage(response, "something went wrong");
 
-        }
+        // }
 
     } catch (error) {
         console.log(error);

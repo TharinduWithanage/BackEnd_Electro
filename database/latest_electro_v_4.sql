@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2021 at 06:14 AM
+-- Generation Time: Aug 21, 2021 at 08:28 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -65,7 +65,7 @@ CREATE TABLE `ebill_monthly_plan` (
 --
 
 CREATE TABLE `ebill_specialevent` (
-  `Bill_id` varchar(10) NOT NULL,
+  `Bill_id` int(11) NOT NULL,
   `No_of_days` int(11) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
@@ -119,8 +119,8 @@ CREATE TABLE `electric_device_mplan` (
 --
 
 CREATE TABLE `electric_device_special_event` (
+  `Bill_id` int(11) NOT NULL,
   `Device_id` varchar(10) NOT NULL,
-  `Bill_id` varchar(10) NOT NULL,
   `Device_name` varchar(50) NOT NULL,
   `Quantity` int(11) NOT NULL,
   `Priority` varchar(20) NOT NULL,
@@ -264,8 +264,7 @@ ALTER TABLE `electric_device_mplan`
 -- Indexes for table `electric_device_special_event`
 --
 ALTER TABLE `electric_device_special_event`
-  ADD PRIMARY KEY (`Device_id`,`Bill_id`) USING BTREE,
-  ADD KEY `FK7` (`Bill_id`),
+  ADD PRIMARY KEY (`Bill_id`,`Device_id`),
   ADD KEY `FK8` (`Cust_id`);
 
 --
@@ -320,12 +319,14 @@ ALTER TABLE `employee`
 -- Constraints for table `ebill_monthly_plan`
 --
 ALTER TABLE `ebill_monthly_plan`
-  ADD CONSTRAINT `FK1` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK1` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK10` FOREIGN KEY (`bill_id`) REFERENCES `electric_device_mplan` (`bill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ebill_specialevent`
 --
 ALTER TABLE `ebill_specialevent`
+  ADD CONSTRAINT `FK11` FOREIGN KEY (`Bill_id`) REFERENCES `electric_device_special_event` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK2` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -339,8 +340,7 @@ ALTER TABLE `electric_device_mplan`
 --
 ALTER TABLE `electric_device_special_event`
   ADD CONSTRAINT `FK6` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK7` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK8` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK7` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

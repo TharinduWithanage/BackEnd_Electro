@@ -217,3 +217,68 @@ module.exports.acceptedUnitChargesUpdateFun = (requestData, id) => {
     });
 
 }
+
+/**
+ * reject unit charges update admin model
+ * @param {*} requestData 
+ * @param {*} id 
+ * @returns 
+ */
+module.exports.rejectUnitChargesUpdateFun = (requestData, id) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("inside rejectUnitChargesUpdateFun");
+        // var id = requestData.id;
+        // var newPrice = requestData.newPrice;
+        var categoryName = requestData.categoryName;
+        var timePeriod = requestData.timePeriod;
+        var unitPeriod = requestData.unitPeriod;
+
+        if (id == "normal") {
+            if (categoryName == "Unit") {
+                console.log("inside normal Unit charges");
+
+                var updateQuery = `UPDATE fixed_ucharge SET Update_ucharge_status='0' WHERE Unit_category='${unitPeriod}' AND Update_ucharge_status=1;`;
+
+            } else {
+                console.log("inside normal Fixed charges");
+                var updateQuery = `UPDATE fixed_ucharge SET Update_fcharge_status='0' WHERE Unit_category='${unitPeriod}' AND Update_fcharge_status=1;`;
+
+
+            }
+        } else {
+            if (categoryName == "Unit") {
+                console.log("inside tou Unit charges");
+                var updateQuery = `UPDATE tou_ucharge SET Update_ucharge_status='0' WHERE Time_category='${timePeriod}' AND Update_ucharge_status=1 ;`;
+
+            } else {
+                console.log("inside tou Fixed charges");
+                var updateQuery = `UPDATE tou_ucharge SET Update_fcharge_status='0' WHERE Time_category='${timePeriod}' AND Update_fcharge_status=1;`;
+
+
+            }
+        }
+
+
+
+        db.query(updateQuery, async function (err, result) {
+
+            if (err) {
+                console.log(err);
+
+                reject({ status: false, mesg: "error updating user" });
+            } else {
+                console.log("updated successfully11")
+                resolve({ status: true, mesg: "updated successfully" });
+
+
+
+                // resolve({ status: false, mesg: "user updated sucessfully" });
+
+            }
+
+        });
+    });
+
+}

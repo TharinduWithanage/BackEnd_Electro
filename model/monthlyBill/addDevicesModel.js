@@ -142,7 +142,7 @@ module.exports.getBillIdFunc = (CustId) => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
-                //  console.log(result[0].max_bill_id);
+
                 resolve({ status: true, data: result[0].max_bill_id });
 
             }
@@ -158,14 +158,14 @@ module.exports.getBillIdFunc = (CustId) => {
  * @returns device data
  */
 
-module.exports.getDeviceMailBill = () => {
+module.exports.getDeviceMailBill = (billId,userId) => {
     return new Promise(async (resolve, reject) => {
 
 
 
-
-        var selectQuery = `SELECT * From electric_device_mplan;`;
-
+        
+        var selectQuery = `SELECT * From electric_device_mplan WHERE bill_id=${billId} AND Cust_id=${userId};`;
+        console.log(selectQuery)
 
         db.query(selectQuery, async function (error, result) {
 

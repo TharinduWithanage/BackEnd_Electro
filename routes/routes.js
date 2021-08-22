@@ -61,12 +61,13 @@ router.route("/information/:id").get(unitChargesController.getUnitChargesData);
 // //add device data
 router.route("/add-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.AddDeviceDataMain);
 
-// //add device data
+// //Update device data
 router.route("/update-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.updateDeviceDataMain);
 
+// //delete device data
+router.route("/delete-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.deleteDeviceDataMain);
 
 router.route("/get-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.getDeviceDataMain);
-
 
 //get dash board details
 router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);

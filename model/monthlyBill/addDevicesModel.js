@@ -61,9 +61,42 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
 
 }
 
+
+
+module.exports.deleteDeviceFunc = (CustId,deleteData) => {
+    return new Promise(async (resolve, reject) => {
+        var device_id = deleteData.device_id;
+        var bill_id=deleteData.bill_id;
+
+        //console.log("Inside get bill id model function query"+ CustId);
+
+       var deleteQuery =`DELETE FROM electric_device_mplan WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg:"Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+
 module.exports.updateDeviceMailBill = (devicedata, id) => {
     return new Promise(async (resolve, reject) => {
-
+        
+        var device_id = devicedata.device_id
         var bill_id = devicedata.bill_id
         var appliance = devicedata.appliance
         var quantity = devicedata.quantity
@@ -89,17 +122,14 @@ module.exports.updateDeviceMailBill = (devicedata, id) => {
         var mDay = devicedata.mDay
 
 
-        // var addDeviceQuery = `INSERT INTO electric_device_mplan 
-        // (bill_id, appliance, quantity, priority, hPeak, mPeak, hOffPeak, mOffPeak, hDay, mDay, using_minutes_peak_time, using_minutes_off_peak_time, using_minutes_day_time, power, total_units_fixed, units_peak_time,
-        // units_off_peak_time, units_day_time, total_cost_TOU, cost_peak_time, cost_off_peak_time, cost_day_time, Cust_id) 
-        // VALUES("${bill_id}","${appliance}","${quantity}","${priority}","${hPeak}","${mPeak}","${hOffPeak}","${mOffPeak}","${hDay}","${mDay}","${using_minutes_peak_time}",
-        // "${using_minutes_off_peak_time}","${using_minutes_day_time}","${power}","${total_units_fixed}","${units_peak_time}",
-        // "${units_off_peak_time}","${units_day_time}","${total_cost_TOU}","${cost_peak_time}","${cost_off_peak_time}",
-        // "${cost_day_time}","${Cust_id}");`;
+        var updateDeviceQuery = `UPDATE electric_device_mplan 
+        SET appliance='${appliance}',quantity='${quantity}',priority='${priority}',hPeak='${hPeak}',mPeak='${mPeak}',hOffPeak='${hOffPeak}',mOffPeak='${mOffPeak}',
+        hDay='${hDay}',mDay ='${mDay}',using_minutes_peak_time='${using_minutes_peak_time}',using_minutes_off_peak_time='${using_minutes_off_peak_time}',using_minutes_day_time='${using_minutes_day_time}',
+        power='${power}',total_units_fixed='${total_units_fixed}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
+        cost_peak_time='${cost_peak_time}',cost_off_peak_time='${cost_off_peak_time}',cost_day_time='${cost_day_time}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
-
-
-        db.query(addDeviceQuery, async function (error, result) {
+    
+        db.query(updateDeviceQuery, async function (error, result) {
 
             if (error) {
                 console.log(error);

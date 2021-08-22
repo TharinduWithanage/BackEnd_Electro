@@ -11,7 +11,7 @@ function CalculateUnits(power, minutes) {
 
 function CalculateNumberOfMinutes(hors, minutes) {
 
-    var numOfMinutes = (hors * 60) + minutes;
+    var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
     return numOfMinutes;
 
 }
@@ -84,12 +84,12 @@ async function getBillId(request, response) {
         console.log("inside getBillId Controller");
         var Cust_id = request.params.id;
         var bill_id = await addDeviceModel.getBillIdFunc(Cust_id);
-        
+
         if (bill_id.data != null) {
             commonResponseService.responseWithData(response, bill_id.data);
-            
+
         } else {
-            
+
             bill_id.data = 0;
             commonResponseService.responseWithData(response, bill_id.data);
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2021 at 08:28 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Generation Time: Aug 22, 2021 at 09:51 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,6 +35,13 @@ CREATE TABLE `customer` (
   `Password` varchar(255) NOT NULL,
   `Role` varchar(20) NOT NULL DEFAULT 'customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`Cust_id`, `First_name`, `Last_name`, `Email`, `Password`, `Role`) VALUES
+(1019, 'buthsara', 'madhushanka', 'buthsaramadhushanka@gmail.com', '$2b$10$E/m1.N4WWEB02TM88A1SnuAudCnMell0cmwb1WwIQliAyBuAsD1B.', 'customer');
 
 -- --------------------------------------------------------
 
@@ -112,6 +119,14 @@ CREATE TABLE `electric_device_mplan` (
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `electric_device_mplan`
+--
+
+INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units_fixed`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
+(1, 1, 'tv', 1, 1, 10, 1, 30, 1, 30, 'low', 6010, 6030, 6030, 230, 69.2683, 23.0383, 23.115, 23.115, 2122.44, 1244.07, 300.495, 577.875, 1019),
+(2, 1, 'radio', 1, 1, 20, 1, 30, 1, 40, 'low', 80, 90, 100, 230, 1.035, 0.306667, 0.345, 0.383333, 30.6283, 16.56, 4.485, 9.58333, 1019);
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +171,15 @@ CREATE TABLE `employee` (
   `Enrollment_date` date NOT NULL,
   `Role` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`Emp_id`, `First_name`, `Last_name`, `Email`, `Conatact_no`, `Password`, `NIC`, `Address`, `Enrollment_date`, `Role`) VALUES
+(1, 'Tharindu', 'Withana', 'admin1@gmail.com', '0145467892', '$2b$10$43uMOMFsIfTp764xipnO3.wK9n4xv4M.ZZEm4FZjAmarGjKiql3oK', '68745123v', 'Matara', '2021-07-21', 'admin'),
+(2, 'Buthsara', 'madhushanka', 'ceben@gmail.com', '+947834416', '$2b$10$ArvIXD20Joo.PMx71jFGlOJWDwqtZmJzsydMlk501CF/K.y2PY7rS', '974563217v', 'kasun', '2021-07-08', 'cebengineer'),
+(6, 'kasun', 'kalhara', 'ceben1@gmail.com', '0702563485', '$2b$10$.00vTrBUL2vVxfhODRmB/OlK3UJyjFkMnI8Rv/3X/dndTuqBN7AKi', '974563217v', 'No 23,Galle', '2021-08-09', 'cebengineer');
 
 -- --------------------------------------------------------
 
@@ -257,7 +281,7 @@ ALTER TABLE `ebill_specialevent`
 -- Indexes for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
-  ADD PRIMARY KEY (`bill_id`,`Cust_id`,`device_id`) USING BTREE,
+  ADD PRIMARY KEY (`device_id`,`bill_id`,`Cust_id`) USING BTREE,
   ADD KEY `FK4` (`Cust_id`);
 
 --
@@ -303,7 +327,13 @@ ALTER TABLE `tou_ucharge`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1019;
+  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1020;
+
+--
+-- AUTO_INCREMENT for table `electric_device_mplan`
+--
+ALTER TABLE `electric_device_mplan`
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -339,7 +369,7 @@ ALTER TABLE `electric_device_mplan`
 -- Constraints for table `electric_device_special_event`
 --
 ALTER TABLE `electric_device_special_event`
-  ADD CONSTRAINT `FK6` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK6` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK7` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 

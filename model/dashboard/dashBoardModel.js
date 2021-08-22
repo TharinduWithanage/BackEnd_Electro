@@ -13,7 +13,7 @@ module.exports.getDashboardDataFun = () => {
         console.log("inside profileGetDataFunc");
 
         var selectQuery = `SELECT COUNT(Cust_id) as coustomer_count From customer; `;
-
+        var selectQuery1 = `SELECT COUNT(Cust_id) as coustomer_count From customer; `;
 
 
         db.query(selectQuery, async function (error, result) {

@@ -86,7 +86,7 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
-               //  console.log(result[0].max_bill_id);
+                 console.log(result[0].max_bill_id);
                 resolve({ status: true, data: result[0].max_bill_id });
 
             }
@@ -102,14 +102,14 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
  * @returns device data
  */
 
-module.exports.getDeviceMailBill = () => {
+module.exports.getDeviceMailBill = (billId,userId) => {
     return new Promise(async (resolve, reject) => {
 
 
 
-
-        var selectQuery = `SELECT * From electric_device_mplan;`;
-
+        
+        var selectQuery = `SELECT * From electric_device_mplan WHERE bill_id=${billId} AND Cust_id=${userId};`;
+        console.log(selectQuery)
 
         db.query(selectQuery, async function (error, result) {
 

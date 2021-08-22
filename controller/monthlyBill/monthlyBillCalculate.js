@@ -111,7 +111,8 @@ async function getDeviceDataMain(request, response) {
 
         console.log("inside getDeviceDataMain Controller");
         console.log(request.params.id)
-        var DeviceData = await addDeviceModel.getDeviceMailBill();
+        console.log(request.body.newBillId)
+        var DeviceData = await addDeviceModel.getDeviceMailBill(request.body.newBillId,request.params.id);
 
         if (DeviceData.data.length != 0) {
             commonResponseService.responseWithData(response, DeviceData.data);

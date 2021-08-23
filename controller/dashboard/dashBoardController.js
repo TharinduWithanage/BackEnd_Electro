@@ -13,15 +13,9 @@ async function getDashboardData(request, response) {
 
         console.log("inside getDashboardData Controller");
 
-        var dashboardData = await dashBoardModel.getDashboardDataFun();
-        // console.log(profileData.data);
-        if (dashboardData.data.length != 0) {
-            commonResponseService.responseWithData(response, dashboardData.data);
-            console.log(dashboardData.data);
-        } else {
-            commonResponseService.errorWithMessage(response, "no data");
-
-        }
+        var dashboardData = await dashBoardModel.getReqCountFun();
+        console.log(dashboardData.data.result2[0].request_count);
+        commonResponseService.responseWithData(response, dashboardData.data);
 
 
 

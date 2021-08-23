@@ -127,6 +127,24 @@ async function updateDeviceDataMain(request, response) {
 }
 
 
+async function deleteDeviceDataMain(request, response) {
+
+    try {
+
+        console.log("inside deleteDeviceDataMain Controller");
+        var Cust_id = request.params.id;
+        var device_delete = await addDeviceModel.deleteDeviceFunc(Cust_id,request.body);
+
+        commonResponseService.successWithMessage(response, device_delete.mesg);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
 async function getBillId(request, response) {
 
     try {
@@ -180,4 +198,4 @@ async function getDeviceDataMain(request, response) {
     }
 }
 
-module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain };
+module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain };

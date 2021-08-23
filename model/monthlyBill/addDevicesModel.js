@@ -63,14 +63,14 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
 
 
 
-module.exports.deleteDeviceFunc = (CustId,deleteData) => {
+module.exports.deleteDeviceFunc = (CustId, deleteData) => {
     return new Promise(async (resolve, reject) => {
         var device_id = deleteData.device_id;
-        var bill_id=deleteData.bill_id;
+        var bill_id = deleteData.bill_id;
 
         //console.log("Inside get bill id model function query"+ CustId);
 
-       var deleteQuery =`DELETE FROM electric_device_mplan WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+        var deleteQuery = `DELETE FROM electric_device_mplan WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 
@@ -83,7 +83,7 @@ module.exports.deleteDeviceFunc = (CustId,deleteData) => {
                 reject({ status: false, mesg: "error deleting data" });
             } else {
 
-                resolve({ status: true, mesg:"Delete  device Success!!" });
+                resolve({ status: true, mesg: "Delete  device Success!!" });
 
             }
 
@@ -95,7 +95,7 @@ module.exports.deleteDeviceFunc = (CustId,deleteData) => {
 
 module.exports.updateDeviceMailBill = (devicedata, id) => {
     return new Promise(async (resolve, reject) => {
-        
+
         var device_id = devicedata.device_id
         var bill_id = devicedata.bill_id
         var appliance = devicedata.appliance
@@ -128,7 +128,7 @@ module.exports.updateDeviceMailBill = (devicedata, id) => {
         power='${power}',total_units_fixed='${total_units_fixed}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
         cost_peak_time='${cost_peak_time}',cost_off_peak_time='${cost_off_peak_time}',cost_day_time='${cost_day_time}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
-    
+
         db.query(updateDeviceQuery, async function (error, result) {
 
             if (error) {
@@ -172,7 +172,6 @@ module.exports.getBillIdFunc = (CustId) => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
-
                 resolve({ status: true, data: result[0].max_bill_id });
 
             }
@@ -188,12 +187,12 @@ module.exports.getBillIdFunc = (CustId) => {
  * @returns device data
  */
 
-module.exports.getDeviceMailBill = (billId,userId) => {
+module.exports.getDeviceMailBill = (billId, userId) => {
     return new Promise(async (resolve, reject) => {
 
 
 
-        
+
         var selectQuery = `SELECT * From electric_device_mplan WHERE bill_id=${billId} AND Cust_id=${userId};`;
         console.log(selectQuery)
 

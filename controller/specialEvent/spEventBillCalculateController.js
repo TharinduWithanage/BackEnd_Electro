@@ -61,7 +61,7 @@ async function AddSpEventDeviceDataTOU(request, response) {
         var DeviceData_TOU = await addSpEventDeviceModel.AddSpEventDeviceTOU(Device_details_TOU, request.params.id);
         // console.log(profileData.data);
 
-        commonResponseService.responseWithData(response, DeviceData_TOU.mesg);
+        commonResponseService.successWithMessage(response, DeviceData_TOU.mesg);
 
 
     } catch (error) {

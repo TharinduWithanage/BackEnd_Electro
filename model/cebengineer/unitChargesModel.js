@@ -26,9 +26,11 @@ module.exports.getUnitChargesDataFun = (id) => {
                     var selectQuery = `SELECT * From tou_ucharge;`;
 
                 }
-                else {
-                    var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="00-30";`;
+                else if (id == "fixed") {
+                    var selectQuery = `SELECT * From fixed_ucharge;`;
 
+                }else {
+                    var selectQuery = `SELECT * From fixed_ucharge WHERE Unit_category="31-60" OR Unit_category="00-30";`;
                 }
             }
         }

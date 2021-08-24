@@ -70,7 +70,7 @@ router.route("/delete-device-main-bill/:id").post(authService.validateToken, mon
 router.route("/get-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.getDeviceDataMain);
 
 //get dash board details
-router.route("/dashboard-details").get(authService.validateToken, dashBoardController.getDashboardData);
+router.route("/dashboard-details/:id").get(authService.validateToken, dashBoardController.getDashboardData);
 
 
 router.route("/get-bill-id/:id").get(authService.validateToken, monthlyBillCalculate.getBillId);

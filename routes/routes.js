@@ -6,6 +6,7 @@ var unitChargesController = require("../controller/cebengineer/unitChargesContro
 var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalculate");
 var dashBoardController = require("../controller/dashboard/dashBoardController");
 var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageController");
+var calculation = require("../controller/monthlyBill/calculation");
 
 
 var authService = require('../service/authServices');
@@ -67,15 +68,19 @@ router.route("/update-device-main-bill/:id").post(authService.validateToken, mon
 // //delete device data
 router.route("/delete-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.deleteDeviceDataMain);
 
+// get devices for bill whitch currently working in front end 
 router.route("/get-device-main-bill/:id").post(authService.validateToken, monthlyBillCalculate.getDeviceDataMain);
 
 //get dash board details
 router.route("/dashboard-details/:id").get(authService.validateToken, dashBoardController.getDashboardData);
 
-
+//get Bill id for front end
 router.route("/get-bill-id/:id").get(authService.validateToken, monthlyBillCalculate.getBillId);
 
-//get device details
+//calculate the main bill
+router.route("/calculate-main-bill/:id").post(authService.validateToken, calculation.calculatedBillValue);
+
+//get device details  
 // router.route("/#").get(authService.validateToken, deviceWiseUsageController.getDeviceDetail);
 
 

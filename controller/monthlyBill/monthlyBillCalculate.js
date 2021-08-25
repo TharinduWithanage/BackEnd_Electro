@@ -4,7 +4,7 @@ var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
 function CalculateUnits(power, minutes) {
 
-    var numOfUnits = power * minutes * 60 / 3600000;
+    var numOfUnits = power * minutes * 60 * 30 / 3600000;
     return numOfUnits;
 
 }

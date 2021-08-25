@@ -13,9 +13,10 @@ async function getDashboardData(request, response) {
 
         console.log("inside getDashboardData Controller");
         if (request.params.id > 1000) {
+            var dashboardData = await dashBoardModel.custDashboardDataCountFun(request.params.id);
 
         } else {
-            var dashboardData = await dashBoardModel.getReqCountFun();
+            var dashboardData = await dashBoardModel.empDashboardDataFun();
 
         }
         // console.log(dashboardData.data.result2[0].request_count);

@@ -26,7 +26,7 @@ module.exports.getUnitChargesDataFun = (id) => {
                     var selectQuery = `SELECT * From tou_ucharge;`;
 
                 }
-                else if (id == "fixed") {
+                else if (id == "fixed_") {
                     var selectQuery = `SELECT * From fixed_ucharge;`;
 
                 }else {

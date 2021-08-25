@@ -2,9 +2,9 @@ var commonResponseService = require('../../service/responseService');
 var addDeviceModel = require('../../model/monthlyBill/addDevicesModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
-function CalculateUnits(power, minutes) {
+function CalculateUnits(power, minutes, quantity) {
 
-    var numOfUnits = power * minutes * 60 * 30 / 3600000;
+    var numOfUnits = quantity* power * minutes * 60 * 30 / 3600000;
     return numOfUnits;
 
 }
@@ -49,9 +49,9 @@ async function AddDeviceDataMain(request, response) {
         Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
         Device_details.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
         Device_details.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
-        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time);
-        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time);
-        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time);
+        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time, Device_details.quantity);
+        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time, Device_details.quantity);
+        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time, Device_details.quantity);
         Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
         Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
         Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);

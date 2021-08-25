@@ -7,6 +7,7 @@ var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalcula
 var dashBoardController = require("../controller/dashboard/dashBoardController");
 var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageController");
 var calculation = require("../controller/monthlyBill/calculation");
+var deviceWiseController = require("../controller/monthlyBill/deviceWiseController");
 
 
 var authService = require('../service/authServices');
@@ -89,6 +90,7 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 //get special event device detail fixed
 // router.route("#").post(authService.validateToken, spEventBillCalculateController.AddSpEventDeviceDataFixed);
 
-
+//get device wise usage tou main
+router.route("/get-device-wise-usage-tou-main/:id").post(authService.validateToken, deviceWiseController.getTouDeviceWise);
 
 module.exports = router;

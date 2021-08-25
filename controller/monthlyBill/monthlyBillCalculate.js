@@ -64,7 +64,7 @@ async function AddDeviceDataMain(request, response) {
         var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);
 
-        commonResponseService.responseWithData(response, DeviceData.mesg);
+        commonResponseService.successWithMessage(response, DeviceData.mesg);
 
 
 

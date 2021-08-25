@@ -70,4 +70,32 @@ async function AddSpEventDeviceDataTOU(request, response) {
     }
 }
 
-module.exports = { AddSpEventDeviceDataTOU };
+async function AddSpEventDeviceDataFixed(request, response) {
+
+    try {
+
+        var Device_details_fixed = request.body.data;
+        console.log(Device_details_fixed);
+        console.log(request.params.id);
+
+        
+        Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hfixed, Device_details_fixed.mfixed);
+        Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed);
+
+
+        // console.log("inside addDeviceDataMain Controller");
+        // console.log(request.params.id);
+        var DeviceData_fixed = await addSpEventDeviceModel.AddSpEventDeviceFixed(Device_details_fixed, request.params.id);
+        // console.log(profileData.data);
+
+        commonResponseService.successWithMessage(response, DeviceData_fixed.mesg);
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+module.exports = { AddSpEventDeviceDataTOU , AddSpEventDeviceDataFixed };
+

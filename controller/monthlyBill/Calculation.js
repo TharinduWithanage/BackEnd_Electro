@@ -1,48 +1,79 @@
 var commonResponseService = require('../../service/responseService');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
+var calculateModel = require('../../model/monthlyBill/calculateModel');
 
 function caculateFixedBill(noOfUnits , unitDetails){
     var billValue ; 
-    // console.log("call inside calculate fixed bill function");
-    // console.log(unitDetails[0].Fixed_charge);
+     console.log("call inside calculate fixed bill function");
+    //  console.log(unitDetails[0].Fixed_charge);
+    //  console.log(noOfUnits);
     if(noOfUnits <= 30){
         billValue =  (noOfUnits * unitDetails[0].Unit_charge) + parseFloat(unitDetails[0].Fixed_charge) ;
-        return billValue;
+        return billValue.toFixed(2);
     }else if(noOfUnits <= 60){
         billValue = parseFloat((noOfUnits - 60)* unitDetails[3].Unit_charge) + parseFloat(30* unitDetails[0].Unit_charge) + parseFloat(unitDetails[3].Fixed_charge);
-        return billValue;
+        return billValue.toFixed(2);
     }else if(noOfUnits <= 90){
         billValue = parseFloat((noOfUnits - 60)* unitDetails[4].Unit_charge) + parseFloat(60* unitDetails[1].Unit_charge) + parseFloat(unitDetails[4].Fixed_charge);
-        return billValue;
+        return billValue.toFixed(2);
     }else if(noOfUnits <= 120){
         billValue = parseFloat((noOfUnits - 90)* unitDetails[5].Unit_charge) + parseFloat(60* unitDetails[1].Unit_charge) + parseFloat(30* unitDetails[4].Unit_charge) + parseFloat(unitDetails[5].Fixed_charge);
-        return billValue;
+        return billValue.toFixed(2);
     }else if(noOfUnits <= 180){
         billValue = parseFloat((noOfUnits - 120)* unitDetails[2].Unit_charge) + parseFloat(60* unitDetails[1].Unit_charge) + parseFloat(30* unitDetails[4].Unit_charge) + parseFloat(30* unitDetails[5].Unit_charge) + parseFloat(unitDetails[2].Fixed_charge);
-        return billValue;
+        return billValue.toFixed(2);
     }else if(noOfUnits > 180){
         billValue = parseFloat((noOfUnits - 180)* unitDetails[6].Unit_charge) + parseFloat(60* unitDetails[1].Unit_charge) + parseFloat(30* unitDetails[4].Unit_charge) + parseFloat(30* unitDetails[5].Unit_charge) + parseFloat(60* unitDetails[2].Unit_charge) + parseFloat(unitDetails[6].Fixed_charge);
-        return billValue;
+        return billValue.toFixed(2);
     }
+}
+
+function calculateTOUBill(TOU_bill_sum, fixed_charge){
+    var billValue = parseFloat(TOU_bill_sum) + parseFloat(fixed_charge);
+    return billValue.toFixed(2);
 }
 
 async function calculatedBillValue(request, response){
     try {
 
-        var Device_details = request.body.data;
-        console.log(Device_details);
-        console.log(request.params.id);
+        
 
-        var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed");
-        // console.log(UnitPrice.data[0].Unit_charge);
-        // console.log(UnitPrice.data[1].Unit_charge);
-        // console.log(UnitPrice.data[2].Unit_charge);
-        console.log("fixed unit charges");
-        console.log(UnitPrice.data);
-        console.log(UnitPrice.data[0].Unit_charge);
-        console.log(UnitPrice.data[0].Fixed_charge);
+        var billId = request.body.bill_id;
+        console.log(billId);
+        var CustId = request.params.id;
 
-        caculateFixedBill(50,UnitPrice.data )
+        var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
+        
+         var Bill_details = await calculateModel.getCalculatedValues(billId, CustId );
+         
+         
+        total_units = Bill_details.data[0].TotalUnits;
+
+        
+        // console.log(Bill_details.data)
+        // console.log(Bill_details.data[0].TotalUnits)
+        var fixed_bill_cost = caculateFixedBill(total_units , UnitPrice.data );
+        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+        console.log(fixed_bill_cost);
+        Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
+        Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
+        Bill_details.data[0].billId = parseInt(billId);
+
+
+
+        console.log(Bill_details);
+
+         if (Bill_details.data != null) {
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
 
         // var DayUnitCost = UnitPrice.data[0].Unit_charge;
         // var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;

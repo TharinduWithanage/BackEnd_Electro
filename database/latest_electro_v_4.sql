@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2021 at 09:51 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.3.28
+-- Generation Time: Aug 25, 2021 at 04:35 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -130,26 +130,52 @@ INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quant
 -- --------------------------------------------------------
 
 --
--- Table structure for table `electric_device_special_event`
+-- Table structure for table `electric_device_special_event_fixed`
 --
 
-CREATE TABLE `electric_device_special_event` (
-  `Bill_id` int(11) NOT NULL,
-  `Device_id` varchar(10) NOT NULL,
-  `Device_name` varchar(50) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `Priority` varchar(20) NOT NULL,
-  `Using_hours_peak_time` float NOT NULL,
-  `Using_hours_off_peak_time` float NOT NULL,
-  `Using_hours_day_time` float NOT NULL,
-  `Power(W)` float NOT NULL,
-  `Total_units_fixed` int(11) NOT NULL,
-  `Units_off_peak_time` int(11) NOT NULL,
-  `Units_peak_time` int(11) NOT NULL,
-  `Units_day_time` int(11) NOT NULL,
-  `Cost_day_time` float NOT NULL,
-  `Cost_peak_time` float NOT NULL,
-  `Cost_off_peak_time` float NOT NULL,
+CREATE TABLE `electric_device_special_event_fixed` (
+  `device_id` int(11) NOT NULL,
+  `bill_id` int(11) NOT NULL,
+  `appliance` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `hfixed` int(11) NOT NULL,
+  `mfixed` int(11) NOT NULL,
+  `using_minutes_fixed` int(11) NOT NULL,
+  `power` float NOT NULL,
+  `total_units_fixed` int(11) NOT NULL,
+  `numberOfDays` int(11) NOT NULL,
+  `Cust_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `electric_device_special_event_tou`
+--
+
+CREATE TABLE `electric_device_special_event_tou` (
+  `device_id` int(11) NOT NULL,
+  `bill_id` int(11) NOT NULL,
+  `appliance` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `hPeak` int(11) NOT NULL,
+  `mPeak` int(11) NOT NULL,
+  `hOffPeak` int(11) NOT NULL,
+  `mOffPeak` int(11) NOT NULL,
+  `hDay` int(11) NOT NULL,
+  `mDay` int(11) NOT NULL,
+  `using_minutes_peak_time` int(11) NOT NULL,
+  `using_minutes_off_peak_time` int(11) NOT NULL,
+  `using_minutes_day_time` int(11) NOT NULL,
+  `power` int(11) NOT NULL,
+  `units_peak_time` int(11) NOT NULL,
+  `units_off_peak_time` int(11) NOT NULL,
+  `units_day_time` int(11) NOT NULL,
+  `total_cost_TOU` float NOT NULL,
+  `cost_peak_time` float NOT NULL,
+  `cost_off_peak_time` float NOT NULL,
+  `cost_day_time` float NOT NULL,
+  `numberOfDays` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -285,11 +311,18 @@ ALTER TABLE `electric_device_mplan`
   ADD KEY `FK4` (`Cust_id`);
 
 --
--- Indexes for table `electric_device_special_event`
+-- Indexes for table `electric_device_special_event_fixed`
 --
-ALTER TABLE `electric_device_special_event`
-  ADD PRIMARY KEY (`Bill_id`,`Device_id`),
-  ADD KEY `FK8` (`Cust_id`);
+ALTER TABLE `electric_device_special_event_fixed`
+  ADD PRIMARY KEY (`device_id`,`bill_id`,`Cust_id`) USING BTREE,
+  ADD KEY `FK14` (`Cust_id`);
+
+--
+-- Indexes for table `electric_device_special_event_tou`
+--
+ALTER TABLE `electric_device_special_event_tou`
+  ADD PRIMARY KEY (`device_id`,`bill_id`,`Cust_id`) USING BTREE,
+  ADD KEY `FK13` (`Cust_id`);
 
 --
 -- Indexes for table `employee`
@@ -336,6 +369,18 @@ ALTER TABLE `electric_device_mplan`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `electric_device_special_event_fixed`
+--
+ALTER TABLE `electric_device_special_event_fixed`
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `electric_device_special_event_tou`
+--
+ALTER TABLE `electric_device_special_event_tou`
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
@@ -346,31 +391,16 @@ ALTER TABLE `employee`
 --
 
 --
--- Constraints for table `ebill_monthly_plan`
+-- Constraints for table `electric_device_special_event_fixed`
 --
-ALTER TABLE `ebill_monthly_plan`
-  ADD CONSTRAINT `FK1` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK10` FOREIGN KEY (`bill_id`) REFERENCES `electric_device_mplan` (`bill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `electric_device_special_event_fixed`
+  ADD CONSTRAINT `FK14` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ebill_specialevent`
+-- Constraints for table `electric_device_special_event_tou`
 --
-ALTER TABLE `ebill_specialevent`
-  ADD CONSTRAINT `FK11` FOREIGN KEY (`Bill_id`) REFERENCES `electric_device_special_event` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK2` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `electric_device_mplan`
---
-ALTER TABLE `electric_device_mplan`
-  ADD CONSTRAINT `FK4` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `electric_device_special_event`
---
-ALTER TABLE `electric_device_special_event`
-  ADD CONSTRAINT `FK6` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_monthly_plan` (`bill_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK7` FOREIGN KEY (`Bill_id`) REFERENCES `ebill_specialevent` (`Bill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `electric_device_special_event_tou`
+  ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -83,5 +83,9 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 //get device details  
 // router.route("/#").get(authService.validateToken, deviceWiseUsageController.getDeviceDetail);
 
+//get special event device detail
+// router.route("#").post(authService.validateToken, spEventBillCalculateController.AddSpEventDeviceDataTOU);
+
+
 
 module.exports = router;

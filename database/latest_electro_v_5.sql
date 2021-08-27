@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2021 at 12:23 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: Aug 27, 2021 at 01:35 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -74,21 +75,32 @@ INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ebill_specialevent`
+-- Table structure for table `ebill_special_event_fixed`
 --
 
-CREATE TABLE `ebill_specialevent` (
-  `Bill_id` int(11) NOT NULL,
-  `No_of_days` int(11) NOT NULL,
+CREATE TABLE `ebill_special_event_fixed` (
+  `bill_id` int(11) NOT NULL,
+  `Total_cost_fixed` float NOT NULL,
+  `Total_units` float NOT NULL,
+  `Cust_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ebill_special_event_tou`
+--
+
+CREATE TABLE `ebill_special_event_tou` (
+  `bill_id` int(11) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
   `Cost_off_peak_time` float NOT NULL,
   `Cost_peak_time` float NOT NULL,
-  `Total_units_tou` int(11) NOT NULL,
-  `Units_day_time` int(11) NOT NULL,
-  `Units_off_peak_time` int(11) NOT NULL,
+  `Units_day_time` float NOT NULL,
+  `Units_off_peak_time` float NOT NULL,
   `Units_peak_time` int(11) NOT NULL,
-  `Total_units_fixed` int(11) NOT NULL,
+  `Total_units` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -305,11 +317,18 @@ ALTER TABLE `ebill_monthly_plan`
   ADD KEY `FK1` (`Cust_id`);
 
 --
--- Indexes for table `ebill_specialevent`
+-- Indexes for table `ebill_special_event_fixed`
 --
-ALTER TABLE `ebill_specialevent`
-  ADD PRIMARY KEY (`Bill_id`),
-  ADD KEY `FK2` (`Cust_id`);
+ALTER TABLE `ebill_special_event_fixed`
+  ADD PRIMARY KEY (`bill_id`,`Cust_id`) USING BTREE,
+  ADD KEY `FK16` (`Cust_id`);
+
+--
+-- Indexes for table `ebill_special_event_tou`
+--
+ALTER TABLE `ebill_special_event_tou`
+  ADD PRIMARY KEY (`bill_id`,`Cust_id`) USING BTREE,
+  ADD KEY `FK_15` (`Cust_id`);
 
 --
 -- Indexes for table `electric_device_mplan`
@@ -369,29 +388,46 @@ ALTER TABLE `tou_ucharge`
 --
 ALTER TABLE `customer`
   MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `Emp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `ebill_special_event_fixed`
+--
+ALTER TABLE `ebill_special_event_fixed`
+  ADD CONSTRAINT `FK16` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ebill_special_event_tou`
+--
+ALTER TABLE `ebill_special_event_tou`
+  ADD CONSTRAINT `FK_15` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `electric_device_special_event_fixed`
@@ -404,6 +440,7 @@ ALTER TABLE `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_tou`
   ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -60,11 +60,11 @@ async function calculatedBillValue(request, response){
         Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
         Bill_details.data[0].billId = parseInt(billId);
 
-        if(Bill_details.data[0].fixed_bill_cost > calculatedData[0].TOU_bill_cost){
+        if(Bill_details.data[0].fixed_bill_cost > Bill_details.data[0].TOU_bill_cost){
             console.log("best = TOU");
             best_model = "TOU";
             
-          }else if(Bill_details.data[0].fixed_bill_cost == calculatedData[0].TOU_bill_cost){
+          }else if(Bill_details.data[0].fixed_bill_cost == Bill_details.data[0].TOU_bill_cost){
             console.log("best = Both");
             best_model = "Both";
           }else{

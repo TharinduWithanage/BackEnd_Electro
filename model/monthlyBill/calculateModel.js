@@ -3,7 +3,7 @@ var db = require('../../database/databaseConnection');
 
 // get bill data for calculate bill value to compare each models
 
-module.exports.getCalculatedValues = (BillId, CustId) => {
+module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
     return new Promise(async (resolve, reject) => {
 
@@ -75,6 +75,33 @@ module.exports.setMonthlyPlan = (Bill_details, CustId, best_model) => {
                 // console.log(result);
 
                 resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.getCalculatedValues = (BillId, CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+        var selectQuery = `SELECT bill_id, Total_cost_tou, Total_cost_fixed, Best_model 
+        FROM ebill_monthly_plan Where Cust_id = ${CustId} AND bill_id=${BillId};`;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
 
             }
 

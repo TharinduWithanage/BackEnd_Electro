@@ -33,6 +33,72 @@ function calculateTOUBill(TOU_bill_sum, fixed_charge){
     return billValue.toFixed(2);
 }
 
+async function getcalculatedBillValue(request, response){
+    try {
+
+        var billId = request.body.bill_id;
+        console.log(billId);
+        var CustId = request.params.id;
+
+        var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
+        
+        var Bill_details = await calculateModel.getDeviceDetailsToCalculate(billId, CustId );
+         
+         
+        total_units = Bill_details.data[0].TotalUnits;
+
+        
+        // console.log(Bill_details.data)
+        // console.log(Bill_details.data[0].TotalUnits)
+        var fixed_bill_cost = caculateFixedBill(total_units , UnitPrice.data );
+        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+        console.log(fixed_bill_cost);
+        Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
+        Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
+
+         if (Bill_details.data != null) {
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+
+        // console.log("Inside get calculation bill value controller");
+
+        // var billId = request.body.bill_id;
+        // var CustId = request.params.id;
+        
+        // var Calculated_Bill_details = await calculateModel.getCalculatedValues(billId, CustId);
+
+        // console.log(Calculated_Bill_details);
+        
+
+        //  if (Calculated_Bill_details.data != null) {
+        //     commonResponseService.responseWithData(response, Calculated_Bill_details.data);
+
+        // } else {
+        //     Calculated_Bill_details.data.TotalCost = 0;
+        //     Calculated_Bill_details.data.TotalUnits = 0;
+        //     commonResponseService.responseWithData(response, Calculated_Bill_details.data);
+        // }
+        
+
+    // } catch (error) {
+    //     console.log(error);
+    //     commonResponseService.errorWithMessage(response, "something went wrong");
+    // }
+}
+
 async function calculatedBillValue(request, response){
     try {
 
@@ -45,7 +111,7 @@ async function calculatedBillValue(request, response){
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
         
-        var Bill_details = await calculateModel.getCalculatedValues(billId, CustId );
+        var Bill_details = await calculateModel.getDeviceDetailsToCalculate(billId, CustId );
          
          
         total_units = Bill_details.data[0].TotalUnits;
@@ -87,41 +153,10 @@ async function calculatedBillValue(request, response){
         }
         
 
-        // var DayUnitCost = UnitPrice.data[0].Unit_charge;
-        // var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
-        // var PeakUnitCost = UnitPrice.data[2].Unit_charge;
-
-
-
-
-        // Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
-        // Device_details.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
-        // Device_details.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
-        // Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time);
-        // Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time);
-        // Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time);
-        // Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
-        // Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
-        // Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
-        // Device_details.total_units_fixed = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
-        // Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
-
-
-        // console.log("inside addDeviceDataMain Controller");
-        // // console.log(request.params.id);
-        // var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details, request.params.id);
-        // // console.log(profileData.data);
-
-        // commonResponseService.responseWithData(response, DeviceData.mesg);
-
-
-
-
-
     } catch (error) {
         console.log(error);
         commonResponseService.errorWithMessage(response, "something went wrong");
     }
 }
 
-module.exports = { calculatedBillValue };
+module.exports = { calculatedBillValue, getcalculatedBillValue };

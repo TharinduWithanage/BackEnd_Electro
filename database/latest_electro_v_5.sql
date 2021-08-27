@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2021 at 05:08 AM
+-- Generation Time: Aug 27, 2021 at 05:35 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -106,7 +106,7 @@ CREATE TABLE `electric_device_mplan` (
   `using_minutes_off_peak_time` float NOT NULL,
   `using_minutes_day_time` float NOT NULL,
   `power` float NOT NULL,
-  `total_units_fixed` float NOT NULL,
+  `total_units` float NOT NULL,
   `units_peak_time` float NOT NULL,
   `units_off_peak_time` float NOT NULL,
   `units_day_time` float NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE `electric_device_mplan` (
 -- Dumping data for table `electric_device_mplan`
 --
 
-INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units_fixed`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
+INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
 (1, 1, 'tv', 1, 1, 10, 1, 30, 1, 30, 'low', 6010, 6030, 6030, 230, 69.2683, 23.0383, 23.115, 23.115, 2122.44, 1244.07, 300.495, 577.875, 1019),
 (2, 1, 'radio', 1, 1, 20, 1, 30, 1, 40, 'low', 80, 90, 100, 230, 1.035, 0.306667, 0.345, 0.383333, 30.6283, 16.56, 4.485, 9.58333, 1019);
 

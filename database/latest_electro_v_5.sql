@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2021 at 09:44 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Generation Time: Aug 27, 2021 at 05:08 AM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -41,9 +40,7 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`Cust_id`, `First_name`, `Last_name`, `Email`, `Password`, `Role`) VALUES
-(1019, 'buthsara', 'madhushanka', 'buthsaramadhushanka@gmail.com', '$2b$10$E/m1.N4WWEB02TM88A1SnuAudCnMell0cmwb1WwIQliAyBuAsD1B.', 'customer'),
-(1020, 'Minuri', 'Yasara', 'minuri@gmail.com', '$2b$10$Nazfw8Hzne4Mp4lJUeg2oeH2MrzIwahPXWKOkXc5j0q/fX/lkGEqa', 'customer'),
-(1021, 'Yasara', 'Wick', 'yasara@gmail.com', '$2b$10$Qu1D/1A4q.n1IwNgvmNdye4tLdGdtDkjYCnvg6FkyjAspkLoKV0Na', 'customer');
+(1019, 'buthsara', 'madhushanka', 'buthsaramadhushanka@gmail.com', '$2b$10$E/m1.N4WWEB02TM88A1SnuAudCnMell0cmwb1WwIQliAyBuAsD1B.', 'customer');
 
 -- --------------------------------------------------------
 
@@ -58,11 +55,10 @@ CREATE TABLE `ebill_monthly_plan` (
   `Cost_off_peak_time` float NOT NULL,
   `Cost_peak_time` float NOT NULL,
   `Total_cost_fixed` float NOT NULL,
-  `Total_units_tou` int(11) NOT NULL,
   `Units_day_time` int(11) NOT NULL,
   `Units_off_peak_time` int(11) NOT NULL,
   `Units_peak_time` int(11) NOT NULL,
-  `Total_units_fixed` int(11) NOT NULL,
+  `Total_units` int(11) NOT NULL,
   `Best_model` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -70,10 +66,10 @@ CREATE TABLE `ebill_monthly_plan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ebill_specialevent_tou`
+-- Table structure for table `ebill_specialevent`
 --
 
-CREATE TABLE `ebill_specialevent_tou` (
+CREATE TABLE `ebill_specialevent` (
   `Bill_id` int(11) NOT NULL,
   `No_of_days` int(11) NOT NULL,
   `Total_cost_tou` float NOT NULL,
@@ -127,9 +123,7 @@ CREATE TABLE `electric_device_mplan` (
 
 INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units_fixed`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
 (1, 1, 'tv', 1, 1, 10, 1, 30, 1, 30, 'low', 6010, 6030, 6030, 230, 69.2683, 23.0383, 23.115, 23.115, 2122.44, 1244.07, 300.495, 577.875, 1019),
-(2, 1, 'radio', 1, 1, 20, 1, 30, 1, 40, 'low', 80, 90, 100, 230, 1.035, 0.306667, 0.345, 0.383333, 30.6283, 16.56, 4.485, 9.58333, 1019),
-(3, 1, 'fan', 2, 1, 30, 2, 0, 10, 30, 'low', 90, 120, 630, 200, 2.8, 0.3, 0.4, 2.1, 73.9, 16.2, 5.2, 52.5, 1020),
-(4, 1, 'fan2', 1, 3, 0, 7, 0, 0, 30, 'mid', 180, 420, 30, 180, 1.89, 0.54, 1.26, 0.09, 47.79, 29.16, 16.38, 2.25, 1020);
+(2, 1, 'radio', 1, 1, 20, 1, 30, 1, 40, 'low', 80, 90, 100, 230, 1.035, 0.306667, 0.345, 0.383333, 30.6283, 16.56, 4.485, 9.58333, 1019);
 
 -- --------------------------------------------------------
 
@@ -147,6 +141,7 @@ CREATE TABLE `electric_device_special_event_fixed` (
   `using_minutes_fixed` int(11) NOT NULL,
   `power` float NOT NULL,
   `total_units_fixed` int(11) NOT NULL,
+  `numberOfDays` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -178,6 +173,7 @@ CREATE TABLE `electric_device_special_event_tou` (
   `cost_peak_time` float NOT NULL,
   `cost_off_peak_time` float NOT NULL,
   `cost_day_time` float NOT NULL,
+  `numberOfDays` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -299,9 +295,9 @@ ALTER TABLE `ebill_monthly_plan`
   ADD KEY `FK1` (`Cust_id`);
 
 --
--- Indexes for table `ebill_specialevent_tou`
+-- Indexes for table `ebill_specialevent`
 --
-ALTER TABLE `ebill_specialevent_tou`
+ALTER TABLE `ebill_specialevent`
   ADD PRIMARY KEY (`Bill_id`),
   ADD KEY `FK2` (`Cust_id`);
 
@@ -362,32 +358,27 @@ ALTER TABLE `tou_ucharge`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1022;
-
+  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1020;
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `Emp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- Constraints for dumped tables
 --
@@ -403,7 +394,6 @@ ALTER TABLE `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_tou`
   ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

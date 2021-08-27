@@ -4,6 +4,7 @@ var userRegisterController = require("../controller/authentication/userRegisterC
 var userProfileController = require("../controller/user/userProfileController");
 var unitChargesController = require("../controller/cebengineer/unitChargesController");
 var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalculate");
+var specialEventBillCalculate = require("../controller/specialEvent/specialEventBillCalculateController");
 var dashBoardController = require("../controller/dashboard/dashBoardController");
 var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageController");
 var calculation = require("../controller/monthlyBill/calculation");
@@ -78,6 +79,9 @@ router.route("/dashboard-details/:id").get(authService.validateToken, dashBoardC
 //get Bill id for front end
 router.route("/get-bill-id/:id").get(authService.validateToken, monthlyBillCalculate.getBillId);
 
+//get Special Event Bill id for front end
+router.route("/get-special-event-fix-bill-id/:id").get(authService.validateToken, specialEventBillCalculate.getFixedBillId);
+
 //calculate the main bill
 router.route("/calculate-main-bill/:id").post(authService.validateToken, calculation.calculatedBillValue);
 
@@ -92,5 +96,14 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 
 //get device wise usage tou main
 router.route("/get-device-wise-usage-tou-main/:id").post(authService.validateToken, deviceWiseController.getTouDeviceWise);
+
+// //add special event device data
+router.route("/add-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.AddSpecialEventDeviceDataFixed);
+
+// //Update special event  device data
+//router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.updateDeviceDataMain);
+
+// //delete special event device data
+//router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.deleteDeviceDataMain);
 
 module.exports = router;

@@ -5,7 +5,7 @@ var db = require('../../database/databaseConnection');
  * @param {*} devicedataTOU data of devices
  * @returns 
  */
-module.exports.AddSpEventDeviceTOU = (devicedataTOU, id) => {
+module.exports.AddSpecialEventDeviceTOU = (devicedataTOU, id) => {
     return new Promise(async (resolve, reject) => {
 
         var bill_id = devicedataTOU.bill_id
@@ -60,26 +60,25 @@ module.exports.AddSpEventDeviceTOU = (devicedataTOU, id) => {
 
 }
 
-module.exports.AddSpEventDeviceFixed = (devicedataFixed, id) => {
+module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
     return new Promise(async (resolve, reject) => {
 
         var bill_id = devicedataFixed.bill_id
         var appliance = devicedataFixed.appliance
         var quantity = devicedataFixed.quantity
+        var hfixed = devicedataFixed.hfixed
+        var mfixed = devicedataFixed.mfixed
         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
         var power = devicedataFixed.power
         var total_units_fixed = devicedataFixed.total_units_fixed
+        //var numberOfDays = devicedataFixed.numberOfDays
         var Cust_id = id
-        var hfixed = devicedataFixed.hfixed
-        var mfixed = devicedataFixed.mfixed
-        var numberOfDays = devicedataFixed.numberOfDays
-
 
         var addSpEvDeviceFixedQuery = `INSERT INTO electric_device_special_event_fixed 
         (bill_id, appliance, quantity, hfixed, mfixed, using_minutes_fixed, power, total_units_fixed,
-        numberOfDays, Cust_id) 
+         Cust_id) 
         VALUES("${bill_id}","${appliance}","${quantity}","${hfixed}","${mfixed}","${using_minutes_fixed}",
-        "${power}","${total_units_fixed}", "${numberOfDays}", "${Cust_id}");`;
+        "${power}","${total_units_fixed}", "${Cust_id}");`;
 
 
 
@@ -100,5 +99,36 @@ module.exports.AddSpEventDeviceFixed = (devicedataFixed, id) => {
     });
 
 }
+
+
+module.exports.getFixedBillIdFunc = (CustId) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        //console.log("Inside get bill id model function query"+ CustId);
+
+        var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
+        FROM ebill_specialevent
+        Where Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                resolve({ status: true, data: result[0].max_bill_id });
+
+            }
+
+        });
+    });
+
+}
+
 
 

@@ -1,5 +1,5 @@
 var commonResponseService = require('../../service/responseService');
-var addSpEventDeviceModel = require('../../model/specialEvent/addSpEventDeviceModel');
+var addSpecialEventDeviceModel = require('../../model/specialEvent/addSpecialEventDeviceModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
 function CalculateUnits(power, minutes) {
@@ -26,7 +26,7 @@ function CalculateCost(uPrice, Units) {
 /**
  * add device data to main bill plan
  */
-async function AddSpEventDeviceDataTOU(request, response) {
+async function AddSpecialEventDeviceDataTOU(request, response) {
 
     try {
 
@@ -58,7 +58,7 @@ async function AddSpEventDeviceDataTOU(request, response) {
 
         console.log("inside addDeviceDataMain Controller");
         // console.log(request.params.id);
-        var DeviceData_TOU = await addSpEventDeviceModel.AddSpEventDeviceTOU(Device_details_TOU, request.params.id);
+        var DeviceData_TOU = await addSpecialEventDeviceModel. AddSpecialEventDeviceDataTOU(Device_details_TOU, request.params.id);
         // console.log(profileData.data);
 
         commonResponseService.successWithMessage(response, DeviceData_TOU.mesg);
@@ -70,7 +70,7 @@ async function AddSpEventDeviceDataTOU(request, response) {
     }
 }
 
-async function AddSpEventDeviceDataFixed(request, response) {
+async function AddSpecialEventDeviceDataFixed(request, response) {
 
     try {
 
@@ -85,7 +85,7 @@ async function AddSpEventDeviceDataFixed(request, response) {
 
         // console.log("inside addDeviceDataMain Controller");
         // console.log(request.params.id);
-        var DeviceData_fixed = await addSpEventDeviceModel.AddSpEventDeviceFixed(Device_details_fixed, request.params.id);
+        var DeviceData_fixed = await addSpecialEventDeviceModel.AddSpecialEventDeviceFixed(Device_details_fixed, request.params.id);
         // console.log(profileData.data);
 
         commonResponseService.successWithMessage(response, DeviceData_fixed.mesg);
@@ -97,5 +97,30 @@ async function AddSpEventDeviceDataFixed(request, response) {
     }
 }
 
-module.exports = { AddSpEventDeviceDataTOU , AddSpEventDeviceDataFixed };
+
+async function getFixedBillId(request, response) {
+
+    try {
+
+        console.log("inside getBillId Controller");
+        var Cust_id = request.params.id;
+        var bill_id = await addSpecialEventDeviceModel.getFixedBillIdFunc(Cust_id);
+
+        if (bill_id.data != null) {
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        } else {
+
+            bill_id.data = 0;
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId};
 

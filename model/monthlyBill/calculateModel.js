@@ -87,6 +87,7 @@ module.exports.getCalculatedValues = (BillId, CustId) => {
 
     return new Promise(async (resolve, reject) => {
 
+
         var selectQuery = `SELECT bill_id, Total_cost_tou, Total_cost_fixed, Best_model 
         FROM ebill_monthly_plan Where Cust_id = ${CustId} AND bill_id=${BillId};`;
 

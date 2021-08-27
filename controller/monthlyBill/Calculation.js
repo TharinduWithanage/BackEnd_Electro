@@ -41,6 +41,7 @@ async function calculatedBillValue(request, response){
         var billId = request.body.bill_id;
         console.log(billId);
         var CustId = request.params.id;
+        var best_model;
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
         
@@ -59,9 +60,20 @@ async function calculatedBillValue(request, response){
         Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
         Bill_details.data[0].billId = parseInt(billId);
 
-
+        if(Bill_details.data[0].fixed_bill_cost > calculatedData[0].TOU_bill_cost){
+            console.log("best = TOU");
+            best_model = "TOU";
+            
+          }else if(Bill_details.data[0].fixed_bill_cost == calculatedData[0].TOU_bill_cost){
+            console.log("best = Both");
+            best_model = "Both";
+          }else{
+            console.log("best = Fixed");
+            best_model = "Fixed";
+          }
 
         console.log(Bill_details);
+        await calculateModel.setMonthlyPlan(Bill_details.data[0], CustId, best_model );
 
          if (Bill_details.data != null) {
             commonResponseService.responseWithData(response, Bill_details.data);

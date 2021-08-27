@@ -93,4 +93,7 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 //get device wise usage tou main
 router.route("/get-device-wise-usage-tou-main/:id").post(authService.validateToken, deviceWiseController.getTouDeviceWise);
 
+//get device wise usage fixed main
+router.route("/get-device-wise-usage-fixed-main/:id").post(authService.validateToken, deviceWiseController.getFixedDeviceWise);
+
 module.exports = router;

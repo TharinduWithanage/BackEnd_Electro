@@ -115,4 +115,47 @@ async function addNewCebEngineer(request, response) {
     }
 }
 
-module.exports = { createUser, loginUser, checkEmail, resetPassword, addNewCebEngineer };
+/**
+ * remove ceb engineer controller
+ * @param {*} request 
+ * @param {*} response 
+ */
+async function removeCebEngineer(request, response) {
+
+    try {
+        console.log("removeUser controller");
+
+        var removeUser = await userRegisterModel.removeCebEngineerFunc(request.body);
+
+        commonResponseService.successWithMessage(response, removeUser.mesg);
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+/**
+ * controller for get cebengineer details
+ * @param {*} request 
+ * @param {*} response 
+ */
+async function getCebEngineer(request, response) {
+
+    try {
+        console.log("getCebEngineer controller");
+
+        var getCebengineer = await userRegisterModel.getCebEngineerFunc();
+
+        commonResponseService.responseWithData(response, getCebengineer.data);
+
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+module.exports = { createUser, loginUser, checkEmail, resetPassword, getCebEngineer, addNewCebEngineer, removeCebEngineer };

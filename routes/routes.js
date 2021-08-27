@@ -54,8 +54,15 @@ router.route("/accepted-unit-charges-update/:id").post(authService.validateToken
 //reject unit charges update admin route
 router.route("/reject-unit-charges-update/:id").post(authService.validateToken, unitChargesController.rejectUnitChargesUpdate);
 
+
 //add new ceb engineer route
 router.route("/add-cebengineer").post(authService.validateToken, userRegisterController.addNewCebEngineer);
+
+//get ceb engineer route
+router.route("/manager-cebengineer").get(authService.validateToken, userRegisterController.getCebEngineer);
+
+//remove ceb engineer route
+router.route("/remove-cebengineer").post(authService.validateToken, userRegisterController.removeCebEngineer);
 
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);

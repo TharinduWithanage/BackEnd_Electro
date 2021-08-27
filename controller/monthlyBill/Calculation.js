@@ -44,7 +44,7 @@ async function calculatedBillValue(request, response){
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
         
-         var Bill_details = await calculateModel.getCalculatedValues(billId, CustId );
+        var Bill_details = await calculateModel.getCalculatedValues(billId, CustId );
          
          
         total_units = Bill_details.data[0].TotalUnits;

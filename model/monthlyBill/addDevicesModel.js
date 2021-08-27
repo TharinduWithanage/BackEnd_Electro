@@ -213,3 +213,30 @@ module.exports.getDeviceMailBill = (billId, userId) => {
     });
 
 }
+
+module.exports.getMonthlyBillPlans = (CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        var selectQuery = `SELECT LEAST(Total_cost_tou,Total_cost_fixed) AS total_cost, bill_id, Best_model FROM ebill_monthly_plan WHERE Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}

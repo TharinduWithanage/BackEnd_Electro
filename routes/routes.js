@@ -107,5 +107,8 @@ router.route("/get-calculated-main-bill/:id").post(authService.validateToken, ca
 //get device wise usage fixed main
 router.route("/get-device-wise-usage-fixed-main/:id").post(authService.validateToken, deviceWiseController.getFixedDeviceWise);
 
+//get all monthly bill plans route
+router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, monthlyBillCalculate.getMonthlyBillPlans);
+
 
 module.exports = router;

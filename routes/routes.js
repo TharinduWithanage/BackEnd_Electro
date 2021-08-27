@@ -62,7 +62,7 @@ router.route("/add-cebengineer").post(authService.validateToken, userRegisterCon
 router.route("/manager-cebengineer").get(authService.validateToken, userRegisterController.getCebEngineer);
 
 //remove ceb engineer route
-router.route("/remove-cebengineer").post(authService.validateToken, userRegisterController.removeCebEngineer);
+router.route("/remove-cebengineer/:id").get(authService.validateToken, userRegisterController.removeCebEngineer);
 
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);

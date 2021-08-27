@@ -219,7 +219,7 @@ module.exports.removeCebEngineerFunc = (requestData) => {
   return new Promise(async (resolve, reject) => {
 
 
-    var deleteQuery = `DELETE FROM employee WHERE Emp_id=${requestData.empID};`;
+    var deleteQuery = `DELETE FROM employee WHERE Emp_id=${requestData};`;
 
     // delete data to employee table
     db.query(deleteQuery, (err, result) => {

@@ -125,7 +125,7 @@ async function removeCebEngineer(request, response) {
     try {
         console.log("removeUser controller");
 
-        var removeUser = await userRegisterModel.removeCebEngineerFunc(request.body);
+        var removeUser = await userRegisterModel.removeCebEngineerFunc(request.params.id);
 
         commonResponseService.successWithMessage(response, removeUser.mesg);
 

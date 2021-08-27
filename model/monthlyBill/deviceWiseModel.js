@@ -33,7 +33,7 @@ module.exports.getDeviceUsageFixed = (billId, userId) => {
 
 
 
-        var selectDeviceWiseFixedQuery = `SELECT appliance, quantity, total_units, total_cost_fixed FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId};`;
+        var selectDeviceWiseFixedQuery = `SELECT appliance, quantity, total_units FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId};`;
         console.log(selectDeviceWiseFixedQuery)
 
         db.query(selectDeviceWiseFixedQuery, async function (error, result) {

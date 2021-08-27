@@ -16,7 +16,7 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
         var using_minutes_off_peak_time = devicedata.using_minutes_off_peak_time
         var using_minutes_day_time = devicedata.using_minutes_day_time
         var power = devicedata.power
-        var total_units_fixed = devicedata.total_units_fixed
+        var total_units = devicedata.total_units
         var units_peak_time = devicedata.units_peak_time
         var units_off_peak_time = devicedata.units_off_peak_time
         var units_day_time = devicedata.units_day_time
@@ -34,10 +34,10 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
 
 
         var addDeviceQuery = `INSERT INTO electric_device_mplan 
-        (bill_id, appliance, quantity, priority, hPeak, mPeak, hOffPeak, mOffPeak, hDay, mDay, using_minutes_peak_time, using_minutes_off_peak_time, using_minutes_day_time, power, total_units_fixed, units_peak_time,
+        (bill_id, appliance, quantity, priority, hPeak, mPeak, hOffPeak, mOffPeak, hDay, mDay, using_minutes_peak_time, using_minutes_off_peak_time, using_minutes_day_time, power, total_units, units_peak_time,
         units_off_peak_time, units_day_time, total_cost_TOU, cost_peak_time, cost_off_peak_time, cost_day_time, Cust_id) 
         VALUES("${bill_id}","${appliance}","${quantity}","${priority}","${hPeak}","${mPeak}","${hOffPeak}","${mOffPeak}","${hDay}","${mDay}","${using_minutes_peak_time}",
-        "${using_minutes_off_peak_time}","${using_minutes_day_time}","${power}","${total_units_fixed}","${units_peak_time}",
+        "${using_minutes_off_peak_time}","${using_minutes_day_time}","${power}","${total_units}","${units_peak_time}",
         "${units_off_peak_time}","${units_day_time}","${total_cost_TOU}","${cost_peak_time}","${cost_off_peak_time}",
         "${cost_day_time}","${Cust_id}");`;
 
@@ -105,7 +105,7 @@ module.exports.updateDeviceMailBill = (devicedata, id) => {
         var using_minutes_off_peak_time = devicedata.using_minutes_off_peak_time
         var using_minutes_day_time = devicedata.using_minutes_day_time
         var power = devicedata.power
-        var total_units_fixed = devicedata.total_units_fixed
+        var total_units = devicedata.total_units
         var units_peak_time = devicedata.units_peak_time
         var units_off_peak_time = devicedata.units_off_peak_time
         var units_day_time = devicedata.units_day_time
@@ -125,7 +125,7 @@ module.exports.updateDeviceMailBill = (devicedata, id) => {
         var updateDeviceQuery = `UPDATE electric_device_mplan 
         SET appliance='${appliance}',quantity='${quantity}',priority='${priority}',hPeak='${hPeak}',mPeak='${mPeak}',hOffPeak='${hOffPeak}',mOffPeak='${mOffPeak}',
         hDay='${hDay}',mDay ='${mDay}',using_minutes_peak_time='${using_minutes_peak_time}',using_minutes_off_peak_time='${using_minutes_off_peak_time}',using_minutes_day_time='${using_minutes_day_time}',
-        power='${power}',total_units_fixed='${total_units_fixed}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
+        power='${power}',total_units='${total_units}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
         cost_peak_time='${cost_peak_time}',cost_off_peak_time='${cost_off_peak_time}',cost_day_time='${cost_day_time}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
 

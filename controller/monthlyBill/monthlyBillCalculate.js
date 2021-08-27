@@ -55,7 +55,7 @@ async function AddDeviceDataMain(request, response) {
         Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
         Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
         Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
-        Device_details.total_units_fixed = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
+        Device_details.total_units = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
         Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
 
 
@@ -105,7 +105,7 @@ async function updateDeviceDataMain(request, response) {
         Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
         Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
         Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
-        Device_details.total_units_fixed = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
+        Device_details.total_units = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
         Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
 
 

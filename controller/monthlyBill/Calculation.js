@@ -6,7 +6,7 @@ function caculateFixedBill(noOfUnits , unitDetails){
     var billValue ; 
      console.log("call inside calculate fixed bill function");
     //  console.log(unitDetails[0].Fixed_charge);
-    //  console.log(noOfUnits);
+      console.log(noOfUnits);
     if(noOfUnits <= 30){
         billValue =  (noOfUnits * unitDetails[0].Unit_charge) + parseFloat(unitDetails[0].Fixed_charge) ;
         return billValue.toFixed(2);

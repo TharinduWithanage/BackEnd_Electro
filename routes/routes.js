@@ -9,6 +9,7 @@ var dashBoardController = require("../controller/dashboard/dashBoardController")
 var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageController");
 var calculation = require("../controller/monthlyBill/calculation");
 var deviceWiseController = require("../controller/monthlyBill/deviceWiseController");
+var billPlanController = require("../controller/monthlyBill/billPlanController");
 
 
 var authService = require('../service/authServices');
@@ -123,7 +124,10 @@ router.route("/get-calculated-main-bill/:id").post(authService.validateToken, ca
 router.route("/get-device-wise-usage-fixed-main/:id").post(authService.validateToken, deviceWiseController.getFixedDeviceWise);
 
 //get all monthly bill plans route
-router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, monthlyBillCalculate.getMonthlyBillPlans);
+router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, billPlanController.getMonthlyBillPlans);
+
+//calculate the main bill
+router.route("/delete-bill-main-plan/:id").post(authService.validateToken, billPlanController.deleteMonthlyBillPlans);
 
 
 module.exports = router;

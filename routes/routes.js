@@ -115,7 +115,7 @@ router.route("/add-device-special-Fixedbill/:id").post(authService.validateToken
 router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.updateDeviceDataSpecialEvent);
 
 // //delete special event device data
-//router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.deleteDeviceDataMain);
+router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.deleteSpecialEventDeviceData);
 
 //calculate the main bill
 router.route("/get-calculated-main-bill/:id").post(authService.validateToken, calculation.getcalculatedBillValue);

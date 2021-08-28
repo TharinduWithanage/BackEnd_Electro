@@ -66,8 +66,8 @@ module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
         var bill_id = devicedataFixed.bill_id
         var appliance = devicedataFixed.appliance
         var quantity = devicedataFixed.quantity
-        var hfixed = devicedataFixed.hours
-        var mfixed = devicedataFixed.minutes
+        var hfixed = devicedataFixed.hfixed
+        var mfixed = devicedataFixed.mfixed
         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
         var power = devicedataFixed.power
         var total_units_fixed = devicedataFixed.total_units_fixed
@@ -108,7 +108,7 @@ module.exports.getFixedBillIdFunc = (CustId) => {
         //console.log("Inside get bill id model function query"+ CustId);
 
         var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
-        FROM ebill_specialevent
+        FROM ebill_special_event_fixed
         Where Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
@@ -170,8 +170,8 @@ module.exports.updateSpecialEventDetailsFixed = (devicedata, id,bill_id) => {
         var device_id = devicedata.device_id
         var appliance = devicedata.appliance
         var quantity = devicedata.quantity
-        var hours=devicedata.hours;
-        var minutes=devicedata.minutes;
+        var hours=devicedata.hfixed;
+        var minutes=devicedata.mfixed;
         var total_minutes=devicedata.using_minutes_fixed
         var total_units_fixed=devicedata.total_units_fixed;
         var power = devicedata.power
@@ -200,6 +200,41 @@ module.exports.updateSpecialEventDetailsFixed = (devicedata, id,bill_id) => {
     });
 
 }
+
+
+
+
+module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
+    return new Promise(async (resolve, reject) => {
+        var device_id = deleteData.device_id;
+        var bill_id = deleteData.bill_id;
+
+        //console.log("Inside get bill id model function query"+ CustId);
+
+        var deleteQuery = `DELETE FROM electric_device_special_event_fixed WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+
+
 
 
 

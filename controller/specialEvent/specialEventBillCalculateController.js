@@ -2,10 +2,10 @@ var commonResponseService = require('../../service/responseService');
 var addSpecialEventDeviceModel = require('../../model/specialEvent/addSpecialEventDeviceModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
-function CalculateUnits(power, minutes) {
+function CalculateUnits(power, minutes,quantity) {
 
     var numOfUnits = power * minutes * 60 / 3600000;
-    return numOfUnits;
+    return parseFloat(numOfUnits*quantity);
 
 }
 
@@ -81,8 +81,8 @@ async function AddSpecialEventDeviceDataFixed(request, response) {
         console.log(request.params.id);
 
         
-        Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hours, Device_details_fixed.minutes);
-        Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed);
+        Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hfixed, Device_details_fixed.mfixed);
+        Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed,Device_details_fixed.quantity);
 
 
          console.log(Device_details_fixed.using_minutes_fixed);
@@ -167,7 +167,7 @@ async function updateDeviceDataSpecialEvent(request, response) {
         var Cust_id = request.params.id;
         
         
-        special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hours, special_event_deviceFixedDetails.minutes);
+        special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hfixed, special_event_deviceFixedDetails.mfixed);
         special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(special_event_deviceFixedDetails.power, special_event_deviceFixedDetails.using_minutes_fixed);
 
         var bill_id = await addSpecialEventDeviceModel.updateSpecialEventDetailsFixed(special_event_deviceFixedDetails, Cust_id,bill_id);
@@ -192,5 +192,27 @@ async function updateDeviceDataSpecialEvent(request, response) {
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent};
+
+
+async function deleteSpecialEventDeviceData(request, response) {
+
+    try {
+
+        console.log("inside deleteDeviceDataMain Controller");
+        var Cust_id = request.params.id;
+        var device_delete = await addSpecialEventDeviceModel.deleteSpecialEventDeviceFunc(Cust_id,request.body);
+
+        commonResponseService.successWithMessage(response, device_delete.mesg);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+
+
+module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData};
 

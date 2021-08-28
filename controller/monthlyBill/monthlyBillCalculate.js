@@ -82,6 +82,7 @@ async function updateDeviceDataMain(request, response) {
     try {
 
         var Device_details = request.body.data;
+        console.log("Inside of updateDeviceDataMain");
         console.log(Device_details);
         console.log(request.params.id);
 
@@ -100,9 +101,9 @@ async function updateDeviceDataMain(request, response) {
         Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
         Device_details.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
         Device_details.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
-        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time);
-        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time);
-        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time);
+        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time, Device_details.quantity);
+        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time, Device_details.quantity);
+        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time, Device_details.quantity);
         Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
         Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
         Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
@@ -111,7 +112,7 @@ async function updateDeviceDataMain(request, response) {
 
 
         console.log("inside addDeviceDataMain Controller");
-        // console.log(request.params.id);
+        console.log(Device_details);
         var DeviceData = await addDeviceModel.updateDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);
 
@@ -199,34 +200,6 @@ async function getDeviceDataMain(request, response) {
     }
 }
 
-async function getMonthlyBillPlans(request, response){
-    try{
-
-    console.log("Inside get calculation bill value controller");
-
-    var CustId = request.params.id;
-    
-    var Bill_Plans = await addDeviceModel.getMonthlyBillPlans( CustId);
-
-    console.log(Bill_Plans);
-    
-
-     if (Bill_Plans.data != null) {
-        commonResponseService.responseWithData(response, Bill_Plans.data);
-
-    } else {
-        // Bill_Plans.data.TotalCost = 0;
-        // Bill_Plans.data.TotalUnits = 0;
-        commonResponseService.responseWithData(response, Bill_Plans.data);
-    }
-    }
-    catch (error) {
-        console.log(error);
-        commonResponseService.errorWithMessage(response, "something went wrong");
-    }
-    
-
-} 
 
 
-module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain, getMonthlyBillPlans };
+module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain };

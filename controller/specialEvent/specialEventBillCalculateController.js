@@ -75,16 +75,18 @@ async function AddSpecialEventDeviceDataFixed(request, response) {
     try {
 
         var Device_details_fixed = request.body.data;
+        
+        console.log("HYUUUUUUU");
         console.log(Device_details_fixed);
         console.log(request.params.id);
 
         
-        Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hfixed, Device_details_fixed.mfixed);
+        Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hours, Device_details_fixed.minutes);
         Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed);
 
 
-        // console.log("inside addDeviceDataMain Controller");
-        // console.log(request.params.id);
+         console.log(Device_details_fixed.using_minutes_fixed);
+         console.log(Device_details_fixed.total_units_fixed);
         var DeviceData_fixed = await addSpecialEventDeviceModel.AddSpecialEventDeviceFixed(Device_details_fixed, request.params.id);
         // console.log(profileData.data);
 
@@ -122,5 +124,73 @@ async function getFixedBillId(request, response) {
     }
 }
 
-module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId};
+async function GetSpecialEventDeviceDataFixed(request, response) {
+
+    try {
+
+        console.log("inside get special Event details Controller");
+        var Cust_id = request.params.id;
+        var Bill_id=request.body.newBillId;
+        var bill_id = await addSpecialEventDeviceModel.getSpecialEventDetailsFixed(Cust_id,Bill_id);
+
+        if (bill_id.data != null) {
+           // console.log("data null!!");
+           console.log(bill_id.data);
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        } else {
+
+            bill_id.data = 0;
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+
+async function updateDeviceDataSpecialEvent(request, response) {
+
+    try {
+
+        console.log("inside update device detail Controller");
+
+        var special_event_deviceFixedDetails = request.body.data;
+        var bill_id=request.body.bill_id;
+        console.log(special_event_deviceFixedDetails);
+        console.log(request.params.id);
+
+        var Cust_id = request.params.id;
+        
+        
+        special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hours, special_event_deviceFixedDetails.minutes);
+        special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(special_event_deviceFixedDetails.power, special_event_deviceFixedDetails.using_minutes_fixed);
+
+        var bill_id = await addSpecialEventDeviceModel.updateSpecialEventDetailsFixed(special_event_deviceFixedDetails, Cust_id,bill_id);
+
+        if (bill_id.data != null) {
+           // console.log("data null!!");
+           console.log(bill_id.data);
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        } else {
+
+            bill_id.data = 0;
+            commonResponseService.responseWithData(response, bill_id.data);
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+
+module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent};
 

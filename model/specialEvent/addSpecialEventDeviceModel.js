@@ -62,12 +62,12 @@ module.exports.AddSpecialEventDeviceTOU = (devicedataTOU, id) => {
 
 module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
     return new Promise(async (resolve, reject) => {
-
+        //console.log(devicedataFixed);
         var bill_id = devicedataFixed.bill_id
         var appliance = devicedataFixed.appliance
         var quantity = devicedataFixed.quantity
-        var hfixed = devicedataFixed.hfixed
-        var mfixed = devicedataFixed.mfixed
+        var hfixed = devicedataFixed.hours
+        var mfixed = devicedataFixed.minutes
         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
         var power = devicedataFixed.power
         var total_units_fixed = devicedataFixed.total_units_fixed
@@ -121,6 +121,7 @@ module.exports.getFixedBillIdFunc = (CustId) => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
+                
                 resolve({ status: true, data: result[0].max_bill_id });
 
             }
@@ -129,6 +130,78 @@ module.exports.getFixedBillIdFunc = (CustId) => {
     });
 
 }
+
+
+module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("getSpecialEventDetailsFixed");
+        console.log(billId);
+
+        var selectQuery = `SELECT device_id,appliance,quantity,hfixed,mfixed,power FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log("data is : "+result);
+                resolve({ status: true,  data: result  });
+
+            }
+
+        });
+    });
+
+}
+
+
+
+
+module.exports.updateSpecialEventDetailsFixed = (devicedata, id,bill_id) => {
+    return new Promise(async (resolve, reject) => {
+        console.log("update Special:",devicedata.appliance);
+        var device_id = devicedata.device_id
+        var appliance = devicedata.appliance
+        var quantity = devicedata.quantity
+        var hours=devicedata.hours;
+        var minutes=devicedata.minutes;
+        var total_minutes=devicedata.using_minutes_fixed
+        var total_units_fixed=devicedata.total_units_fixed;
+        var power = devicedata.power
+        var Cust_id = id
+ 
+
+        var updateSpecialEventDeviceQuery = `UPDATE electric_device_special_event_fixed
+        SET appliance='${appliance}',quantity='${quantity}',hfixed='${hours}',mfixed='${minutes}',using_minutes_fixed='${total_minutes}',power='${power}',
+        total_units_fixed='${total_units_fixed}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
+
+       console.log(updateSpecialEventDeviceQuery);
+        db.query(updateSpecialEventDeviceQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error update data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully update data" });
+
+            }
+
+        });
+    });
+
+}
+
+
 
 
 

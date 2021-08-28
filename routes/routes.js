@@ -55,8 +55,15 @@ router.route("/accepted-unit-charges-update/:id").post(authService.validateToken
 //reject unit charges update admin route
 router.route("/reject-unit-charges-update/:id").post(authService.validateToken, unitChargesController.rejectUnitChargesUpdate);
 
+
 //add new ceb engineer route
 router.route("/add-cebengineer").post(authService.validateToken, userRegisterController.addNewCebEngineer);
+
+//get ceb engineer route
+router.route("/manager-cebengineer").get(authService.validateToken, userRegisterController.getCebEngineer);
+
+//remove ceb engineer route
+router.route("/remove-cebengineer/:id").get(authService.validateToken, userRegisterController.removeCebEngineer);
 
 //unit charges information route
 router.route("/information/:id").get(unitChargesController.getUnitChargesData);
@@ -97,13 +104,26 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 //get device wise usage tou main
 router.route("/get-device-wise-usage-tou-main/:id").post(authService.validateToken, deviceWiseController.getTouDeviceWise);
 
-// //add special event device data
+ //add special event device data
 router.route("/add-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.AddSpecialEventDeviceDataFixed);
 
+ //add special event device data
+ router.route("/get-specialEvent-fixedDetails/:id").post(authService.validateToken, specialEventBillCalculate.GetSpecialEventDeviceDataFixed);
+
 // //Update special event  device data
-//router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.updateDeviceDataMain);
+router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.updateDeviceDataSpecialEvent);
 
 // //delete special event device data
 //router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.deleteDeviceDataMain);
+
+//calculate the main bill
+router.route("/get-calculated-main-bill/:id").post(authService.validateToken, calculation.getcalculatedBillValue);
+
+//get device wise usage fixed main
+router.route("/get-device-wise-usage-fixed-main/:id").post(authService.validateToken, deviceWiseController.getFixedDeviceWise);
+
+//get all monthly bill plans route
+router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, monthlyBillCalculate.getMonthlyBillPlans);
+
 
 module.exports = router;

@@ -209,3 +209,49 @@ module.exports.addNewCebEngineerFunc = (requestData) => {
     });
   });
 };
+
+/**
+ * remove ceb engineer model
+ * @param {*} requestData ceb engineer id
+ * @returns 
+ */
+module.exports.removeCebEngineerFunc = (requestData) => {
+  return new Promise(async (resolve, reject) => {
+
+
+    var deleteQuery = `DELETE FROM employee WHERE Emp_id=${requestData};`;
+
+    // delete data to employee table
+    db.query(deleteQuery, (err, result) => {
+      if (err) {
+        console.log("inserting error", err);
+        reject({ status: false, mesg: "ceb engineer removed unsucessfull" });
+      } else {
+        // authService.successWithMail(email, "electrosys84@gmail.com", "Your are appointed", "<h2>Welcome to Electro Family</h2>")
+        resolve({ status: true, mesg: " ceb engineer removed sucessfully" });
+      }
+    });
+  });
+};
+
+/**
+ * model from get ceb engineer details
+ * @returns ceb engineer details
+ */
+module.exports.getCebEngineerFunc = () => {
+  return new Promise(async (resolve, reject) => {
+
+
+    var deleteQuery = `SELECT Emp_id,First_name,Last_name FROM employee WHERE Email LIKE 'ceben%';`;
+
+    // get data from employee table
+    db.query(deleteQuery, (err, result) => {
+      if (err) {
+        console.log("inserting error", err);
+        reject({ status: false, mesg: "ceb engineer removed unsucessfull" });
+      } else {
+        resolve({ status: true, data: result });
+      }
+    });
+  });
+};

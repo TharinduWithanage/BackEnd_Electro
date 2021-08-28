@@ -2,6 +2,7 @@ var commonResponseService = require('../../service/responseService');
 var addDeviceModel = require('../../model/monthlyBill/addDevicesModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
+
 function CalculateUnits(power, minutes, quantity) {
 
     var numOfUnits = quantity* power * minutes * 60 * 30 / 3600000;
@@ -198,4 +199,34 @@ async function getDeviceDataMain(request, response) {
     }
 }
 
-module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain };
+async function getMonthlyBillPlans(request, response){
+    try{
+
+    console.log("Inside get calculation bill value controller");
+
+    var CustId = request.params.id;
+    
+    var Bill_Plans = await addDeviceModel.getMonthlyBillPlans( CustId);
+
+    console.log(Bill_Plans);
+    
+
+     if (Bill_Plans.data != null) {
+        commonResponseService.responseWithData(response, Bill_Plans.data);
+
+    } else {
+        // Bill_Plans.data.TotalCost = 0;
+        // Bill_Plans.data.TotalUnits = 0;
+        commonResponseService.responseWithData(response, Bill_Plans.data);
+    }
+    }
+    catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+    
+
+} 
+
+
+module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain, getMonthlyBillPlans };

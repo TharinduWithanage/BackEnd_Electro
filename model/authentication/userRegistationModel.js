@@ -28,7 +28,7 @@ module.exports.createUserFunc = (requestData) => {
         console.log("inserting error", err);
         reject({ status: false, mesg: "User registered unsucessfull" });
       } else {
-        // authService.successWithMail(email, "electrosys84@gmail.com", "registered successfully to electro", "<h2>Welcome to Electro</h2>")
+        // authService.successWithMail(email, "electrosysg11@gmail.com", "Registered successfully to electro", "<h2>Welcome to Electro</h2>")
         resolve({ status: true, mesg: "User registered sucessfully" });
       }
     });
@@ -115,7 +115,7 @@ module.exports.checkEmailFunc = (requestData) => {
           var hashemail = await authService.encrypt(email)
 
           // console.log("hash email :", hashemail);
-          // authService.successWithMail(email, "electrosys84@gmail.com", "Reset Your Electro Password", `<p>You requested for reset your password</p><h5>Click in this <a href="http://localhost:3000/reset-password/${hashemail}">Link</a> to reset your password</h5>`)
+          // authService.successWithMail(email, "electrosysg11@gmail.com", "Reset Your Electro Password", `<p>You requested for reset your password</p><h5>Click in this <a href="http://localhost:3000/reset-password/${hashemail}">Link</a> to reset your password</h5>`)
           resolve({ status: true, mesg: "Valid Email" });
         } else {
           resolve({ status: false, mesg: "Invalid Email" });
@@ -160,7 +160,7 @@ module.exports.resetPasswordFunc = (requestData, eid) => {
 
         reject({ status: false, mesg: "error updating password" });
       } else {
-        // authService.successWithMail(userMail, "electrosys84@gmail.com", "password changed", `<p>You have successfuly reset your password</p>`)
+        // authService.successWithMail(userMail, "electrosysg11@gmail.com", "Password changed", `<p>You have successfuly reset your password</p>`)
 
         resolve({ status: true, mesg: "password updated successfully" });
 

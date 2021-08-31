@@ -243,43 +243,25 @@ async function calculatedTOUBillValue(request, response){
     try {
 
         
-
         var billId = request.body.bill_id;
         console.log("calculateTOU Bill value:",billId);
         var CustId = request.params.id;
-      
         
-        
-         
-         
-        total_units = Bill_details.data[0].TotalUnits;
-
-        
-        console.log(Bill_details.data)
-        // console.log(Bill_details.data[0].TotalUnits)
-        //var fixed_bill_cost = caculateFixedBill(total_units , UnitPrice.data );
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+        console.log("Bill Details Calculated:",Bill_details);
+        //var total_units = Bill_details.data[0].TotalUnits;
         var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
-        //console.log(fixed_bill_cost);
-       // Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
+       
         Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
         Bill_details.data[0].billId = parseInt(billId);
+       // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
+       // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
 
-        // if(Bill_details.data[0].fixed_bill_cost > Bill_details.data[0].TOU_bill_cost){
-        //     console.log("best = TOU");
-        //     best_model = "TOU";
-            
-        //   }else if(Bill_details.data[0].fixed_bill_cost == Bill_details.data[0].TOU_bill_cost){
-        //     console.log("best = Both");
-        //     best_model = "Both";
-        //   }else{
-        //     console.log("best = Fixed");
-        //     best_model = "Fixed";
-        //   }
+       
+        
+       //await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
 
         
-        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
-
-        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
 
          if (Bill_details.data != null) {
             console.log("The bill details is :",Bill_details);

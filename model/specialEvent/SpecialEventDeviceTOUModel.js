@@ -293,9 +293,9 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
         console.log("Inside get all device derails :"+ CustId);
         
 
-        var selectQuery = `SELECT Total_cost_tou AS TOU_bill_sum, Total_units AS TotalUnits, 
-         
-        FROM electric_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
+        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time),SUM(cost_off_peak_time),SUM(cost_peak_time),
+        SUM(units_day_time),SUM(units_off_peak_time),SUM(units_peak_time),SUM(total_units) AS Total_units
+        FROM electric_device_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 

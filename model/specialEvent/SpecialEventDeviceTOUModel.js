@@ -252,6 +252,39 @@ module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
 }
 
 
+
+
+module.exports.getTOUUnitsAndCost= (devicedata,CustId) => {
+    return new Promise(async (resolve, reject) => {
+
+       var bill_id=devicedata.bill_id;
+
+        console.log("getTOUUnitsAndCost:");
+       
+        
+        var selectQuery = `SELECT Total_units, Total_cost_tou  FROM electric_device_special_event_tou WHERE bill_id = ${bill_id} AND Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log(" The get all the data is : "+result);
+                resolve({ status: true,  data: result  });
+
+            }
+
+        });
+    });
+
+}
+
+
 module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
     return new Promise(async (resolve, reject) => {
@@ -260,11 +293,9 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
         console.log("Inside get all device derails :"+ CustId);
         
 
-        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum, SUM(total_units) AS TotalUnits, 
-        SUM(units_peak_time) AS units_peak_time, SUM(units_off_peak_time) AS units_off_peak_time, 
-        SUM(units_day_time) AS units_day_time, SUM(cost_peak_time) AS cost_peak_time, 
-        SUM(cost_off_peak_time) AS cost_off_peak_time, SUM(cost_day_time) AS cost_day_time 
-        FROM electric_device_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
+        var selectQuery = `SELECT Total_cost_tou AS TOU_bill_sum, Total_units AS TotalUnits, 
+         
+        FROM electric_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 

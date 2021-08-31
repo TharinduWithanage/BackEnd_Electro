@@ -11,6 +11,7 @@ function calculateTOUBill(TOU_bill_sum, fixed_charge){
 function CalculateUnits(power, minutes,quantity) {
 
     var numOfUnits = quantity * power * minutes * 60 / 3600000;
+    console.log("Calculate Units:",numOfUnits);
     return parseFloat(numOfUnits);
 
 }
@@ -18,6 +19,7 @@ function CalculateUnits(power, minutes,quantity) {
 function CalculateNumberOfMinutes(hors, minutes) {
 
     var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
+    console.log("Number Of Minutes : ",numOfMinutes);
     return numOfMinutes;
 
 }
@@ -53,9 +55,9 @@ async function AddSpecialEventDeviceDataTOU(request, response) {
         Device_details_TOU.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details_TOU.hPeak, Device_details_TOU.mPeak);
         Device_details_TOU.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details_TOU.hOffPeak, Device_details_TOU.mOffPeak);
         Device_details_TOU.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details_TOU.hDay, Device_details_TOU.mDay);
-        Device_details_TOU.units_peak_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_peak_time);
-        Device_details_TOU.units_off_peak_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_off_peak_time);
-        Device_details_TOU.units_day_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_day_time);
+        Device_details_TOU.units_peak_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_peak_time,Device_details_TOU.quantity);
+        Device_details_TOU.units_off_peak_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_off_peak_time,Device_details_TOU.quantity);
+        Device_details_TOU.units_day_time = await CalculateUnits(Device_details_TOU.power, Device_details_TOU.using_minutes_day_time,Device_details_TOU.quantity);
         Device_details_TOU.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details_TOU.units_peak_time);
         Device_details_TOU.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details_TOU.units_off_peak_time);
         Device_details_TOU.cost_day_time = await CalculateCost(DayUnitCost, Device_details_TOU.units_day_time);
@@ -247,7 +249,7 @@ async function calculatedTOUBillValue(request, response){
         var CustId = request.params.id;
       
         
-        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+        
          
          
         total_units = Bill_details.data[0].TotalUnits;
@@ -274,10 +276,13 @@ async function calculatedTOUBillValue(request, response){
         //     best_model = "Fixed";
         //   }
 
-        console.log("The bill details is :",Bill_details);
+        
         await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
 
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+
          if (Bill_details.data != null) {
+            console.log("The bill details is :",Bill_details);
             commonResponseService.responseWithData(response, Bill_details.data);
 
         } else {

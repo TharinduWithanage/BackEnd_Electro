@@ -1,10 +1,10 @@
 var commonResponseService = require('../../service/responseService');
-var addSpecialEventDeviceModel = require('../../model/specialEvent/addSpecialEventDeviceModel');
+var addSpecialEventDeviceModel = require('../../model/specialEvent/SpecialEventDeviceFixedModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
 function CalculateUnits(power, minutes,quantity) {
 
-    var numOfUnits = power * minutes * 60 / 3600000;
+    var numOfUnits = quantity * power * minutes * 60 / 3600000;
     return parseFloat(numOfUnits*quantity);
 
 }
@@ -112,7 +112,7 @@ async function getFixedBillId(request, response) {
             commonResponseService.responseWithData(response, bill_id.data);
 
         } else {
-
+           
             bill_id.data = 0;
             commonResponseService.responseWithData(response, bill_id.data);
 

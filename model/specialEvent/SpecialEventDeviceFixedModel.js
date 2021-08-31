@@ -71,14 +71,14 @@ module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
         var power = devicedataFixed.power
         var total_units_fixed = devicedataFixed.total_units_fixed
-        //var numberOfDays = devicedataFixed.numberOfDays
+        var numberOfDays = devicedataFixed.numberOfDays
         var Cust_id = id
 
         var addSpEvDeviceFixedQuery = `INSERT INTO electric_device_special_event_fixed 
-        (bill_id, appliance, quantity, hfixed, mfixed, using_minutes_fixed, power, total_units_fixed,
+        (bill_id, appliance, quantity, hfixed, mfixed, using_minutes_fixed, power, total_units_fixed,numberOfDays,
          Cust_id) 
         VALUES("${bill_id}","${appliance}","${quantity}","${hfixed}","${mfixed}","${using_minutes_fixed}",
-        "${power}","${total_units_fixed}", "${Cust_id}");`;
+        "${power}","${total_units_fixed}","${numberOfDays}", "${Cust_id}");`;
 
 
 
@@ -139,7 +139,7 @@ module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
         console.log("getSpecialEventDetailsFixed");
         console.log(billId);
 
-        var selectQuery = `SELECT device_id,appliance,quantity,hfixed,mfixed,power FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+        var selectQuery = `SELECT device_id,appliance,quantity,hfixed,mfixed,power,numberOfDays FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 
@@ -175,12 +175,13 @@ module.exports.updateSpecialEventDetailsFixed = (devicedata, id,bill_id) => {
         var total_minutes=devicedata.using_minutes_fixed
         var total_units_fixed=devicedata.total_units_fixed;
         var power = devicedata.power
+        var numberOfDays=devicedata.numberOfDays;
         var Cust_id = id
  
 
         var updateSpecialEventDeviceQuery = `UPDATE electric_device_special_event_fixed
         SET appliance='${appliance}',quantity='${quantity}',hfixed='${hours}',mfixed='${minutes}',using_minutes_fixed='${total_minutes}',power='${power}',
-        total_units_fixed='${total_units_fixed}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
+        total_units_fixed='${total_units_fixed}',numberOfDays='${numberOfDays}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
        console.log(updateSpecialEventDeviceQuery);
         db.query(updateSpecialEventDeviceQuery, async function (error, result) {

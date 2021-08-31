@@ -2,6 +2,12 @@ var commonResponseService = require('../../service/responseService');
 var addSpecialEventDeviceModel = require('../../model/specialEvent/SpecialEventDeviceTOUModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
+
+function calculateTOUBill(TOU_bill_sum, fixed_charge){
+    var billValue = parseFloat(TOU_bill_sum) + parseFloat(fixed_charge);
+    return billValue.toFixed(2);
+}
+
 function CalculateUnits(power, minutes,quantity) {
 
     var numOfUnits = quantity * power * minutes * 60 / 3600000;
@@ -193,7 +199,7 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
         var bill_id = await addSpecialEventDeviceModel.updateSpecialEventDetailsTOU(special_event_deviceTOUDetails, Cust_id,bill_id);
 
         if (bill_id.data != null) {
-           // console.log("data null!!");
+            //console.log("data null!!");
            console.log(bill_id.data);
             commonResponseService.responseWithData(response, bill_id.data);
 
@@ -231,8 +237,67 @@ async function deleteSpecialEventDeviceData(request, response) {
     }
 }
 
+async function calculatedTOUBillValue(request, response){
+    try {
+
+        
+
+        var billId = request.body.bill_id;
+        console.log("calculateTOU Bill value:",billId);
+        var CustId = request.params.id;
+      
+        
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+         
+         
+        total_units = Bill_details.data[0].TotalUnits;
+
+        
+        console.log(Bill_details.data)
+        // console.log(Bill_details.data[0].TotalUnits)
+        //var fixed_bill_cost = caculateFixedBill(total_units , UnitPrice.data );
+        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+        //console.log(fixed_bill_cost);
+       // Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
+        Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
+        Bill_details.data[0].billId = parseInt(billId);
+
+        // if(Bill_details.data[0].fixed_bill_cost > Bill_details.data[0].TOU_bill_cost){
+        //     console.log("best = TOU");
+        //     best_model = "TOU";
+            
+        //   }else if(Bill_details.data[0].fixed_bill_cost == Bill_details.data[0].TOU_bill_cost){
+        //     console.log("best = Both");
+        //     best_model = "Both";
+        //   }else{
+        //     console.log("best = Fixed");
+        //     best_model = "Fixed";
+        //   }
+
+        console.log("The bill details is :",Bill_details);
+        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
+
+         if (Bill_details.data != null) {
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+            console.log("TOU Special Event Saved SuccessFully!!");
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData};
+
+
+module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue};
 

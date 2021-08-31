@@ -4,7 +4,8 @@ var userRegisterController = require("../controller/authentication/userRegisterC
 var userProfileController = require("../controller/user/userProfileController");
 var unitChargesController = require("../controller/cebengineer/unitChargesController");
 var monthlyBillCalculate = require("../controller/monthlyBill/monthlyBillCalculate");
-var specialEventBillCalculate = require("../controller/specialEvent/specialEventBillCalculateController");
+var specialEventFixedBillCalculate = require("../controller/specialEvent/specialEventFixedBillCalculateController");
+var specialEventTOUBillCalculate = require("../controller/specialEvent/specialEventTOUBillCalculateController");
 var dashBoardController = require("../controller/dashboard/dashBoardController");
 var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageController");
 var calculation = require("../controller/monthlyBill/calculation");
@@ -87,9 +88,12 @@ router.route("/dashboard-details/:id").get(authService.validateToken, dashBoardC
 //get Bill id for front end
 router.route("/get-bill-id/:id").get(authService.validateToken, monthlyBillCalculate.getBillId);
 
-//get Special Event Bill id for front end
-router.route("/get-special-event-fix-bill-id/:id").get(authService.validateToken, specialEventBillCalculate.getFixedBillId);
+//get Special Event Bill id for front end Fixed
+router.route("/get-special-event-fix-bill-id/:id").get(authService.validateToken, specialEventFixedBillCalculate.getFixedBillId);
 
+
+//get Special Event Bill id for front end TOU
+router.route("/get-special-event-tou-bill-id/:id").get(authService.validateToken, specialEventTOUBillCalculate.getTOUBillId);
 //calculate the main bill
 router.route("/calculate-main-bill/:id").post(authService.validateToken, calculation.calculatedBillValue);
 
@@ -106,16 +110,29 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 router.route("/get-device-wise-usage-tou-main/:id").post(authService.validateToken, deviceWiseController.getTouDeviceWise);
 
  //add special event device data
-router.route("/add-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.AddSpecialEventDeviceDataFixed);
+router.route("/add-device-special-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.AddSpecialEventDeviceDataFixed);
 
- //add special event device data
- router.route("/get-specialEvent-fixedDetails/:id").post(authService.validateToken, specialEventBillCalculate.GetSpecialEventDeviceDataFixed);
+//add special event device data
+router.route("/add-device-special-TOUbill/:id").post(authService.validateToken, specialEventTOUBillCalculate.AddSpecialEventDeviceDataTOU);
+
+ //Get Spceial event fixed all details
+ router.route("/get-specialEvent-fixedDetails/:id").post(authService.validateToken, specialEventFixedBillCalculate.GetSpecialEventDeviceDataFixed);
+
+//Get Spceial event fixed all details
+router.route("/get-specialEvent-TOUDetails/:id").post(authService.validateToken, specialEventTOUBillCalculate.GetSpecialEventDeviceDataTOU);
 
 // //Update special event  device data
-router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.updateDeviceDataSpecialEvent);
+router.route("/update-device-special-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.updateDeviceDataSpecialEvent);
 
-// //delete special event device data
-router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventBillCalculate.deleteSpecialEventDeviceData);
+// //Update special event  device data
+router.route("/update-device-special-TOUbill/:id").post(authService.validateToken, specialEventTOUBillCalculate.updateDeviceDataSpecialEventTOU);
+
+
+// //delete special event device data in fixed model
+router.route("/delete-device-special-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.deleteSpecialEventDeviceData);
+
+// //delete special event device data in tou 
+router.route("/delete-device-special-TOUbill/:id").post(authService.validateToken, specialEventTOUBillCalculate.deleteSpecialEventDeviceData);
 
 //calculate the main bill
 router.route("/get-calculated-main-bill/:id").post(authService.validateToken, calculation.getcalculatedBillValue);

@@ -318,7 +318,7 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 }
 
 
-module.exports.setTOUSpecialEventPlan = (Bill_details, CustId) => {
+module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => {
     return new Promise(async (resolve, reject) => {
 
         console.log(Bill_details.units_day_time);
@@ -337,10 +337,10 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId) => {
         var addDeviceQuery = `INSERT INTO ebill_special_event_tou 
         (bill_id, Total_cost_tou, Cost_day_time,Cost_off_peak_time,
         Cost_peak_time,Units_day_time,Units_off_peak_time,
-        Units_peak_time,Total_units,Cust_id) 
+        Units_peak_time,Total_units,bill_plan_name,Cust_id) 
         VALUES("${bill_id}","${Total_cost_tou}","${Cost_day_time}","${Cost_off_peak_time}",
         "${Cost_peak_time}","${Units_day_time}","${Units_off_peak_time}",
-        "${Units_peak_time}","${Total_units}","${Cust_id}");`;
+        "${Units_peak_time}","${Total_units}","${tou_plan_name}","${Cust_id}");`;
 
 
         db.query(addDeviceQuery, async function (error, result) {

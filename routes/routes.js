@@ -101,6 +101,9 @@ router.route("/calculate-main-bill/:id").post(authService.validateToken, calcula
 //calculate the main bill
 router.route("/calculate-special-event-TOUbill/:id").post(authService.validateToken,specialEventTOUBillCalculate.calculatedTOUBillValue);
 
+//calculate the main bill
+router.route("/save-special-event-TOUbill/:id").post(authService.validateToken,specialEventTOUBillCalculate.saveTOUBillValue);
+
 //get device details  
 // router.route("/#").get(authService.validateToken, deviceWiseUsageController.getDeviceDetail);
 

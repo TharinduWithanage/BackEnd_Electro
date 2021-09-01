@@ -37,7 +37,7 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
 }
 
-//ongoing
+//add calculated details to ebill monthly plan
 module.exports.setMonthlyPlan = (Bill_details, CustId, best_model) => {
     return new Promise(async (resolve, reject) => {
 
@@ -66,6 +66,49 @@ module.exports.setMonthlyPlan = (Bill_details, CustId, best_model) => {
 
 
         db.query(addDeviceQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error inserting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+
+//update details ebill monthly plan
+module.exports.updateMonthlyPlan = (Bill_details, CustId, best_model) => {
+    return new Promise(async (resolve, reject) => {
+
+        console.log(Bill_details.units_day_time);
+        var bill_id = Bill_details.billId;
+        var Total_cost_tou = Bill_details.TOU_bill_cost;
+        var Cost_day_time = Bill_details.cost_day_time;
+        var Cost_off_peak_time = Bill_details.cost_off_peak_time;
+        var Cost_peak_time = Bill_details.cost_peak_time;
+        var Total_cost_fixed = Bill_details.fixed_bill_cost;
+        var Units_day_time = Bill_details.units_day_time;
+        var Units_off_peak_time = Bill_details.units_off_peak_time;
+        var Units_peak_time = Bill_details.units_peak_time;
+        var Total_units = Bill_details.TotalUnits;
+        var Best_model = best_model;
+        var Cust_id = CustId;
+
+        var updateDeviceQuery = `UPDATE ebill_monthly_plan 
+        SET Total_cost_tou='${Total_cost_tou}',Cost_day_time='${Cost_day_time}',Cost_off_peak_time='${Cost_off_peak_time}',
+        Cost_peak_time='${Cost_peak_time}',Total_cost_fixed ='${Total_cost_fixed}', Units_day_time='${Units_day_time}', Units_off_peak_time='${Units_off_peak_time}',
+        Units_peak_time='${Units_peak_time}',Total_units='${Total_units}',Best_model='${Best_model}'
+        WHERE bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
+
+
+        db.query(updateDeviceQuery, async function (error, result) {
 
             if (error) {
                 console.log(error);

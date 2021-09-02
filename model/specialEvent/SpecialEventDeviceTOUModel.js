@@ -200,8 +200,8 @@ module.exports.updateSpecialEventDetailsTOU = (devicedata, id,bill_id) => {
         power='${power}',total_units='${total_units}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
         cost_peak_time='${cost_peak_time}',cost_off_peak_time='${cost_off_peak_time}',cost_day_time='${cost_day_time}',numberOfDays='${numberOfDays}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
-        console.log("Inside update query");
-       console.log(updateSpecialEventDeviceQuery);
+        // console.log("Inside update query");
+    //    console.log(updateSpecialEventDeviceQuery);
         db.query(updateSpecialEventDeviceQuery, async function (error, result) {
 
             if (error) {

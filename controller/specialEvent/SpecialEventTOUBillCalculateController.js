@@ -239,6 +239,53 @@ async function deleteSpecialEventDeviceData(request, response) {
     }
 }
 
+
+async function saveTOUBillValue(request, response){
+    try {
+
+        
+        var billId = request.body.bill_id;
+        console.log("save TOU  Bill value:",billId);
+        var CustId = request.params.id;
+        var TOUPlan_name=request.body.tou_plan_name;
+        console.log("Bill Plan Name:", TOUPlan_name);
+        
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+        console.log("Bill Details Calculated:",Bill_details);
+        //var total_units = Bill_details.data[0].TotalUnits;
+        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+       
+        Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
+        Bill_details.data[0].billId = parseInt(billId);
+       // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
+       // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
+
+       
+        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId,TOUPlan_name);
+
+        
+
+         if (Bill_details.data != null) {
+            console.log("The saveTOUBillValue bill details is :",Bill_details);
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+            console.log("TOU  saveTOUBillValue Special Event Saved SuccessFully!!");
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
+
 async function calculatedTOUBillValue(request, response){
     try {
 
@@ -286,5 +333,5 @@ async function calculatedTOUBillValue(request, response){
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue};
+module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue};
 

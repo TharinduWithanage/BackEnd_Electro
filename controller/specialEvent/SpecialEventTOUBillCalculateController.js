@@ -62,9 +62,11 @@ async function AddSpecialEventDeviceDataTOU(request, response) {
         Device_details_TOU.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details_TOU.units_off_peak_time);
         Device_details_TOU.cost_day_time = await CalculateCost(DayUnitCost, Device_details_TOU.units_day_time);
         Device_details_TOU.total_cost_TOU = Device_details_TOU.cost_peak_time + Device_details_TOU.cost_off_peak_time + Device_details_TOU.cost_day_time;
-
+        Device_details_TOU.total_units = Device_details_TOU.units_peak_time + Device_details_TOU.units_off_peak_time + Device_details_TOU.units_day_time;
 
         console.log("inside addDeviceDataMain Controller");
+
+        console.log(Device_details_TOU.total_units);
         // console.log(request.params.id);
         var DeviceData_TOU = await addSpecialEventDeviceModel.AddSpecialEventDeviceDataTOU(Device_details_TOU, request.params.id);
         // console.log(profileData.data);
@@ -193,8 +195,8 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
         special_event_deviceTOUDetails.cost_day_time = await CalculateCost(DayUnitCost, special_event_deviceTOUDetails.units_day_time);
         special_event_deviceTOUDetails.total_units = special_event_deviceTOUDetails.units_peak_time + special_event_deviceTOUDetails.units_off_peak_time + special_event_deviceTOUDetails.units_day_time;
         special_event_deviceTOUDetails.total_cost_TOU = special_event_deviceTOUDetails.cost_peak_time + special_event_deviceTOUDetails.cost_off_peak_time + special_event_deviceTOUDetails.cost_day_time;
+        special_event_deviceTOUDetails.total_units = special_event_deviceTOUDetails.units_peak_time + special_event_deviceTOUDetails.units_off_peak_time + special_event_deviceTOUDetails.units_day_time;
 
-        
         //special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hfixed, special_event_deviceFixedDetails.mfixed);
         //special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(special_event_deviceFixedDetails.power, special_event_deviceFixedDetails.using_minutes_fixed);
 

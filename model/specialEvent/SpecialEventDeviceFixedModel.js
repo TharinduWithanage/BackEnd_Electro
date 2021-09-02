@@ -234,6 +234,39 @@ module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
 
 }
 
+module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Inside get all device derails :"+ CustId);
+        
+
+        var selectQuery = `SELECT SUM(total_units_fixed) AS total_units
+        FROM electric_device_special_event_fixed Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+
+
 
 
 

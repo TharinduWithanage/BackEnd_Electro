@@ -133,7 +133,7 @@ async function GetSpecialEventDeviceDataFixed(request, response) {
         var Bill_id=request.body.newBillId;
         var Device_details = await addSpecialEventDeviceModel.getSpecialEventDetailsFixed(Cust_id,Bill_id);
 
-        if (bill_id.data != null) {
+        if (Device_details.data != null) {
            // console.log("data null!!");
            console.log(Device_details.data);
             commonResponseService.responseWithData(response, Device_details.data);

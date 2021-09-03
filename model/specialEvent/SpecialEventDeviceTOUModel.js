@@ -30,16 +30,17 @@ module.exports.AddSpecialEventDeviceDataTOU = (devicedataTOU, id) => {
         var hDay = devicedataTOU.hDay
         var mDay = devicedataTOU.mDay
         var numberOfDays = devicedataTOU.numberOfDays
+        var total_units = devicedataTOU.total_units
         console.log("TOU bill is",bill_id);
         //console.log("Appliance name is :",appliance);
 
         var addSpEvDeviceTOUQuery = `INSERT INTO electric_device_special_event_tou 
         (bill_id, appliance, quantity, hPeak, mPeak, hOffPeak, mOffPeak, hDay, mDay, using_minutes_peak_time, using_minutes_off_peak_time, using_minutes_day_time, power, units_peak_time,
-        units_off_peak_time, units_day_time, total_cost_TOU, cost_peak_time, cost_off_peak_time, cost_day_time,numberOfDays, Cust_id) 
+        units_off_peak_time, units_day_time, total_cost_TOU, cost_peak_time, cost_off_peak_time, cost_day_time,numberOfDays,total_units, Cust_id) 
         VALUES("${bill_id}","${appliance}","${quantity}","${hPeak}","${mPeak}","${hOffPeak}","${mOffPeak}","${hDay}","${mDay}","${using_minutes_peak_time}",
         "${using_minutes_off_peak_time}","${using_minutes_day_time}","${power}","${units_peak_time}",
         "${units_off_peak_time}","${units_day_time}","${total_cost_TOU}","${cost_peak_time}","${cost_off_peak_time}",
-        "${cost_day_time}","${numberOfDays}","${Cust_id}");`;
+        "${cost_day_time}","${numberOfDays}","${total_units}","${Cust_id}");`;
 
 
 
@@ -61,45 +62,7 @@ module.exports.AddSpecialEventDeviceDataTOU = (devicedataTOU, id) => {
 
 }
 
-// module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
-//     return new Promise(async (resolve, reject) => {
-//         //console.log(devicedataFixed);
-//         var bill_id = devicedataFixed.bill_id
-//         var appliance = devicedataFixed.appliance
-//         var quantity = devicedataFixed.quantity
-//         var hfixed = devicedataFixed.hfixed
-//         var mfixed = devicedataFixed.mfixed
-//         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
-//         var power = devicedataFixed.power
-//         var total_units_fixed = devicedataFixed.total_units_fixed
-//         var numberOfDays = devicedataFixed.numberOfDays
-//         var Cust_id = id
 
-//         var addSpEvDeviceFixedQuery = `INSERT INTO electric_device_special_event_fixed 
-//         (bill_id, appliance, quantity, hfixed, mfixed, using_minutes_fixed, power, total_units_fixed,numberOfDays,
-//          Cust_id) 
-//         VALUES("${bill_id}","${appliance}","${quantity}","${hfixed}","${mfixed}","${using_minutes_fixed}",
-//         "${power}","${total_units_fixed}","${numberOfDays}", "${Cust_id}");`;
-
-
-
-//         db.query(addSpEvDeviceFixedQuery, async function (error, result) {
-
-//             if (error) {
-//                 console.log(error);
-
-//                 reject({ status: false, mesg: "error inserting data" });
-//             } else {
-//                 // console.log(result);
-
-//                 resolve({ status: true, mesg: "successfully insert data" });
-
-//             }
-
-//         });
-//     });
-
-// }
 
 
 module.exports.getTOUBillIdFunc = (CustId) => {
@@ -108,11 +71,11 @@ module.exports.getTOUBillIdFunc = (CustId) => {
 
         console.log("Inside get TOU bill id model function query"+ CustId);
 
-        var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
+        var selectQuery = `SELECT MAX(bill_id) As max_bill_id
         FROM ebill_special_event_tou
         Where Cust_id = ${CustId}; `;
 
-        //console.log("Inside get bill id model function query"+ selectQuery);
+        console.log("Inside get bill id model function query"+ selectQuery);
 
        
         db.query(selectQuery, async function (error, result) {
@@ -193,14 +156,14 @@ module.exports.updateSpecialEventDetailsTOU = (devicedata, id,bill_id) => {
         var mDay = devicedata.mDay
         var numberOfDays=devicedata.numberOfDays;
 
-
         var updateSpecialEventDeviceQuery = `UPDATE electric_device_special_event_tou 
         SET appliance='${appliance}',quantity='${quantity}',hPeak='${hPeak}',mPeak='${mPeak}',hOffPeak='${hOffPeak}',mOffPeak='${mOffPeak}',
         hDay='${hDay}',mDay ='${mDay}',using_minutes_peak_time='${using_minutes_peak_time}',using_minutes_off_peak_time='${using_minutes_off_peak_time}',using_minutes_day_time='${using_minutes_day_time}',
         power='${power}',total_units='${total_units}',units_peak_time='${units_peak_time}',units_off_peak_time='${units_off_peak_time}',units_day_time='${units_day_time}',total_cost_TOU='${total_cost_TOU}',
         cost_peak_time='${cost_peak_time}',cost_off_peak_time='${cost_off_peak_time}',cost_day_time='${cost_day_time}',numberOfDays='${numberOfDays}' WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${Cust_id}';`;
 
-       console.log(updateSpecialEventDeviceQuery);
+        // console.log("Inside update query");
+    //    console.log(updateSpecialEventDeviceQuery);
         db.query(updateSpecialEventDeviceQuery, async function (error, result) {
 
             if (error) {
@@ -293,8 +256,8 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
         console.log("Inside get all device derails :"+ CustId);
         
 
-        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time) ,SUM(cost_off_peak_time),SUM(cost_peak_time),
-        SUM(units_day_time),SUM(units_off_peak_time),SUM(units_peak_time),SUM(total_units) AS Total_units
+        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time) AS cost_day_time,SUM(cost_off_peak_time) AS cost_off_peak_time,SUM(cost_peak_time) AS cost_peak_time,
+        SUM(units_day_time) AS units_day_time,SUM(units_off_peak_time) AS units_off_peak_time,SUM(units_peak_time) AS units_peak_time,SUM(total_units) AS Total_units
         FROM electric_device_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
@@ -330,7 +293,7 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => 
         var Units_day_time = Bill_details.units_day_time;
         var Units_off_peak_time = Bill_details.units_off_peak_time;
         var Units_peak_time = Bill_details.units_peak_time;
-        var Total_units = Bill_details.TotalUnits;
+        var Total_units = Bill_details.Total_units;
         var Cust_id = CustId;
 
 

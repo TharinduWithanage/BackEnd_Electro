@@ -32,13 +32,13 @@ async function AddDeviceDataMain(request, response) {
     try {
 
         var Device_details = request.body.data;
-        console.log(Device_details);
-        console.log(request.params.id);
+        // console.log(Device_details);
+        // console.log(request.params.id);
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
-        console.log(UnitPrice.data[0].Unit_charge);
-        console.log(UnitPrice.data[1].Unit_charge);
-        console.log(UnitPrice.data[2].Unit_charge);
+        // console.log(UnitPrice.data[0].Unit_charge);
+        // console.log(UnitPrice.data[1].Unit_charge);
+        // console.log(UnitPrice.data[2].Unit_charge);
 
         var DayUnitCost = UnitPrice.data[0].Unit_charge;
         var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
@@ -82,14 +82,14 @@ async function updateDeviceDataMain(request, response) {
     try {
 
         var Device_details = request.body.data;
-        console.log("Inside of updateDeviceDataMain");
-        console.log(Device_details);
-        console.log(request.params.id);
+        // console.log("Inside of updateDeviceDataMain");
+        // console.log(Device_details);
+        // console.log(request.params.id);
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
-        console.log(UnitPrice.data[0].Unit_charge);
-        console.log(UnitPrice.data[1].Unit_charge);
-        console.log(UnitPrice.data[2].Unit_charge);
+        // console.log(UnitPrice.data[0].Unit_charge);
+        // console.log(UnitPrice.data[1].Unit_charge);
+        // console.log(UnitPrice.data[2].Unit_charge);
 
         var DayUnitCost = UnitPrice.data[0].Unit_charge;
         var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
@@ -189,7 +189,7 @@ async function getDeviceDataMain(request, response) {
 
         } else {
 
-            commonResponseService.errorWithMessage(response, "something went wrong");
+            commonResponseService.errorWithMessage(response, "No data");
 
         }
 

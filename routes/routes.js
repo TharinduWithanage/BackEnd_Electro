@@ -94,6 +94,7 @@ router.route("/get-special-event-fix-bill-id/:id").get(authService.validateToken
 
 //get Special Event Bill id for front end TOU
 router.route("/get-special-event-tou-bill-id/:id").get(authService.validateToken, specialEventTOUBillCalculate.getTOUBillId);
+
 //calculate the main bill
 router.route("/calculate-main-bill/:id").post(authService.validateToken, calculation.calculatedBillValue);
 
@@ -151,6 +152,12 @@ router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, b
 
 //calculate the main bill
 router.route("/delete-bill-main-plan/:id").post(authService.validateToken, billPlanController.deleteMonthlyBillPlans);
+
+//calculate the main bill
+router.route("/update-main-bill-plan/:id").post(authService.validateToken, calculation.calculatedBillValueUpdate);
+
+//calculate the main bill
+router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
 
 
 module.exports = router;

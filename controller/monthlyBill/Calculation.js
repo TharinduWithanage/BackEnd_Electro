@@ -159,4 +159,64 @@ async function calculatedBillValue(request, response){
     }
 }
 
-module.exports = { calculatedBillValue, getcalculatedBillValue };
+async function calculatedBillValueUpdate(request, response){
+    try {
+
+        
+
+        var billId = request.body.bill_id;
+        console.log(billId);
+        var CustId = request.params.id;
+        var best_model;
+
+        var UnitPrice = await unitChargesModel.getUnitChargesDataFun("fixed_");
+        
+        var Bill_details = await calculateModel.getDeviceDetailsToCalculate(billId, CustId );
+         
+         
+        total_units = Bill_details.data[0].TotalUnits;
+
+        
+        // console.log(Bill_details.data)
+        // console.log(Bill_details.data[0].TotalUnits)
+        var fixed_bill_cost = caculateFixedBill(total_units , UnitPrice.data );
+        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+        console.log(fixed_bill_cost);
+        Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
+        Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
+        Bill_details.data[0].billId = parseInt(billId);
+
+        if(Bill_details.data[0].fixed_bill_cost > Bill_details.data[0].TOU_bill_cost){
+            console.log("best = TOU");
+            best_model = "TOU";
+            
+          }else if(Bill_details.data[0].fixed_bill_cost == Bill_details.data[0].TOU_bill_cost){
+            console.log("best = Both");
+            best_model = "Both";
+          }else{
+            console.log("best = Fixed");
+            best_model = "Fixed";
+          }
+
+        console.log(Bill_details);
+        await calculateModel.updateMonthlyPlan(Bill_details.data[0], CustId, best_model );
+
+         if (Bill_details.data != null) {
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+module.exports = { calculatedBillValue, getcalculatedBillValue, calculatedBillValueUpdate };

@@ -231,8 +231,49 @@ async function calculatedFixedBillValue(request, response){
     }
 }
 
+async function saveFixedBillValue(request, response){
+    try {
+
+        
+        var billId = request.body.bill_id;
+        console.log("save TOU  Bill value:",billId);
+        var CustId = request.params.id;
+        var FixedPlan_name=request.body.fixed_plan_name;
+        console.log("Bill Plan Name:", FixedPlan_name);
+        
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+        console.log("Bill Details Calculated:",Bill_details);
+        //var total_units = Bill_details.data[0].TotalUnits;
+        Bill_details.data[0].billId = parseInt(billId);
+       // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
+       // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
+
+       
+        await addSpecialEventDeviceModel.setFixedSpecialEventPlan(Bill_details.data[0],CustId,FixedPlan_name);
+
+        
+
+         if (Bill_details.data != null) {
+            console.log("The saveTOUBillValue bill details is :",Bill_details);
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+            console.log("TOU  saveTOUBillValue Special Event Saved SuccessFully!!");
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue};
+
+module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue};
 

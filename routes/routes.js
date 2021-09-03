@@ -159,5 +159,7 @@ router.route("/update-main-bill-plan/:id").post(authService.validateToken, calcu
 //calculate the main bill
 router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
 
+//calculate the main bill
+router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken,specialEventFixedBillCalculate.saveFixedBillValue);;
 
 module.exports = router;

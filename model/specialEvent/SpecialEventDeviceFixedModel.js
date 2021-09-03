@@ -265,6 +265,38 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
 }
 
+module.exports.setFixedSpecialEventPlan = (Bill_details, CustId,FixedPlan_name) => {
+    return new Promise(async (resolve, reject) => {
+
+        console.log(Bill_details.units_day_time);
+        var bill_id = Bill_details.billId;
+        var Total_units = Bill_details.total_units;
+        var Cust_id = CustId;
+
+
+        var addDeviceQuery = `INSERT INTO ebill_special_event_fixed 
+        (bill_id,Total_units,bill_plan_name,Cust_id) 
+        VALUES("${bill_id}","${Total_units}","${FixedPlan_name}","${Cust_id}");`;
+
+
+        db.query(addDeviceQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error inserting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+
 
 
 

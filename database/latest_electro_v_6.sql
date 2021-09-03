@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 06:36 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.3.28
+-- Generation Time: Sep 03, 2021 at 08:47 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,8 @@ INSERT INTO `customer` (`Cust_id`, `First_name`, `Last_name`, `Email`, `Password
 (1019, 'buthsara', 'madhushanka', 'buthsaramadhushanka@gmail.com', '$2b$10$E/m1.N4WWEB02TM88A1SnuAudCnMell0cmwb1WwIQliAyBuAsD1B.', 'customer'),
 (1020, 'Tharindu', 'Dulshan', 'twtdulshan@gmail.com', '$2b$10$GLExitPGWHXpIChzY.VKx.jCkzrDWjAX08nCwYYgzJ6YotxLIQSSO', 'customer'),
 (1022, 'Ashika', 'Abeysuriya', 'ashika234@gmail.com', '$2b$10$MCo6b6AfuZoMiyMx/eng3epcr6WyYX88htBu302jfIWW4svRDcGXG', 'customer'),
-(1023, 'asdf', 'dfgh', 'asdf@gmail.com', '$2b$10$Tb9EgftKYXqauciqkkBbj.k54BOBMmYQtUsz6dJWczBio2lgU09Re', 'customer');
+(1023, 'asdf', 'dfgh', 'asdf@gmail.com', '$2b$10$Tb9EgftKYXqauciqkkBbj.k54BOBMmYQtUsz6dJWczBio2lgU09Re', 'customer'),
+(1024, 'Minuri', 'Yasara', 'minuri@gmail.com', '$2b$10$NQ8SDF34XmpkcGHHxAdqM.hL3Nf.kqQxlc/nmpbqsXdJL7rEGOt2G', 'customer');
 
 -- --------------------------------------------------------
 
@@ -86,10 +87,18 @@ INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, 
 
 CREATE TABLE `ebill_special_event_fixed` (
   `bill_id` int(11) NOT NULL,
-  `Total_cost_fixed` float NOT NULL,
+  `bill_plan_name` varchar(100) NOT NULL,
   `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ebill_special_event_fixed`
+--
+
+INSERT INTO `ebill_special_event_fixed` (`bill_id`, `bill_plan_name`, `Total_units`, `Cust_id`) VALUES
+(1, ' My Plan 1', 203.42, 1024),
+(2, ' My Plan 2', 36.36, 1024);
 
 -- --------------------------------------------------------
 
@@ -99,6 +108,7 @@ CREATE TABLE `ebill_special_event_fixed` (
 
 CREATE TABLE `ebill_special_event_tou` (
   `bill_id` int(11) NOT NULL,
+  `bill_plan_name` varchar(100) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
   `Cost_off_peak_time` float NOT NULL,
@@ -114,13 +124,13 @@ CREATE TABLE `ebill_special_event_tou` (
 -- Dumping data for table `ebill_special_event_tou`
 --
 
-INSERT INTO `ebill_special_event_tou` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
-(1, 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
-(1, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(2, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(3, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(4, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(5, 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
+INSERT INTO `ebill_special_event_tou` (`bill_id`, `bill_plan_name`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
+(1, '', 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
+(1, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(2, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(3, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(4, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(5, '', 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
 
 -- --------------------------------------------------------
 
@@ -199,7 +209,12 @@ CREATE TABLE `electric_device_special_event_fixed` (
 --
 
 INSERT INTO `electric_device_special_event_fixed` (`device_id`, `bill_id`, `appliance`, `quantity`, `hfixed`, `mfixed`, `using_minutes_fixed`, `power`, `total_units_fixed`, `numberOfDays`, `Cust_id`) VALUES
-(6, 1, 'hgfh', 1, 1, 0, 60, 12, 0.012, 1, 1022);
+(6, 1, 'hgfh', 1, 1, 0, 60, 12, 0.012, 1, 1022),
+(7, 1, 'A1', 2, 12, 30, 750, 200, 10, 2, 1024),
+(8, 1, 'A2', 3, 10, 50, 650, 1234, 160.42, 4, 1024),
+(9, 1, 'A3', 12, 12, 30, 750, 110, 33, 2, 1024),
+(10, 2, 'B1', 2, 20, 0, 1200, 3, 0.36, 3, 1024),
+(11, 2, 'B2', 5, 12, 0, 720, 120, 36, 5, 1024);
 
 -- --------------------------------------------------------
 
@@ -456,7 +471,7 @@ ALTER TABLE `tou_ucharge`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
+  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1025;
 
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
@@ -468,7 +483,7 @@ ALTER TABLE `electric_device_mplan`
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`

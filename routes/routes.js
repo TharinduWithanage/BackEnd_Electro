@@ -156,5 +156,8 @@ router.route("/delete-bill-main-plan/:id").post(authService.validateToken, billP
 //calculate the main bill
 router.route("/update-main-bill-plan/:id").post(authService.validateToken, calculation.calculatedBillValueUpdate);
 
+//calculate the main bill
+router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
+
 
 module.exports = router;

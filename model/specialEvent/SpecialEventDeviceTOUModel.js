@@ -109,11 +109,11 @@ module.exports.getTOUBillIdFunc = (CustId) => {
 
         console.log("Inside get TOU bill id model function query"+ CustId);
 
-        var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
+        var selectQuery = `SELECT MAX(bill_id) As max_bill_id
         FROM ebill_special_event_tou
         Where Cust_id = ${CustId}; `;
 
-        //console.log("Inside get bill id model function query"+ selectQuery);
+        console.log("Inside get bill id model function query"+ selectQuery);
 
        
         db.query(selectQuery, async function (error, result) {
@@ -294,8 +294,8 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
         console.log("Inside get all device derails :"+ CustId);
         
 
-        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time),SUM(cost_off_peak_time),SUM(cost_peak_time),
-        SUM(units_day_time),SUM(units_off_peak_time),SUM(units_peak_time),SUM(total_units) AS Total_units
+        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time) AS cost_day_time,SUM(cost_off_peak_time) AS cost_off_peak_time,SUM(cost_peak_time) AS cost_peak_time,
+        SUM(units_day_time) AS units_day_time,SUM(units_off_peak_time) AS units_off_peak_time,SUM(units_peak_time) AS units_peak_time,SUM(total_units) AS Total_units
         FROM electric_device_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
@@ -331,7 +331,7 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => 
         var Units_day_time = Bill_details.units_day_time;
         var Units_off_peak_time = Bill_details.units_off_peak_time;
         var Units_peak_time = Bill_details.units_peak_time;
-        var Total_units = Bill_details.TotalUnits;
+        var Total_units = Bill_details.Total_units;
         var Cust_id = CustId;
 
 

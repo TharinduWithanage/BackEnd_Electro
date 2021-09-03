@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2021 at 10:10 AM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: Sep 03, 2021 at 03:04 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -43,7 +44,8 @@ INSERT INTO `customer` (`Cust_id`, `First_name`, `Last_name`, `Email`, `Password
 (1019, 'buthsara', 'madhushanka', 'buthsaramadhushanka@gmail.com', '$2b$10$E/m1.N4WWEB02TM88A1SnuAudCnMell0cmwb1WwIQliAyBuAsD1B.', 'customer'),
 (1020, 'Tharindu', 'Dulshan', 'twtdulshan@gmail.com', '$2b$10$GLExitPGWHXpIChzY.VKx.jCkzrDWjAX08nCwYYgzJ6YotxLIQSSO', 'customer'),
 (1022, 'Ashika', 'Abeysuriya', 'ashika234@gmail.com', '$2b$10$MCo6b6AfuZoMiyMx/eng3epcr6WyYX88htBu302jfIWW4svRDcGXG', 'customer'),
-(1023, 'asdf', 'dfgh', 'asdf@gmail.com', '$2b$10$Tb9EgftKYXqauciqkkBbj.k54BOBMmYQtUsz6dJWczBio2lgU09Re', 'customer');
+(1023, 'asdf', 'dfgh', 'asdf@gmail.com', '$2b$10$Tb9EgftKYXqauciqkkBbj.k54BOBMmYQtUsz6dJWczBio2lgU09Re', 'customer'),
+(1024, 'Minuri', 'Wickramanayaka', 'minuri@gmail.com', '$2b$10$aXd3jvV.0z8e.GIE4xF.X.9pEqqcOdm72fKrsX1YEgALX40jEvcT2', 'customer');
 
 -- --------------------------------------------------------
 
@@ -85,6 +87,7 @@ INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, 
 
 CREATE TABLE `ebill_special_event_fixed` (
   `bill_id` int(11) NOT NULL,
+  `bill_plan_name` varchar(100) NOT NULL,
   `Total_cost_fixed` float NOT NULL,
   `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
@@ -98,6 +101,7 @@ CREATE TABLE `ebill_special_event_fixed` (
 
 CREATE TABLE `ebill_special_event_tou` (
   `bill_id` int(11) NOT NULL,
+  `bill_plan_name` varchar(100) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
   `Cost_off_peak_time` float NOT NULL,
@@ -113,13 +117,13 @@ CREATE TABLE `ebill_special_event_tou` (
 -- Dumping data for table `ebill_special_event_tou`
 --
 
-INSERT INTO `ebill_special_event_tou` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
-(1, 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
-(1, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(2, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(3, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(4, 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(5, 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
+INSERT INTO `ebill_special_event_tou` (`bill_id`, `bill_plan_name`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
+(1, '', 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
+(1, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(2, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(3, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(4, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
+(5, '', 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
 
 -- --------------------------------------------------------
 
@@ -198,7 +202,14 @@ CREATE TABLE `electric_device_special_event_fixed` (
 --
 
 INSERT INTO `electric_device_special_event_fixed` (`device_id`, `bill_id`, `appliance`, `quantity`, `hfixed`, `mfixed`, `using_minutes_fixed`, `power`, `total_units_fixed`, `numberOfDays`, `Cust_id`) VALUES
-(6, 1, 'hgfh', 1, 1, 0, 60, 12, 0.012, 1, 1022);
+(6, 1, 'hgfh', 1, 1, 0, 60, 12, 0.012, 1, 1022),
+(7, 1, 'acd', 2, 3, 0, 180, 1000, 12, 3, 1024),
+(8, 1, 'www', 3, 12, 0, 720, 233, 25.164, 3, 1024),
+(9, 1, 'ddd', 2, 4, 0, 240, 234, 0, 6, 1024),
+(10, 1, 'AAA', 2, 12, 0, 0, 120, 0, 3, 1024),
+(11, 1, 'AAA', 12, 23, 0, 1380, 123, 407.376, 1, 1024),
+(12, 1, 'BBB', 2, 2, 0, 120, 123, 0.984, 2, 1024),
+(13, 1, 'CCC', 2, 2, 0, 120, 2345, 18.76, 3, 1024);
 
 -- --------------------------------------------------------
 
@@ -257,7 +268,10 @@ INSERT INTO `electric_device_special_event_tou` (`device_id`, `bill_id`, `applia
 (37, 6, 'asdf', 1, 1, 0, 1, 4, 1, 5, 60, 64, 65, 12, 0, 0, 0, 1.1394, 0.648, 0.1664, 0.325, 4, 0, 1023),
 (38, 6, 'fgh', 3, 2, 0, 2, 0, 2, 2, 120, 120, 122, 34, 0, 0, 0, 18.853, 11.016, 2.652, 5.185, 3, 0, 1023),
 (39, 6, 'fdsg', 2, 2, 22, 3, 9, 0, 0, 142, 189, 0, 45, 0, 0, 0, 15.1875, 11.502, 3.6855, 0, 20, 0, 1023),
-(40, 6, 'bfdb', 3, 2, 11, 2, 9, 2, 0, 131, 129, 120, 500, 3.275, 3.225, 3, 293.775, 176.85, 41.925, 75, 2, 0, 1023);
+(40, 6, 'bfdb', 3, 2, 11, 2, 9, 2, 0, 131, 129, 120, 500, 3.275, 3.225, 3, 293.775, 176.85, 41.925, 75, 2, 0, 1023),
+(41, 1, 'Morter', 3, 2, 0, 1, 0, 1, 0, 120, 60, 60, 1000, 6, 3, 3, 438, 324, 39, 75, 4, 12, 1024),
+(42, 1, 'Flash Light', 10, 3, 0, 1, 0, 2, 0, 180, 60, 120, 1000, 30, 10, 20, 2250, 1620, 130, 500, 5, 60, 1024),
+(43, 1, 'aaa', 3, 2, 0, 0, 40, 10, 0, 120, 40, 600, 1000, 6, 2, 30, 1100, 324, 26, 750, 2, 38, 1024);
 
 -- --------------------------------------------------------
 
@@ -447,27 +461,32 @@ ALTER TABLE `tou_ucharge`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
+  MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1025;
+
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `Emp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- Constraints for dumped tables
 --
@@ -495,6 +514,7 @@ ALTER TABLE `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_tou`
   ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

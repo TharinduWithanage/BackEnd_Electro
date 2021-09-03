@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 06:36 PM
+-- Generation Time: Sep 03, 2021 at 07:05 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.3.28
 
@@ -313,8 +313,8 @@ CREATE TABLE `fixed_ucharge` (
 --
 
 INSERT INTO `fixed_ucharge` (`Unit_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Unit_charges_requested_date`, `Unit_charges_accepted_date`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`, `Fixed_charges_requested_date`, `Fixed_charges_accepted_date`) VALUES
-('00-30', 2.6, 2.6, 0, '2021-09-03', '2021-09-03', 30.1, 30.1, 0, '2021-09-03', '2021-09-03'),
-('00-60', 7.85, 7.86, 0, '2021-09-03', NULL, 0.1, 0.1, 0, '2021-09-03', '2021-09-03'),
+('00-30', 2.5, 2.5, 0, '2021-09-03', '2021-09-03', 30, 30, 0, '2021-09-03', '2021-09-03'),
+('00-60', 7.85, 7.86, 0, '2021-09-03', NULL, 0, 0, 0, '2021-09-03', '2021-09-03'),
 ('121-180', 32, 0, 0, NULL, NULL, 480, 0, 0, NULL, NULL),
 ('31-60', 4.85, 0, 0, NULL, NULL, 60, 0, 0, NULL, NULL),
 ('61-90', 10, 0, 0, NULL, NULL, 90, 0, 0, NULL, NULL),
@@ -365,7 +365,7 @@ CREATE TABLE `tou_ucharge` (
 INSERT INTO `tou_ucharge` (`Time_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Unit_charges_requested_date`, `Unit_charges_accepted_date`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`, `Fixed_charges_requested_date`, `Fixed_charges_accepted_date`) VALUES
 ('Day', 25, 20, 0, NULL, NULL, 540, 540, 0, NULL, NULL),
 ('Off Peak', 13, 13, 0, NULL, NULL, 540, 0, 0, NULL, NULL),
-('Peak', 54.1, 54.1, 0, '2021-09-03', '2021-09-03', 541, 541, 0, '2021-09-03', '2021-09-03');
+('Peak', 54, 54, 0, '2021-09-03', '2021-09-03', 540, 540, 0, '2021-09-03', '2021-09-03');
 
 --
 -- Indexes for dumped tables

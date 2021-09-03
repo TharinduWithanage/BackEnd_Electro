@@ -2,17 +2,17 @@ var commonResponseService = require('../../service/responseService');
 var addSpecialEventDeviceModel = require('../../model/specialEvent/SpecialEventDeviceFixedModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
-function CalculateUnits(power, minutes,quantity) {
+function CalculateUnits(power, minutes,quantity, days) {
 
-    var numOfUnits = quantity * power * minutes * 60 / 3600000;
-    return parseFloat(numOfUnits*quantity);
+    var numOfUnits = quantity * power * minutes * 60 * days / 3600000;
+    return parseFloat(numOfUnits).toFixed(4);
 
 }
 
 function CalculateNumberOfMinutes(hors, minutes) {
 
     var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
-    return numOfMinutes;
+    return parseInt(numOfMinutes);
 
 }
 
@@ -75,14 +75,10 @@ async function AddSpecialEventDeviceDataFixed(request, response) {
     try {
 
         var Device_details_fixed = request.body.data;
-        
-        console.log("HYUUUUUUU");
         console.log(Device_details_fixed);
-        console.log(request.params.id);
-
         
         Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hfixed, Device_details_fixed.mfixed);
-        Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed,Device_details_fixed.quantity);
+        Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed, Device_details_fixed.quantity, Device_details_fixed.numberOfDays);
 
 
          console.log(Device_details_fixed.using_minutes_fixed);
@@ -169,19 +165,14 @@ async function updateDeviceDataSpecialEvent(request, response) {
         special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hfixed, special_event_deviceFixedDetails.mfixed);
         special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(special_event_deviceFixedDetails.power, special_event_deviceFixedDetails.using_minutes_fixed);
 
-        var bill_id = await addSpecialEventDeviceModel.updateSpecialEventDetailsFixed(special_event_deviceFixedDetails, Cust_id,bill_id);
+        var updateData = await addSpecialEventDeviceModel.updateSpecialEventDetailsFixed(special_event_deviceFixedDetails, Cust_id,bill_id);
 
-        if (bill_id.data != null) {
-           // console.log("data null!!");
-           console.log(bill_id.data);
-            commonResponseService.responseWithData(response, bill_id.data);
+       
+          
+           console.log(updateData.data);
+            commonResponseService.responseWithData(response, updateData.data);
 
-        } else {
-
-            bill_id.data = 0;
-            commonResponseService.responseWithData(response, bill_id.data);
-
-        }
+        
 
     } catch (error) {
         console.log(error);

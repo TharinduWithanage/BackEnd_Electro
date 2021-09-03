@@ -293,7 +293,7 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
         console.log("Inside get all device derails :"+ CustId);
         
 
-        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time),SUM(cost_off_peak_time),SUM(cost_peak_time),
+        var selectQuery = `SELECT SUM(total_cost_TOU) AS TOU_bill_sum,SUM(cost_day_time) ,SUM(cost_off_peak_time),SUM(cost_peak_time),
         SUM(units_day_time),SUM(units_off_peak_time),SUM(units_peak_time),SUM(total_units) AS Total_units
         FROM electric_device_special_event_tou Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
 
@@ -342,7 +342,7 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => 
         "${Cost_peak_time}","${Units_day_time}","${Units_off_peak_time}",
         "${Units_peak_time}","${Total_units}","${tou_plan_name}","${Cust_id}");`;
 
-
+       console.log(addDeviceQuery);
         db.query(addDeviceQuery, async function (error, result) {
 
             if (error) {

@@ -140,7 +140,6 @@ async function GetSpecialEventDeviceDataFixed(request, response) {
 
         } else {
 
-            bill_id.data = 0;
             commonResponseService.responseWithData(response, "No data");
 
         }

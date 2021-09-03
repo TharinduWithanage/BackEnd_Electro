@@ -143,7 +143,7 @@ async function GetSpecialEventDeviceDataTOU(request, response) {
         var Bill_id=request.body.newBillId;
         var Device_data = await addSpecialEventDeviceModel.getSpecialEventDetailsTOU(Cust_id,Bill_id);
 
-        if (bill_id.data != null) {
+        if (Device_data.data != null) {
            // console.log("data null!!");
            console.log(Device_data.data);
             commonResponseService.responseWithData(response, Device_data.data);

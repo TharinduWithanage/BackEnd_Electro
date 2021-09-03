@@ -258,17 +258,16 @@ router
   .route("/update-main-bill-plan/:id")
   .post(authService.validateToken, calculation.calculatedBillValueUpdate);
 
-//calculate the main bill
-router
-  .route("/calculate-special-event-Fixedbill/:id")
-  .post(
-    authService.validateToken,
-    specialEventFixedBillCalculate.calculatedFixedBillValue
-  );
 
 //Pending Normal Unit Charges route
 router
   .route("/dashboard-pending-normal-unit-charges/:id")
   .get(authService.validateToken, dashBoardController.getDashboardData);
+
+router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
+
+//calculate the main bill
+router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken,specialEventFixedBillCalculate.saveFixedBillValue);;
+
 
 module.exports = router;

@@ -189,7 +189,7 @@ async function getDeviceDataMain(request, response) {
 
         } else {
 
-            commonResponseService.errorWithMessage(response, "something went wrong");
+            commonResponseService.errorWithMessage(response, "No data");
 
         }
 

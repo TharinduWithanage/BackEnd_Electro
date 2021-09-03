@@ -191,11 +191,11 @@ module.exports.acceptedUnitChargesUpdateFun = (requestData, id) => {
         } else {
             if (categoryName == "Unit") {
                 console.log("inside tou Unit charges");
-                var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}',Update_ucharge_status='0' WHERE Time_category='${timePeriod}' AND Update_ucharge_status=1 ;`;
+                var updateQuery = `UPDATE tou_ucharge SET Unit_charge ='${newPrice}',Update_ucharge_status='0',Unit_charges_accepted_date='${acceptDate}' WHERE Time_category='${timePeriod}' AND Update_ucharge_status=1 ;`;
 
             } else {
                 console.log("inside tou Fixed charges");
-                var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}',Update_fcharge_status='0' WHERE Time_category='${timePeriod}' AND Update_fcharge_status=1;`;
+                var updateQuery = `UPDATE tou_ucharge SET Fixed_charge ='${newPrice}',Update_fcharge_status='0',Fixed_charges_accepted_date='${acceptDate}' WHERE Time_category='${timePeriod}' AND Update_fcharge_status=1;`;
 
 
             }

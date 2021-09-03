@@ -269,6 +269,6 @@ router
 //Pending Normal Unit Charges route
 router
   .route("/dashboard-pending-normal-unit-charges/:id")
-  .get(authService.validateToken, dashBoardController.getDashboardData);
+  .get(authService.validateToken, dashBoardController.PendingNormalUnitCharges);
 
 module.exports = router;

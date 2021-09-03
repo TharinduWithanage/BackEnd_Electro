@@ -143,14 +143,13 @@ async function GetSpecialEventDeviceDataTOU(request, response) {
         var Bill_id=request.body.newBillId;
         var Device_data = await addSpecialEventDeviceModel.getSpecialEventDetailsTOU(Cust_id,Bill_id);
 
-        if (bill_id.data != null) {
+        if (Device_data.data != null) {
            // console.log("data null!!");
            console.log(Device_data.data);
             commonResponseService.responseWithData(response, Device_data.data);
 
         } else {
 
-            bill_id.data = 0;
             commonResponseService.responseWithData(response, "No data");
 
         }
@@ -209,7 +208,6 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
 
         } else {
 
-            bill_id.data = 0;
             commonResponseService.responseWithData(response, bill_id.data);
 
         }
@@ -255,7 +253,7 @@ async function saveTOUBillValue(request, response){
         var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
         console.log("Bill Details Calculated:",Bill_details);
         //var total_units = Bill_details.data[0].TotalUnits;
-        var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum, 540);
+        var TOU_bill_cost = Bill_details.data[0].TOU_bill_sum;
        
         Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
         Bill_details.data[0].billId = parseInt(billId);
@@ -303,12 +301,11 @@ async function calculatedTOUBillValue(request, response){
        
         Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
         Bill_details.data[0].billId = parseInt(billId);
-       // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
-       // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
+       
 
        
         
-       //await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
+       
 
         
 

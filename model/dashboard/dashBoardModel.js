@@ -91,22 +91,13 @@ module.exports.PendingNormalUnitChargesFun = (id) => {
       var selectQuery = `SELECT Unit_category, Fixed_charge, Update_fixed_charges, Fixed_charges_requested_date FROM fixed_ucharge WHERE Update_fcharge_status=1; `;
     }
 
-    db.query(selectQuery, async function (error, result1) {
+    db.query(selectQuery, async function (error, result) {
       if (error) {
         console.log(error);
 
         reject({ status: false, mesg: "error getting data" });
       } else {
-        db.query(selectQuery1, async function (error, result2) {
-          if (error) {
-            console.log(error);
-
-            reject({ status: false, mesg: "error getting data" });
-          } else {
-            var result = { result1, result2 };
-            resolve({ status: true, data: result });
-          }
-        });
+        resolve({ status: true, data: result });
       }
     });
   });

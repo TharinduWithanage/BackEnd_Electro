@@ -249,7 +249,7 @@ async function saveFixedBillValue(request, response){
        // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
 
        
-        await addSpecialEventDeviceModel.setFixedSpecialEventPlan(Bill_details.data[0],CustId,FixedPlan_name);
+        await addSpecialEventDeviceModel.setSpecialEventPlan(Bill_details.data[0],CustId,FixedPlan_name);
 
         
 

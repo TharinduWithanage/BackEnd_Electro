@@ -184,6 +184,35 @@ module.exports.updateSpecialEventDetailsTOU = (devicedata, id,bill_id) => {
 
 
 
+module.exports.getSpecialEventBillPlans = (CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        var selectTOUQuery = `SELECT  Total_units FROM ebill_special_event_tou WHERE Cust_id = ${CustId} UNION SELECT Total_units FROM ebill_special_event_fixed WHERE Cust_id = ${CustId}; `;
+         
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+        
+        db.query(selectTOUQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log(result);
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+
+
 
 module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
     return new Promise(async (resolve, reject) => {

@@ -150,6 +150,9 @@ router.route("/get-device-wise-usage-fixed-main/:id").post(authService.validateT
 //get all monthly bill plans route
 router.route("/get-all-monthly-bill-plans/:id").get(authService.validateToken, billPlanController.getMonthlyBillPlans);
 
+//get all monthly monthly bill plans route
+router.route("/get-all-special-event-bill-plans/:id").get(authService.validateToken, specialEventTOUBillCalculate.getSpecialEventBillPlans);
+
 //calculate the main bill
 router.route("/delete-bill-main-plan/:id").post(authService.validateToken, billPlanController.deleteMonthlyBillPlans);
 

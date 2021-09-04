@@ -298,6 +298,99 @@ module.exports.setSpecialEventPlan = (Bill_details, CustId,Plan_name) => {
 
 }
 
+module.exports.deleteTOUBillPlanFunc = (CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+
+        var deleteQuery = `DELETE FROM ebill_special_event_tou WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.deleteSpecialBillPlanFunc = (CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+
+        var deleteQuery = `DELETE FROM ebill_special_event WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.deleteSpecialBillPlanDevices = (CustId, bill_id, bill_model) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_model);
+
+        if(bill_model == "fixed"){
+            var deleteQuery = `DELETE FROM electric_device_special_event_fixed WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+        }else{
+            var deleteQuery = `DELETE FROM electric_device_special_event_tou WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+        }
+
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
 
 
 

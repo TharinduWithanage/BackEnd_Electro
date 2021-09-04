@@ -272,8 +272,37 @@ async function saveFixedBillValue(request, response){
     }
 }
 
+async function deleteBillPlan(request, response){
+    try {
+
+        console.log("inside deleteBillPlan special event Controller");
+        var Cust_id = request.params.id;
+        console.log(request.body);
+        var bill_model = request.body.bill_model;
+        var bill_id = request.body.bill_id;
+        
+        var bill_plan_delete = await addSpecialEventDeviceModel.deleteSpecialBillPlanFunc(Cust_id, bill_id);
+
+        if(bill_model == "TOU"){
+            var tou_bill_plan_delete = await addSpecialEventDeviceModel.deleteTOUBillPlanFunc(Cust_id, bill_id);
+        }
+         
+        var bill_plan_delete_devices = await addSpecialEventDeviceModel.deleteSpecialBillPlanDevices(Cust_id, bill_id, bill_model);
+        
+
+        
+        
+        commonResponseService.successWithMessage(response, bill_plan_delete.mesg);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue};
+
+module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue};
 

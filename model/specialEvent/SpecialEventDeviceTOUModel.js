@@ -189,7 +189,7 @@ module.exports.getSpecialEventBillPlans = (CustId) => {
     return new Promise(async (resolve, reject) => {
 
 
-        var selectTOUQuery = `SELECT Total_units,bill_plan_name,bill_model FROM ebill_special_event WHERE Cust_id = ${CustId};`;
+        var selectTOUQuery = `SELECT bill_id,Total_units,bill_plan_name,bill_model FROM ebill_special_event WHERE Cust_id = ${CustId};`;
          
         //console.log("Inside get bill id model function query"+ selectQuery);
 

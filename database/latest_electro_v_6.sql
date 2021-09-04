@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 08:47 PM
+-- Generation Time: Sep 04, 2021 at 07:46 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -82,23 +82,26 @@ INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ebill_special_event_fixed`
+-- Table structure for table `ebill_special_event`
 --
 
-CREATE TABLE `ebill_special_event_fixed` (
+CREATE TABLE `ebill_special_event` (
   `bill_id` int(11) NOT NULL,
   `bill_plan_name` varchar(100) NOT NULL,
+  `bill_model` varchar(50) NOT NULL,
   `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `ebill_special_event_fixed`
+-- Dumping data for table `ebill_special_event`
 --
 
-INSERT INTO `ebill_special_event_fixed` (`bill_id`, `bill_plan_name`, `Total_units`, `Cust_id`) VALUES
-(1, ' My Plan 1', 203.42, 1024),
-(2, ' My Plan 2', 36.36, 1024);
+INSERT INTO `ebill_special_event` (`bill_id`, `bill_plan_name`, `bill_model`, `Total_units`, `Cust_id`) VALUES
+(1, ' My Plan 1', '', 203.42, 1024),
+(2, ' My Plan 2', '', 36.36, 1024),
+(3, ' My Plan3', 'fixed', 162, 1024),
+(4, 'TOU plan 1', 'TOU', 75.4667, 1024);
 
 -- --------------------------------------------------------
 
@@ -108,7 +111,6 @@ INSERT INTO `ebill_special_event_fixed` (`bill_id`, `bill_plan_name`, `Total_uni
 
 CREATE TABLE `ebill_special_event_tou` (
   `bill_id` int(11) NOT NULL,
-  `bill_plan_name` varchar(100) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
   `Cost_off_peak_time` float NOT NULL,
@@ -116,7 +118,6 @@ CREATE TABLE `ebill_special_event_tou` (
   `Units_day_time` float NOT NULL,
   `Units_off_peak_time` float NOT NULL,
   `Units_peak_time` float NOT NULL,
-  `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -124,13 +125,14 @@ CREATE TABLE `ebill_special_event_tou` (
 -- Dumping data for table `ebill_special_event_tou`
 --
 
-INSERT INTO `ebill_special_event_tou` (`bill_id`, `bill_plan_name`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
-(1, '', 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
-(1, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(2, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(3, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(4, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(5, '', 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
+INSERT INTO `ebill_special_event_tou` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Cust_id`) VALUES
+(1, 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 1022),
+(1, 540, 0, 0, 0, 0, 0, 0, 1023),
+(2, 540, 0, 0, 0, 0, 0, 0, 1023),
+(3, 540, 0, 0, 0, 0, 0, 0, 1023),
+(4, 540, 0, 0, 0, 0, 0, 0, 1023),
+(4, 2597.3, 515.833, 279.933, 1801.53, 20.6333, 21.5333, 33.3, 1024),
+(5, 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 1023);
 
 -- --------------------------------------------------------
 
@@ -214,7 +216,9 @@ INSERT INTO `electric_device_special_event_fixed` (`device_id`, `bill_id`, `appl
 (8, 1, 'A2', 3, 10, 50, 650, 1234, 160.42, 4, 1024),
 (9, 1, 'A3', 12, 12, 30, 750, 110, 33, 2, 1024),
 (10, 2, 'B1', 2, 20, 0, 1200, 3, 0.36, 3, 1024),
-(11, 2, 'B2', 5, 12, 0, 720, 120, 36, 5, 1024);
+(11, 2, 'B2', 5, 12, 0, 720, 120, 36, 5, 1024),
+(12, 3, 'C1', 2, 12, 0, 720, 2000, 144, 3, 1024),
+(13, 3, 'C2', 1, 2, 0, 120, 3000, 18, 3, 1024);
 
 -- --------------------------------------------------------
 
@@ -273,7 +277,9 @@ INSERT INTO `electric_device_special_event_tou` (`device_id`, `bill_id`, `applia
 (37, 6, 'asdf', 1, 1, 0, 1, 4, 1, 5, 60, 64, 65, 12, 0, 0, 0, 1.1394, 0.648, 0.1664, 0.325, 4, 0, 1023),
 (38, 6, 'fgh', 3, 2, 0, 2, 0, 2, 2, 120, 120, 122, 34, 0, 0, 0, 18.853, 11.016, 2.652, 5.185, 3, 0, 1023),
 (39, 6, 'fdsg', 2, 2, 22, 3, 9, 0, 0, 142, 189, 0, 45, 0, 0, 0, 15.1875, 11.502, 3.6855, 0, 20, 0, 1023),
-(40, 6, 'bfdb', 3, 2, 11, 2, 9, 2, 0, 131, 129, 120, 500, 3.275, 3.225, 3, 293.775, 176.85, 41.925, 75, 2, 0, 1023);
+(40, 6, 'bfdb', 3, 2, 11, 2, 9, 2, 0, 131, 129, 120, 500, 3.275, 3.225, 3, 293.775, 176.85, 41.925, 75, 2, 0, 1023),
+(41, 4, 'A1', 5, 4, 30, 2, 20, 3, 50, 270, 140, 230, 200, 4.5, 2.33333, 3.83333, 369.617, 243.45, 30.3333, 95.8333, 5, 10.6667, 1024),
+(42, 4, 'A2', 6, 4, 0, 2, 40, 2, 20, 240, 160, 140, 1200, 28.8, 19.2, 16.8, 2227.68, 1558.08, 249.6, 420, 2, 64.8, 1024);
 
 -- --------------------------------------------------------
 
@@ -401,9 +407,9 @@ ALTER TABLE `ebill_monthly_plan`
   ADD KEY `FK1` (`Cust_id`);
 
 --
--- Indexes for table `ebill_special_event_fixed`
+-- Indexes for table `ebill_special_event`
 --
-ALTER TABLE `ebill_special_event_fixed`
+ALTER TABLE `ebill_special_event`
   ADD PRIMARY KEY (`bill_id`,`Cust_id`) USING BTREE,
   ADD KEY `FK16` (`Cust_id`);
 
@@ -483,13 +489,13 @@ ALTER TABLE `electric_device_mplan`
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -502,16 +508,10 @@ ALTER TABLE `employee`
 --
 
 --
--- Constraints for table `ebill_special_event_fixed`
+-- Constraints for table `ebill_special_event`
 --
-ALTER TABLE `ebill_special_event_fixed`
+ALTER TABLE `ebill_special_event`
   ADD CONSTRAINT `FK16` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `ebill_special_event_tou`
---
-ALTER TABLE `ebill_special_event_tou`
-  ADD CONSTRAINT `FK_15` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `electric_device_special_event_fixed`

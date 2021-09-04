@@ -206,14 +206,10 @@ async function getSpecialEventBillPlans(request, response) {
     
         console.log(Bill_Plans);
         
-        if (Bill_Plans.data != null) {
+        
             commonResponseService.responseWithData(response, Bill_Plans.data);
     
-        } else {
-            // Bill_Plans.data.TotalCost = 0;
-            // Bill_Plans.data.TotalUnits = 0;
-            commonResponseService.responseWithData(response, Bill_Plans.data);
-        }
+         
         }
         catch (error) {
             console.log(error);

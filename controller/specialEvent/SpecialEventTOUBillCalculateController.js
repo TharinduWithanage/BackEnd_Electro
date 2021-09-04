@@ -260,9 +260,9 @@ async function saveTOUBillValue(request, response){
        // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
        // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
 
-       
-        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId,TOUPlan_name);
+        await addSpecialEventDeviceModel.setSpecialEventPlan(Bill_details.data[0], CustId,TOUPlan_name);
 
+        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
         
 
          if (Bill_details.data != null) {

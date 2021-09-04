@@ -72,7 +72,7 @@ module.exports.getTOUBillIdFunc = (CustId) => {
         console.log("Inside get TOU bill id model function query"+ CustId);
 
         var selectQuery = `SELECT MAX(bill_id) As max_bill_id
-        FROM ebill_special_event_tou
+        FROM ebill_special_event
         Where Cust_id = ${CustId}; `;
 
         console.log("Inside get bill id model function query"+ selectQuery);
@@ -310,10 +310,9 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 }
 
 
-module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => {
+module.exports.setTOUSpecialEventPlan = (Bill_details, CustId) => {
     return new Promise(async (resolve, reject) => {
 
-        console.log(Bill_details.units_day_time);
         var bill_id = Bill_details.billId;
         var Total_cost_tou = Bill_details.TOU_bill_cost;
         var Cost_day_time = Bill_details.cost_day_time;
@@ -322,17 +321,49 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => 
         var Units_day_time = Bill_details.units_day_time;
         var Units_off_peak_time = Bill_details.units_off_peak_time;
         var Units_peak_time = Bill_details.units_peak_time;
-        var Total_units = Bill_details.Total_units;
         var Cust_id = CustId;
 
 
         var addDeviceQuery = `INSERT INTO ebill_special_event_tou 
         (bill_id, Total_cost_tou, Cost_day_time,Cost_off_peak_time,
         Cost_peak_time,Units_day_time,Units_off_peak_time,
-        Units_peak_time,Total_units,bill_plan_name,Cust_id) 
+        Units_peak_time,Cust_id) 
         VALUES("${bill_id}","${Total_cost_tou}","${Cost_day_time}","${Cost_off_peak_time}",
         "${Cost_peak_time}","${Units_day_time}","${Units_off_peak_time}",
-        "${Units_peak_time}","${Total_units}","${tou_plan_name}","${Cust_id}");`;
+        "${Units_peak_time}","${Cust_id}");`;
+
+
+        db.query(addDeviceQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error inserting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.setSpecialEventPlan = (Bill_details, CustId,Plan_name) => {
+    return new Promise(async (resolve, reject) => {
+
+        console.log(Bill_details.units_day_time);
+        var bill_id = Bill_details.billId;
+        var Total_units = Bill_details.Total_units;
+        var Cust_id = CustId;
+        var bill_model = "TOU"
+
+
+        var addDeviceQuery = `INSERT INTO ebill_special_event 
+        (bill_id,Total_units,bill_plan_name,bill_model,Cust_id) 
+        VALUES("${bill_id}","${Total_units}","${Plan_name}","${bill_model}","${Cust_id}");`;
 
        console.log(addDeviceQuery);
         db.query(addDeviceQuery, async function (error, result) {

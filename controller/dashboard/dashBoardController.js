@@ -44,4 +44,28 @@ async function PendingNormalUnitCharges(request, response) {
   }
 }
 
-module.exports = { getDashboardData, PendingNormalUnitCharges };
+/**
+ * Get Pending Tou Unit Charges Function
+ * @param {*} request
+ * @param {*} response
+ */
+async function PendingTouUnitCharges(request, response) {
+  try {
+    console.log("inside PendingTouUnitCharges Controller");
+    var PendingTouUnitChargesData =
+      await dashBoardModel.PendingTouUnitChargesFun(request.params.id);
+    commonResponseService.responseWithData(
+      response,
+      PendingTouUnitChargesData.data
+    );
+  } catch (error) {
+    console.log(error);
+    commonResponseService.errorWithMessage(response, "something went wrong");
+  }
+}
+
+module.exports = {
+  getDashboardData,
+  PendingNormalUnitCharges,
+  PendingTouUnitCharges,
+};

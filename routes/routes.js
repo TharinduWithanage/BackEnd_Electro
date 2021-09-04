@@ -249,7 +249,12 @@ router
   .get(authService.validateToken, billPlanController.getMonthlyBillPlans);
 
 //get all monthly monthly bill plans route
-router.route("/get-all-special-event-bill-plans/:id").get(authService.validateToken, specialEventTOUBillCalculate.getSpecialEventBillPlans);
+router
+  .route("/get-all-special-event-bill-plans/:id")
+  .get(
+    authService.validateToken,
+    specialEventTOUBillCalculate.getSpecialEventBillPlans
+  );
 
 //calculate the main bill
 router
@@ -261,19 +266,37 @@ router
   .route("/update-main-bill-plan/:id")
   .post(authService.validateToken, calculation.calculatedBillValueUpdate);
 
-
 //Pending Normal Unit Charges route
 router
   .route("/dashboard-pending-normal-unit-charges/:id")
   .get(authService.validateToken, dashBoardController.PendingNormalUnitCharges);
 
-router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
+router
+  .route("/calculate-special-event-Fixedbill/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.calculatedFixedBillValue
+  );
 
 //calculate the main bill
-router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken,specialEventFixedBillCalculate.saveFixedBillValue);
+router
+  .route("/save-special-event-Fixedbill/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.saveFixedBillValue
+  );
 
 //delete special event bill plans
-router.route("/delete-bill-plan-special-event/:id").post(authService.validateToken,specialEventFixedBillCalculate.deleteBillPlan);
+router
+  .route("/delete-bill-plan-special-event/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.deleteBillPlan
+  );
 
+//Pending tou Unit Charges route
+router
+  .route("/dashboard-pending-tou-unit-charges/:id")
+  .get(authService.validateToken, dashBoardController.PendingTouUnitCharges);
 
 module.exports = router;

@@ -80,34 +80,6 @@ async function AddSpecialEventDeviceDataTOU(request, response) {
     }
 }
 
-// async function AddSpecialEventDeviceDataFixed(request, response) {
-
-//     try {
-
-//         var Device_details_fixed = request.body.data;
-        
-//         console.log("HYUUUUUUU");
-//         console.log(Device_details_fixed);
-//         console.log(request.params.id);
-
-        
-//         Device_details_fixed.using_minutes_fixed = await CalculateNumberOfMinutes(Device_details_fixed.hfixed, Device_details_fixed.mfixed);
-//         Device_details_fixed.total_units_fixed = await CalculateUnits(Device_details_fixed.power, Device_details_fixed.using_minutes_fixed,Device_details_fixed.quantity);
-
-
-//          console.log(Device_details_fixed.using_minutes_fixed);
-//          console.log(Device_details_fixed.total_units_fixed);
-//         var DeviceData_fixed = await addSpecialEventDeviceModel.AddSpecialEventDeviceFixed(Device_details_fixed, request.params.id);
-//         // console.log(profileData.data);
-
-//         commonResponseService.successWithMessage(response, DeviceData_fixed.mesg);
-
-
-//     } catch (error) {
-//         console.log(error);
-//         commonResponseService.errorWithMessage(response, "something went wrong");
-//     }
-// }
 
 
 async function getTOUBillId(request, response) {
@@ -222,6 +194,34 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
 
 
 
+async function getSpecialEventBillPlans(request, response) {
+
+    try {
+
+        console.log("Inside get Special Event calculation bill value controller");
+
+        var CustId = request.params.id;
+        
+        var Bill_Plans = await addSpecialEventDeviceModel.getSpecialEventBillPlans( CustId);
+    
+        console.log(Bill_Plans);
+        
+        if (Bill_Plans.data != null) {
+            commonResponseService.responseWithData(response, Bill_Plans.data);
+    
+        } else {
+            // Bill_Plans.data.TotalCost = 0;
+            // Bill_Plans.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_Plans.data);
+        }
+        }
+        catch (error) {
+            console.log(error);
+            commonResponseService.errorWithMessage(response, "something went wrong");
+        }
+        
+}
+
 async function deleteSpecialEventDeviceData(request, response) {
 
     try {
@@ -303,12 +303,6 @@ async function calculatedTOUBillValue(request, response){
         Bill_details.data[0].billId = parseInt(billId);
        
 
-       
-        
-       
-
-        
-
          if (Bill_details.data != null) {
             console.log("The bill details is :",Bill_details);
             commonResponseService.responseWithData(response, Bill_details.data);
@@ -332,5 +326,5 @@ async function calculatedTOUBillValue(request, response){
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue};
+module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue,getSpecialEventBillPlans};
 

@@ -270,7 +270,10 @@ router
 router.route("/calculate-special-event-Fixedbill/:id").post(authService.validateToken, specialEventFixedBillCalculate.calculatedFixedBillValue);
 
 //calculate the main bill
-router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken,specialEventFixedBillCalculate.saveFixedBillValue);;
+router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken,specialEventFixedBillCalculate.saveFixedBillValue);
+
+//delete special event bill plans
+router.route("/delete-bill-plan-special-event/:id").post(authService.validateToken,specialEventFixedBillCalculate.deleteBillPlan);
 
 
 module.exports = router;

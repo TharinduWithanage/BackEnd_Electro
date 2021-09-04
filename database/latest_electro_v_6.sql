@@ -1,13 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-
--- Generation Time: Sep 03, 2021 at 07:05 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.3.28
-
+-- Generation Time: Sep 04, 2021 at 06:40 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -322,13 +320,13 @@ CREATE TABLE `fixed_ucharge` (
   `Unit_charge` float NOT NULL,
   `Update_unit_charges` float NOT NULL,
   `Update_ucharge_status` tinyint(1) NOT NULL,
-  `Unit_charges_requested_date` date DEFAULT NULL,
-  `Unit_charges_accepted_date` date DEFAULT NULL,
+  `Unit_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Unit_charges_accepted_date` varchar(20) DEFAULT NULL,
   `Fixed_charge` float NOT NULL,
   `Update_fixed_charges` float NOT NULL,
   `Update_fcharge_status` tinyint(1) NOT NULL,
-  `Fixed_charges_requested_date` date DEFAULT NULL,
-  `Fixed_charges_accepted_date` date DEFAULT NULL
+  `Fixed_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Fixed_charges_accepted_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -372,13 +370,13 @@ CREATE TABLE `tou_ucharge` (
   `Unit_charge` float NOT NULL,
   `Update_unit_charges` float NOT NULL,
   `Update_ucharge_status` tinyint(1) NOT NULL,
-  `Unit_charges_requested_date` date DEFAULT NULL,
-  `Unit_charges_accepted_date` date DEFAULT NULL,
+  `Unit_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Unit_charges_accepted_date` varchar(20) DEFAULT NULL,
   `Fixed_charge` float NOT NULL,
   `Update_fixed_charges` float NOT NULL,
   `Update_fcharge_status` tinyint(1) NOT NULL,
-  `Fixed_charges_requested_date` date DEFAULT NULL,
-  `Fixed_charges_accepted_date` date DEFAULT NULL
+  `Fixed_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Fixed_charges_accepted_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

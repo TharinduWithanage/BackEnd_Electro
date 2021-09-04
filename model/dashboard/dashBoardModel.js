@@ -77,17 +77,19 @@ module.exports.custDashboardDataCountFun = (Cust_id) => {
 
 /**
  * Get Pending Normal Unit Charges Function
- * @param {*} id
+ * @param {*}
  * @returns
  */
-module.exports.PendingNormalUnitChargesFun = (id) => {
+module.exports.PendingNormalUnitChargesFun = (unit_id) => {
   return new Promise(async (resolve, reject) => {
     // console.log(requestData);
     console.log("inside PendingNormalUnitChargesFun");
-
-    if ((id = "unit")) {
+    // console.log(unit_id);
+    if (unit_id == "unit") {
+      // console.log("inside if unit");
       var selectQuery = `SELECT Unit_category, Unit_charge, Update_unit_charges, Unit_charges_requested_date FROM fixed_ucharge WHERE Update_ucharge_status=1; `;
     } else {
+      // console.log("inside if fixed");
       var selectQuery = `SELECT Unit_category, Fixed_charge, Update_fixed_charges, Fixed_charges_requested_date FROM fixed_ucharge WHERE Update_fcharge_status=1; `;
     }
 
@@ -97,6 +99,7 @@ module.exports.PendingNormalUnitChargesFun = (id) => {
 
         reject({ status: false, mesg: "error getting data" });
       } else {
+        // console.log(result);
         resolve({ status: true, data: result });
       }
     });

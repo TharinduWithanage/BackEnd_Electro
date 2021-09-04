@@ -62,45 +62,7 @@ module.exports.AddSpecialEventDeviceDataTOU = (devicedataTOU, id) => {
 
 }
 
-// module.exports.AddSpecialEventDeviceFixed = (devicedataFixed, id) => {
-//     return new Promise(async (resolve, reject) => {
-//         //console.log(devicedataFixed);
-//         var bill_id = devicedataFixed.bill_id
-//         var appliance = devicedataFixed.appliance
-//         var quantity = devicedataFixed.quantity
-//         var hfixed = devicedataFixed.hfixed
-//         var mfixed = devicedataFixed.mfixed
-//         var using_minutes_fixed = devicedataFixed.using_minutes_fixed
-//         var power = devicedataFixed.power
-//         var total_units_fixed = devicedataFixed.total_units_fixed
-//         var numberOfDays = devicedataFixed.numberOfDays
-//         var Cust_id = id
 
-//         var addSpEvDeviceFixedQuery = `INSERT INTO electric_device_special_event_fixed 
-//         (bill_id, appliance, quantity, hfixed, mfixed, using_minutes_fixed, power, total_units_fixed,numberOfDays,
-//          Cust_id) 
-//         VALUES("${bill_id}","${appliance}","${quantity}","${hfixed}","${mfixed}","${using_minutes_fixed}",
-//         "${power}","${total_units_fixed}","${numberOfDays}", "${Cust_id}");`;
-
-
-
-//         db.query(addSpEvDeviceFixedQuery, async function (error, result) {
-
-//             if (error) {
-//                 console.log(error);
-
-//                 reject({ status: false, mesg: "error inserting data" });
-//             } else {
-//                 // console.log(result);
-
-//                 resolve({ status: true, mesg: "successfully insert data" });
-
-//             }
-
-//         });
-//     });
-
-// }
 
 
 module.exports.getTOUBillIdFunc = (CustId) => {
@@ -212,6 +174,35 @@ module.exports.updateSpecialEventDetailsTOU = (devicedata, id,bill_id) => {
                 // console.log(result);
 
                 resolve({ status: true, mesg: "successfully update data" });
+
+            }
+
+        });
+    });
+
+}
+
+
+
+module.exports.getSpecialEventBillPlans = (CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        var selectTOUQuery = `SELECT  Total_units FROM ebill_special_event_tou WHERE Cust_id = ${CustId} UNION SELECT Total_units FROM ebill_special_event_fixed WHERE Cust_id = ${CustId}; `;
+         
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+        
+        db.query(selectTOUQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log(result);
+                resolve({ status: true, data: result });
 
             }
 
@@ -343,7 +334,7 @@ module.exports.setTOUSpecialEventPlan = (Bill_details, CustId,tou_plan_name) => 
         "${Cost_peak_time}","${Units_day_time}","${Units_off_peak_time}",
         "${Units_peak_time}","${Total_units}","${tou_plan_name}","${Cust_id}");`;
 
-
+       console.log(addDeviceQuery);
         db.query(addDeviceQuery, async function (error, result) {
 
             if (error) {

@@ -108,7 +108,7 @@ module.exports.getFixedBillIdFunc = (CustId) => {
         //console.log("Inside get bill id model function query"+ CustId);
 
         var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
-        FROM ebill_special_event_fixed
+        FROM ebill_special_event
         Where Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
@@ -265,18 +265,19 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
 }
 
-module.exports.setFixedSpecialEventPlan = (Bill_details, CustId,FixedPlan_name) => {
+module.exports.setSpecialEventPlan = (Bill_details, CustId,Plan_name) => {
     return new Promise(async (resolve, reject) => {
 
         console.log(Bill_details.units_day_time);
         var bill_id = Bill_details.billId;
         var Total_units = Bill_details.total_units;
         var Cust_id = CustId;
+        var bill_model = "fixed"
 
 
-        var addDeviceQuery = `INSERT INTO ebill_special_event_fixed 
-        (bill_id,Total_units,bill_plan_name,Cust_id) 
-        VALUES("${bill_id}","${Total_units}","${FixedPlan_name}","${Cust_id}");`;
+        var addDeviceQuery = `INSERT INTO ebill_special_event 
+        (bill_id,Total_units,bill_plan_name,bill_model,Cust_id) 
+        VALUES("${bill_id}","${Total_units}","${Plan_name}","${bill_model}","${Cust_id}");`;
 
 
         db.query(addDeviceQuery, async function (error, result) {

@@ -296,14 +296,18 @@ router
     specialEventFixedBillCalculate.deleteBillPlan
   );
 
-//Get Spceial event details
-router
-  .route("/get-specialEvent-Details/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceData);
-
 //Pending tou Unit Charges route
 router
   .route("/dashboard-pending-tou-unit-charges/:id")
   .get(authService.validateToken, dashBoardController.PendingTouUnitCharges);
+
+//Get Spceial event device wise details
+router
+  .route("/get-specialEvent-details-devicewise-fixed/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceDataFixed);
+
+//Get Spceial event device wise details
+router
+  .route("/get-specialEvent-details-devicewise-tou/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceDataTOU);
 
 
 module.exports = router;

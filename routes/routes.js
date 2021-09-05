@@ -296,7 +296,6 @@ router
     specialEventFixedBillCalculate.deleteBillPlan
   );
 
-
 //Get Spceial event details
 router
   .route("/get-specialEvent-Details/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceData);

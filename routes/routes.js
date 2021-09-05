@@ -11,6 +11,8 @@ var deviceWiseUsageController = require("../controller/customer/deviceWiseUsageC
 var calculation = require("../controller/monthlyBill/calculation");
 var deviceWiseController = require("../controller/monthlyBill/deviceWiseController");
 var billPlanController = require("../controller/monthlyBill/billPlanController");
+var specialEventController = require("../controller/specialEvent/specialEventController");
+
 
 var authService = require("../service/authServices");
 
@@ -275,5 +277,8 @@ router.route("/save-special-event-Fixedbill/:id").post(authService.validateToken
 //delete special event bill plans
 router.route("/delete-bill-plan-special-event/:id").post(authService.validateToken,specialEventFixedBillCalculate.deleteBillPlan);
 
+//Get Spceial event details
+router
+  .route("/get-specialEvent-Details/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceData);
 
 module.exports = router;

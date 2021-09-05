@@ -204,7 +204,18 @@ async function getSpecialEventBillPlans(request, response) {
         
         var Bill_Plans = await addSpecialEventDeviceModel.getSpecialEventBillPlans( CustId);
     
-        console.log(Bill_Plans);
+        var length = Bill_Plans.data.length;
+
+         for (var i=0; i< length ; i++ ){
+             if(Bill_Plans.data[i].bill_model == "fixed"){
+                Bill_Plans.data[i].device_wise = "special-fixed-device-wise";
+             }else{
+                Bill_Plans.data[i].device_wise = "special-tou-device-wise";
+             }
+           
+         }
+
+         console.log(Bill_Plans.data);
         
         
             commonResponseService.responseWithData(response, Bill_Plans.data);

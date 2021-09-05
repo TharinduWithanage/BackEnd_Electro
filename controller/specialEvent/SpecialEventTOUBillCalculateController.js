@@ -195,7 +195,6 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
 
 
 async function getSpecialEventBillPlans(request, response) {
-
     try {
 
         console.log("Inside get Special Event calculation bill value controller");
@@ -208,9 +207,13 @@ async function getSpecialEventBillPlans(request, response) {
 
          for (var i=0; i< length ; i++ ){
              if(Bill_Plans.data[i].bill_model == "fixed"){
-                Bill_Plans.data[i].device_wise = "special-fixed-device-wise";
+                Bill_Plans.data[i].device_wise = `special-fixed-device-wise?bill_id=${Bill_Plans.data[i].bill_id}`;
+                Bill_Plans.data[i].moreDetails = `special-event-fixed?bill_id=${Bill_Plans.data[i].bill_id}`;
+
              }else{
-                Bill_Plans.data[i].device_wise = "special-tou-device-wise";
+                Bill_Plans.data[i].device_wise = `special-tou-device-wise?bill_id=${Bill_Plans.data[i].bill_id}`;
+                Bill_Plans.data[i].moreDetails = `TOU-Event-Form?bill_id=${Bill_Plans.data[i].bill_id}`;
+
              }
            
          }

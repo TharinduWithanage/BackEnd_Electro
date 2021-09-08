@@ -10,3 +10,4 @@ config.mailApiKey = ""
 config.cryptKey = "myTotalySecretKey"
 
 module.exports = config;
+

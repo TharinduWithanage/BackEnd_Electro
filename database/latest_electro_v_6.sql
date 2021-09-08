@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2021 at 06:40 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Sep 08, 2021 at 01:14 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -345,17 +344,19 @@ INSERT INTO `fixed_ucharge` (`Unit_category`, `Unit_charge`, `Update_unit_charge
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suggestions_tou`
+-- Table structure for table `suggestions`
 --
 
-CREATE TABLE `suggestions_tou` (
-  `Suggest_id` varchar(10) NOT NULL,
-  `Device_id` varchar(10) NOT NULL,
-  `Bill_id` varchar(10) NOT NULL,
-  `Device_name` varchar(20) NOT NULL,
+CREATE TABLE `suggestions` (
+  `suggest_id` varchar(10) NOT NULL,
+  `device_id` varchar(10) NOT NULL,
+  `bill_id` varchar(10) NOT NULL,
+  `appliance` varchar(20) NOT NULL,
   `Priority` varchar(50) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `Sugesstions` varchar(500) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `cur_time` varchar(20) NOT NULL,
+  `change_time` varchar(20) NOT NULL,
+  `save_amount` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -455,12 +456,12 @@ ALTER TABLE `fixed_ucharge`
   ADD PRIMARY KEY (`Unit_category`);
 
 --
--- Indexes for table `suggestions_tou`
+-- Indexes for table `suggestions`
 --
-ALTER TABLE `suggestions_tou`
-  ADD PRIMARY KEY (`Suggest_id`,`Device_id`,`Bill_id`),
-  ADD KEY `FK10` (`Device_id`),
-  ADD KEY `FK12` (`Bill_id`),
+ALTER TABLE `suggestions`
+  ADD PRIMARY KEY (`suggest_id`,`device_id`,`bill_id`),
+  ADD KEY `FK10` (`device_id`),
+  ADD KEY `FK12` (`bill_id`),
   ADD KEY `FK9` (`Cust_id`);
 
 --
@@ -478,31 +479,26 @@ ALTER TABLE `tou_ucharge`
 --
 ALTER TABLE `customer`
   MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1025;
-
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `Emp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- Constraints for dumped tables
 --
@@ -524,7 +520,6 @@ ALTER TABLE `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_tou`
   ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

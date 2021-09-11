@@ -1,6 +1,7 @@
 var commonResponseService = require('../../service/responseService');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 var userProfileModel = require('../../model/user/userProfileModel');
+var authService = require('../../service/authServices');
 
 
 /**
@@ -75,6 +76,14 @@ async function acceptedUnitChargesUpdate(request, response) {
         var updateUnitChargesData = await unitChargesModel.acceptedUnitChargesUpdateFun(request.body, request.params.id);
         // console.log(profileData.data);
         commonResponseService.successWithMessage(response, updateUnitChargesData.mesg);
+        var allEmails = await userProfileModel.getAllEmailsFunc();
+        console.log("all mails", allEmails.data[0]);
+        for (let i = 0; i < allEmails.data.length; i++) {
+
+            authService.successWithMail(allEmails.data[i].Email, "electrosysg11@gmail.com", "Unit/Fixed Charges Changed", "<h5>Unit/Fixed charges have been changed, Please Recalculate your bill plans</h5>")
+
+        }
+
 
 
 

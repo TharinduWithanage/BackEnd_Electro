@@ -93,3 +93,32 @@ module.exports.profileUpdateFunc = (requestData, id) => {
     });
 
 }
+
+
+module.exports.getAllEmailsFunc = () => {
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("inside getAllEmailsFunc");
+
+        var selectQuery = `SELECT Email From customer ; `;
+
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}

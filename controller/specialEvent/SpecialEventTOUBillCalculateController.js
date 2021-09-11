@@ -195,7 +195,6 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
 
 
 async function getSpecialEventBillPlans(request, response) {
-
     try {
 
         console.log("Inside get Special Event calculation bill value controller");
@@ -204,16 +203,27 @@ async function getSpecialEventBillPlans(request, response) {
         
         var Bill_Plans = await addSpecialEventDeviceModel.getSpecialEventBillPlans( CustId);
     
-        console.log(Bill_Plans);
+        var length = Bill_Plans.data.length;
+
+         for (var i=0; i< length ; i++ ){
+             if(Bill_Plans.data[i].bill_model == "fixed"){
+                Bill_Plans.data[i].device_wise = `special-fixed-device-wise?bill_id=${Bill_Plans.data[i].bill_id}`;
+                Bill_Plans.data[i].moreDetails = `special-event-fixed?bill_id=${Bill_Plans.data[i].bill_id}`;
+
+             }else{
+                Bill_Plans.data[i].device_wise = `special-tou-device-wise?bill_id=${Bill_Plans.data[i].bill_id}`;
+                Bill_Plans.data[i].moreDetails = `TOU-Event-Form?bill_id=${Bill_Plans.data[i].bill_id}`;
+
+             }
+           
+         }
+
+         console.log(Bill_Plans.data);
         
-        if (Bill_Plans.data != null) {
+        
             commonResponseService.responseWithData(response, Bill_Plans.data);
     
-        } else {
-            // Bill_Plans.data.TotalCost = 0;
-            // Bill_Plans.data.TotalUnits = 0;
-            commonResponseService.responseWithData(response, Bill_Plans.data);
-        }
+         
         }
         catch (error) {
             console.log(error);
@@ -260,9 +270,9 @@ async function saveTOUBillValue(request, response){
        // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
        // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
 
-       
-        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId,TOUPlan_name);
+        await addSpecialEventDeviceModel.setSpecialEventPlan(Bill_details.data[0], CustId,TOUPlan_name);
 
+        await addSpecialEventDeviceModel.setTOUSpecialEventPlan(Bill_details.data[0], CustId);
         
 
          if (Bill_details.data != null) {

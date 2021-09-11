@@ -108,7 +108,7 @@ module.exports.getFixedBillIdFunc = (CustId) => {
         //console.log("Inside get bill id model function query"+ CustId);
 
         var selectQuery = `SELECT MAX(Bill_id) As max_bill_id
-        FROM ebill_special_event_fixed
+        FROM ebill_special_event
         Where Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
@@ -257,6 +257,132 @@ module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
             } else {
 
                 resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.setSpecialEventPlan = (Bill_details, CustId,Plan_name) => {
+    return new Promise(async (resolve, reject) => {
+
+        console.log(Bill_details.units_day_time);
+        var bill_id = Bill_details.billId;
+        var Total_units = Bill_details.total_units;
+        var Cust_id = CustId;
+        var bill_model = "fixed"
+
+
+        var addDeviceQuery = `INSERT INTO ebill_special_event 
+        (bill_id,Total_units,bill_plan_name,bill_model,Cust_id) 
+        VALUES("${bill_id}","${Total_units}","${Plan_name}","${bill_model}","${Cust_id}");`;
+
+
+        db.query(addDeviceQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error inserting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully insert data" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.deleteTOUBillPlanFunc = (CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+
+        var deleteQuery = `DELETE FROM ebill_special_event_tou WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.deleteSpecialBillPlanFunc = (CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+
+        var deleteQuery = `DELETE FROM ebill_special_event WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}
+
+module.exports.deleteSpecialBillPlanDevices = (CustId, bill_id, bill_model) => {
+    return new Promise(async (resolve, reject) => {
+        
+
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_id);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ CustId);
+        console.log("Inside get deleteTOUBillPlanFunc function query"+ bill_model);
+
+        if(bill_model == "fixed"){
+            var deleteQuery = `DELETE FROM electric_device_special_event_fixed WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+        }else{
+            var deleteQuery = `DELETE FROM electric_device_special_event_tou WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+        }
+
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
 
             }
 

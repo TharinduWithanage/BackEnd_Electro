@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 03:04 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Generation Time: Sep 08, 2021 at 01:14 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -45,7 +44,7 @@ INSERT INTO `customer` (`Cust_id`, `First_name`, `Last_name`, `Email`, `Password
 (1020, 'Tharindu', 'Dulshan', 'twtdulshan@gmail.com', '$2b$10$GLExitPGWHXpIChzY.VKx.jCkzrDWjAX08nCwYYgzJ6YotxLIQSSO', 'customer'),
 (1022, 'Ashika', 'Abeysuriya', 'ashika234@gmail.com', '$2b$10$MCo6b6AfuZoMiyMx/eng3epcr6WyYX88htBu302jfIWW4svRDcGXG', 'customer'),
 (1023, 'asdf', 'dfgh', 'asdf@gmail.com', '$2b$10$Tb9EgftKYXqauciqkkBbj.k54BOBMmYQtUsz6dJWczBio2lgU09Re', 'customer'),
-(1024, 'Minuri', 'Wickramanayaka', 'minuri@gmail.com', '$2b$10$aXd3jvV.0z8e.GIE4xF.X.9pEqqcOdm72fKrsX1YEgALX40jEvcT2', 'customer');
+(1024, 'Minuri', 'Yasara', 'minuri@gmail.com', '$2b$10$NQ8SDF34XmpkcGHHxAdqM.hL3Nf.kqQxlc/nmpbqsXdJL7rEGOt2G', 'customer');
 
 -- --------------------------------------------------------
 
@@ -82,16 +81,26 @@ INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ebill_special_event_fixed`
+-- Table structure for table `ebill_special_event`
 --
 
-CREATE TABLE `ebill_special_event_fixed` (
+CREATE TABLE `ebill_special_event` (
   `bill_id` int(11) NOT NULL,
   `bill_plan_name` varchar(100) NOT NULL,
-  `Total_cost_fixed` float NOT NULL,
+  `bill_model` varchar(50) NOT NULL,
   `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ebill_special_event`
+--
+
+INSERT INTO `ebill_special_event` (`bill_id`, `bill_plan_name`, `bill_model`, `Total_units`, `Cust_id`) VALUES
+(1, ' My Plan 1', '', 203.42, 1024),
+(2, ' My Plan 2', '', 36.36, 1024),
+(3, ' My Plan3', 'fixed', 162, 1024),
+(4, 'TOU plan 1', 'TOU', 75.4667, 1024);
 
 -- --------------------------------------------------------
 
@@ -101,7 +110,6 @@ CREATE TABLE `ebill_special_event_fixed` (
 
 CREATE TABLE `ebill_special_event_tou` (
   `bill_id` int(11) NOT NULL,
-  `bill_plan_name` varchar(100) NOT NULL,
   `Total_cost_tou` float NOT NULL,
   `Cost_day_time` float NOT NULL,
   `Cost_off_peak_time` float NOT NULL,
@@ -109,7 +117,6 @@ CREATE TABLE `ebill_special_event_tou` (
   `Units_day_time` float NOT NULL,
   `Units_off_peak_time` float NOT NULL,
   `Units_peak_time` float NOT NULL,
-  `Total_units` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -117,13 +124,14 @@ CREATE TABLE `ebill_special_event_tou` (
 -- Dumping data for table `ebill_special_event_tou`
 --
 
-INSERT INTO `ebill_special_event_tou` (`bill_id`, `bill_plan_name`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Cust_id`) VALUES
-(1, '', 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 0, 1022),
-(1, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(2, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(3, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(4, '', 540, 0, 0, 0, 0, 0, 0, 0, 1023),
-(5, '', 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 0, 1023);
+INSERT INTO `ebill_special_event_tou` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Cust_id`) VALUES
+(1, 543.71, 0.906667, 0.5083, 2.295, 0, 0, 0, 1022),
+(1, 540, 0, 0, 0, 0, 0, 0, 1023),
+(2, 540, 0, 0, 0, 0, 0, 0, 1023),
+(3, 540, 0, 0, 0, 0, 0, 0, 1023),
+(4, 540, 0, 0, 0, 0, 0, 0, 1023),
+(4, 2597.3, 515.833, 279.933, 1801.53, 20.6333, 21.5333, 33.3, 1024),
+(5, 558.07, 5.87833, 3.3384, 8.856, 0, 0, 0, 1023);
 
 -- --------------------------------------------------------
 
@@ -203,13 +211,13 @@ CREATE TABLE `electric_device_special_event_fixed` (
 
 INSERT INTO `electric_device_special_event_fixed` (`device_id`, `bill_id`, `appliance`, `quantity`, `hfixed`, `mfixed`, `using_minutes_fixed`, `power`, `total_units_fixed`, `numberOfDays`, `Cust_id`) VALUES
 (6, 1, 'hgfh', 1, 1, 0, 60, 12, 0.012, 1, 1022),
-(7, 1, 'acd', 2, 3, 0, 180, 1000, 12, 3, 1024),
-(8, 1, 'www', 3, 12, 0, 720, 233, 25.164, 3, 1024),
-(9, 1, 'ddd', 2, 4, 0, 240, 234, 0, 6, 1024),
-(10, 1, 'AAA', 2, 12, 0, 0, 120, 0, 3, 1024),
-(11, 1, 'AAA', 12, 23, 0, 1380, 123, 407.376, 1, 1024),
-(12, 1, 'BBB', 2, 2, 0, 120, 123, 0.984, 2, 1024),
-(13, 1, 'CCC', 2, 2, 0, 120, 2345, 18.76, 3, 1024);
+(7, 1, 'A1', 2, 12, 30, 750, 200, 10, 2, 1024),
+(8, 1, 'A2', 3, 10, 50, 650, 1234, 160.42, 4, 1024),
+(9, 1, 'A3', 12, 12, 30, 750, 110, 33, 2, 1024),
+(10, 2, 'B1', 2, 20, 0, 1200, 3, 0.36, 3, 1024),
+(11, 2, 'B2', 5, 12, 0, 720, 120, 36, 5, 1024),
+(12, 3, 'C1', 2, 12, 0, 720, 2000, 144, 3, 1024),
+(13, 3, 'C2', 1, 2, 0, 120, 3000, 18, 3, 1024);
 
 -- --------------------------------------------------------
 
@@ -269,9 +277,8 @@ INSERT INTO `electric_device_special_event_tou` (`device_id`, `bill_id`, `applia
 (38, 6, 'fgh', 3, 2, 0, 2, 0, 2, 2, 120, 120, 122, 34, 0, 0, 0, 18.853, 11.016, 2.652, 5.185, 3, 0, 1023),
 (39, 6, 'fdsg', 2, 2, 22, 3, 9, 0, 0, 142, 189, 0, 45, 0, 0, 0, 15.1875, 11.502, 3.6855, 0, 20, 0, 1023),
 (40, 6, 'bfdb', 3, 2, 11, 2, 9, 2, 0, 131, 129, 120, 500, 3.275, 3.225, 3, 293.775, 176.85, 41.925, 75, 2, 0, 1023),
-(41, 1, 'Morter', 3, 2, 0, 1, 0, 1, 0, 120, 60, 60, 1000, 6, 3, 3, 438, 324, 39, 75, 4, 12, 1024),
-(42, 1, 'Flash Light', 10, 3, 0, 1, 0, 2, 0, 180, 60, 120, 1000, 30, 10, 20, 2250, 1620, 130, 500, 5, 60, 1024),
-(43, 1, 'aaa', 3, 2, 0, 0, 40, 10, 0, 120, 40, 600, 1000, 6, 2, 30, 1100, 324, 26, 750, 2, 38, 1024);
+(41, 4, 'A1', 5, 4, 30, 2, 20, 3, 50, 270, 140, 230, 200, 4.5, 2.33333, 3.83333, 369.617, 243.45, 30.3333, 95.8333, 5, 10.6667, 1024),
+(42, 4, 'A2', 6, 4, 0, 2, 40, 2, 20, 240, 160, 140, 1200, 28.8, 19.2, 16.8, 2227.68, 1558.08, 249.6, 420, 2, 64.8, 1024);
 
 -- --------------------------------------------------------
 
@@ -312,38 +319,44 @@ CREATE TABLE `fixed_ucharge` (
   `Unit_charge` float NOT NULL,
   `Update_unit_charges` float NOT NULL,
   `Update_ucharge_status` tinyint(1) NOT NULL,
+  `Unit_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Unit_charges_accepted_date` varchar(20) DEFAULT NULL,
   `Fixed_charge` float NOT NULL,
   `Update_fixed_charges` float NOT NULL,
-  `Update_fcharge_status` tinyint(1) NOT NULL
+  `Update_fcharge_status` tinyint(1) NOT NULL,
+  `Fixed_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Fixed_charges_accepted_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `fixed_ucharge`
 --
 
-INSERT INTO `fixed_ucharge` (`Unit_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`) VALUES
-('00-30', 2.5, 0, 0, 30, 0, 0),
-('00-60', 7.85, 0, 0, 0, 0, 0),
-('121-180', 32, 0, 0, 480, 0, 0),
-('31-60', 4.85, 0, 0, 60, 0, 0),
-('61-90', 10, 0, 0, 90, 0, 0),
-('91-120', 27.75, 0, 0, 480, 0, 0),
-('More than 180', 45, 0, 0, 540, 0, 0);
+INSERT INTO `fixed_ucharge` (`Unit_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Unit_charges_requested_date`, `Unit_charges_accepted_date`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`, `Fixed_charges_requested_date`, `Fixed_charges_accepted_date`) VALUES
+('00-30', 2.5, 2.5, 0, '2021-09-03', '2021-09-03', 30, 30, 0, '2021-09-03', '2021-09-03'),
+('00-60', 7.85, 7.86, 0, '2021-09-03', NULL, 0, 0, 0, '2021-09-03', '2021-09-03'),
+('121-180', 32, 0, 0, NULL, NULL, 480, 0, 0, NULL, NULL),
+('31-60', 4.85, 0, 0, NULL, NULL, 60, 0, 0, NULL, NULL),
+('61-90', 10, 0, 0, NULL, NULL, 90, 0, 0, NULL, NULL),
+('91-120', 27.75, 0, 0, NULL, NULL, 480, 0, 0, NULL, NULL),
+('More than 180', 45, 0, 0, NULL, NULL, 540, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suggestions_tou`
+-- Table structure for table `suggestions`
 --
 
-CREATE TABLE `suggestions_tou` (
-  `Suggest_id` varchar(10) NOT NULL,
-  `Device_id` varchar(10) NOT NULL,
-  `Bill_id` varchar(10) NOT NULL,
-  `Device_name` varchar(20) NOT NULL,
+CREATE TABLE `suggestions` (
+  `suggest_id` varchar(10) NOT NULL,
+  `device_id` varchar(10) NOT NULL,
+  `bill_id` varchar(10) NOT NULL,
+  `appliance` varchar(20) NOT NULL,
   `Priority` varchar(50) NOT NULL,
-  `Quantity` int(11) NOT NULL,
-  `Sugesstions` varchar(500) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `cur_time` varchar(20) NOT NULL,
+  `change_time` varchar(20) NOT NULL,
+  `save_amount` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -358,19 +371,23 @@ CREATE TABLE `tou_ucharge` (
   `Unit_charge` float NOT NULL,
   `Update_unit_charges` float NOT NULL,
   `Update_ucharge_status` tinyint(1) NOT NULL,
+  `Unit_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Unit_charges_accepted_date` varchar(20) DEFAULT NULL,
   `Fixed_charge` float NOT NULL,
   `Update_fixed_charges` float NOT NULL,
-  `Update_fcharge_status` tinyint(1) NOT NULL
+  `Update_fcharge_status` tinyint(1) NOT NULL,
+  `Fixed_charges_requested_date` varchar(20) DEFAULT NULL,
+  `Fixed_charges_accepted_date` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tou_ucharge`
 --
 
-INSERT INTO `tou_ucharge` (`Time_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`) VALUES
-('Day', 25, 20, 0, 540, 540, 0),
-('Off Peak', 13, 13, 0, 540, 0, 0),
-('Peak', 54, 54, 0, 540, 0, 0);
+INSERT INTO `tou_ucharge` (`Time_category`, `Unit_charge`, `Update_unit_charges`, `Update_ucharge_status`, `Unit_charges_requested_date`, `Unit_charges_accepted_date`, `Fixed_charge`, `Update_fixed_charges`, `Update_fcharge_status`, `Fixed_charges_requested_date`, `Fixed_charges_accepted_date`) VALUES
+('Day', 25, 20, 0, NULL, NULL, 540, 540, 0, NULL, NULL),
+('Off Peak', 13, 13, 0, NULL, NULL, 540, 0, 0, NULL, NULL),
+('Peak', 54, 54, 0, '2021-09-03', '2021-09-03', 540, 540, 0, '2021-09-03', '2021-09-03');
 
 --
 -- Indexes for dumped tables
@@ -391,9 +408,9 @@ ALTER TABLE `ebill_monthly_plan`
   ADD KEY `FK1` (`Cust_id`);
 
 --
--- Indexes for table `ebill_special_event_fixed`
+-- Indexes for table `ebill_special_event`
 --
-ALTER TABLE `ebill_special_event_fixed`
+ALTER TABLE `ebill_special_event`
   ADD PRIMARY KEY (`bill_id`,`Cust_id`) USING BTREE,
   ADD KEY `FK16` (`Cust_id`);
 
@@ -439,12 +456,12 @@ ALTER TABLE `fixed_ucharge`
   ADD PRIMARY KEY (`Unit_category`);
 
 --
--- Indexes for table `suggestions_tou`
+-- Indexes for table `suggestions`
 --
-ALTER TABLE `suggestions_tou`
-  ADD PRIMARY KEY (`Suggest_id`,`Device_id`,`Bill_id`),
-  ADD KEY `FK10` (`Device_id`),
-  ADD KEY `FK12` (`Bill_id`),
+ALTER TABLE `suggestions`
+  ADD PRIMARY KEY (`suggest_id`,`device_id`,`bill_id`),
+  ADD KEY `FK10` (`device_id`),
+  ADD KEY `FK12` (`bill_id`),
   ADD KEY `FK9` (`Cust_id`);
 
 --
@@ -462,46 +479,35 @@ ALTER TABLE `tou_ucharge`
 --
 ALTER TABLE `customer`
   MODIFY `Cust_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1025;
-
 --
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
   MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
 ALTER TABLE `electric_device_special_event_tou`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
-
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `Emp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `ebill_special_event_fixed`
+-- Constraints for table `ebill_special_event`
 --
-ALTER TABLE `ebill_special_event_fixed`
+ALTER TABLE `ebill_special_event`
   ADD CONSTRAINT `FK16` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `ebill_special_event_tou`
---
-ALTER TABLE `ebill_special_event_tou`
-  ADD CONSTRAINT `FK_15` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `electric_device_special_event_fixed`
@@ -514,7 +520,6 @@ ALTER TABLE `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_tou`
   ADD CONSTRAINT `FK13` FOREIGN KEY (`Cust_id`) REFERENCES `customer` (`Cust_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

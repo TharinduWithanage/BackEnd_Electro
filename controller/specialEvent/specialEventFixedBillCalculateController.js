@@ -231,8 +231,78 @@ async function calculatedFixedBillValue(request, response){
     }
 }
 
+async function saveFixedBillValue(request, response){
+    try {
+
+        
+        var billId = request.body.bill_id;
+        console.log("save TOU  Bill value:",billId);
+        var CustId = request.params.id;
+        var FixedPlan_name=request.body.fixed_plan_name;
+        console.log("Bill Plan Name:", FixedPlan_name);
+        
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(billId, CustId );
+        console.log("Bill Details Calculated:",Bill_details);
+        //var total_units = Bill_details.data[0].TotalUnits;
+        Bill_details.data[0].billId = parseInt(billId);
+       // Bill_details.data[0].additionalUnits = parseInt(Bill_details.data[0].Total_units);
+       // Bill_details.data[0].additionalCost = parseInt(Bill_details.data[0].TOU_bill_sum);
+
+       
+        await addSpecialEventDeviceModel.setSpecialEventPlan(Bill_details.data[0],CustId,FixedPlan_name);
+
+        
+
+         if (Bill_details.data != null) {
+            console.log("The saveTOUBillValue bill details is :",Bill_details);
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        } else {
+            console.log("TOU  saveTOUBillValue Special Event Saved SuccessFully!!");
+            Bill_details.data.TotalCost = 0;
+            Bill_details.data.TotalUnits = 0;
+            commonResponseService.responseWithData(response, Bill_details.data);
+
+        }
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+async function deleteBillPlan(request, response){
+    try {
+
+        console.log("inside deleteBillPlan special event Controller");
+        var Cust_id = request.params.id;
+        console.log(request.body);
+        var bill_model = request.body.bill_model;
+        var bill_id = request.body.bill_id;
+        
+        var bill_plan_delete = await addSpecialEventDeviceModel.deleteSpecialBillPlanFunc(Cust_id, bill_id);
+
+        if(bill_model == "TOU"){
+            var tou_bill_plan_delete = await addSpecialEventDeviceModel.deleteTOUBillPlanFunc(Cust_id, bill_id);
+        }
+         
+        var bill_plan_delete_devices = await addSpecialEventDeviceModel.deleteSpecialBillPlanDevices(Cust_id, bill_id, bill_model);
+        
+
+        
+        
+        commonResponseService.successWithMessage(response, bill_plan_delete.mesg);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue};
+
+module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue};
 

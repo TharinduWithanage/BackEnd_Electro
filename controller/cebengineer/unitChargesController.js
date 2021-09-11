@@ -76,13 +76,20 @@ async function acceptedUnitChargesUpdate(request, response) {
         var updateUnitChargesData = await unitChargesModel.acceptedUnitChargesUpdateFun(request.body, request.params.id);
         // console.log(profileData.data);
         commonResponseService.successWithMessage(response, updateUnitChargesData.mesg);
-        var allEmails = await userProfileModel.getAllEmailsFunc();
-        console.log("all mails", allEmails.data[0]);
-        for (let i = 0; i < allEmails.data.length; i++) {
+        // var allEmails = await userProfileModel.getAllEmailsFunc();
+        // console.log("all mails", allEmails.data[0]);
 
-            authService.successWithMail(allEmails.data[i].Email, "electrosysg11@gmail.com", "Unit/Fixed Charges Changed", "<h5>Unit/Fixed charges have been changed, Please Recalculate your bill plans</h5>")
+        // for (let i = 0; i < allEmails.data.length; i++) {
 
-        }
+        //     if (request.params.id == "normal") {
+        //         // authService.successWithMail(allEmails.data[i].Email, "electrosysg11@gmail.com", `${request.body.categoryName} Price Changed`, ` <h4>${request.body.categoryName} charges of ${request.body.unitPeriod}  unit period has been changed, Please Recalculate your bill plans</h4>`)
+
+        //     } else {
+        //         // authService.successWithMail(allEmails.data[i].Email, "electrosysg11@gmail.com", `${request.body.categoryName} Price Changed`, ` <h4>${request.body.categoryName} charges of ${request.body.timePeriod}  time period has been changed, Please Recalculate your bill plans</h4>`)
+
+        //     }
+
+        // }
 
 
 

@@ -108,7 +108,7 @@ module.exports.PendingNormalUnitChargesFun = (unit_id) => {
 
 /**
  * get pending tou unit charges
- * @param {*} unit_id
+ * @param {*} unit_id eigther unit or fixed
  */
 module.exports.PendingTouUnitChargesFun = (unit_id) => {
   return new Promise(async (resolve, reject) => {

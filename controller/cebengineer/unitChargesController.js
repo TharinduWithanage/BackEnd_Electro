@@ -1,5 +1,7 @@
 var commonResponseService = require('../../service/responseService');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
+var userProfileModel = require('../../model/user/userProfileModel');
+
 
 /**
  * user Profile 

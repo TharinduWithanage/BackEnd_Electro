@@ -1,27 +1,69 @@
 var db = require('../../database/databaseConnection');
 
-module.exports.getDeviceUsageTou = (Obj) => {
-    //return new Promise(async (resolve, reject) => {
+module.exports.addSuggestion = (suggestion) => {
+    return new Promise(async (resolve, reject) => {
         console.log("inside of suggestion Model");
-        console.log(Obj);
+        console.log(suggestion);
 
-        // var selectDeviceWiseTouQuery = `SELECT device_id,appliance, quantity,  cost_day_time, cost_off_peak_time, cost_peak_time ,total_units, total_cost_TOU FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId} ORDER BY total_units DESC;`;
-        // console.log(selectDeviceWiseTouQuery)
+        var Cust_id = suggestion.Cust_id
+        var device_id = suggestion.device_id
+        var bill_id = suggestion.bill_id
+        var appliance = suggestion.appliance
+        var quantity = suggestion.quantity
+        var priority = suggestion.priority
+        var cur_time = suggestion.cur_time
+        var change_time = suggestion.change_time
+        var can_change_minutes = suggestion.can_change_minutes
+        var save_amount = suggestion.save_amount
+       
 
-        // db.query(selectDeviceWiseTouQuery, async function (error, result) {
+        var addDeviceQuery = `INSERT INTO suggestions 
+        (Cust_id, device_id, bill_id, appliance, quantity, priority,
+         cur_time, change_time, can_change_minutes, save_amount) 
+        VALUES("${Cust_id}","${device_id}","${bill_id}","${appliance}","${quantity}","${priority}",
+        "${cur_time}","${change_time}","${can_change_minutes}","${save_amount}");`;
 
-        //     if (error) {
-        //         console.log(error);
+        db.query(addDeviceQuery, async function (error, result) {
 
-        //         reject({ status: false, mesg: "error getting data" });
-        //     } else {
-        //         // console.log(result);
+            if (error) {
+                console.log(error);
 
-        //         resolve({ status: true, data: result });
+                reject({ status: false, mesg: "error inserting data" });
+            } else {
+                // console.log(result);
 
-        //     }
+                resolve({ status: true, mesg: "successfully insert data" });
 
-        // });
-   // });
+            }
+
+        });
+   });
+
+}
+
+module.exports.getDeviceId = (BillId, CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        var selectQuery = `SELECT MAX(device_id) As device_id FROM electric_device_mplan Where Cust_id = ${CustId} AND bill_id=${BillId};`;
+
+        console.log("Inside getDeviceId model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
 
 }

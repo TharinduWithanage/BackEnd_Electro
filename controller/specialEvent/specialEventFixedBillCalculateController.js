@@ -146,6 +146,34 @@ async function GetSpecialEventDeviceDataFixed(request, response) {
     }
 }
 
+async function getSpecialEventFixedMoreDetails(request, response) {
+
+    try {
+
+        console.log("inside get special Event more details Controller");
+        var Cust_id = request.params.id;
+        var Fixed_Bill_id=request.body.bill_id;
+        console.log("Customer id for fixed is:",Cust_id);
+        console.log("Fixed bill id:",Fixed_Bill_id);
+        var Fixed_Special_Moredetails = await addSpecialEventDeviceModel.getSpecialEventDetailsFixed(Cust_id, Fixed_Bill_id);
+
+        if (Fixed_Special_Moredetails.data != null) {
+            console.log("The fixed More Details are:");
+           console.log(Fixed_Special_Moredetails.data);
+            commonResponseService.responseWithData(response, Fixed_Special_Moredetails.data);
+
+        } else {
+
+            commonResponseService.responseWithData(response, "No data");
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
 
 
 async function updateDeviceDataSpecialEvent(request, response) {
@@ -231,6 +259,10 @@ async function calculatedFixedBillValue(request, response){
     }
 }
 
+
+
+
+
 async function saveFixedBillValue(request, response){
     try {
 
@@ -272,6 +304,51 @@ async function saveFixedBillValue(request, response){
     }
 }
 
+
+
+
+async function getBillPlanName(request, response){
+    try {
+
+        console.log("inside get Bill Plan Name");
+        var Cust_id = request.params.id;
+        console.log(request.body);
+        var bill_id = request.body.bill_id;
+        
+        var bill_plan_name = await addSpecialEventDeviceModel.getBillPlanName(Cust_id, bill_id);
+
+        
+        commonResponseService.successWithMessage(response, bill_plan_name);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+async function updateSpecialEventFixedBillPlanName(request, response){
+    try {
+
+        console.log("inside Update bill  Plan Name");
+        var Cust_id = request.params.id;
+        console.log(request.body);
+        var bill_id = request.body.bill_id;
+        var bill_plan_name = request.body.fixed_plan_name;
+        
+         await addSpecialEventDeviceModel.updateBillPlanName(Cust_id, bill_id,bill_plan_name);
+
+        
+        
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
+
+
 async function deleteBillPlan(request, response){
     try {
 
@@ -304,5 +381,5 @@ async function deleteBillPlan(request, response){
 
 
 
-module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue};
+module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue,getSpecialEventFixedMoreDetails,getBillPlanName,updateSpecialEventFixedBillPlanName};
 

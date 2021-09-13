@@ -132,6 +132,26 @@ router
     specialEventFixedBillCalculate.getFixedBillId
   );
 
+  router
+  .route("/get-bill-plan-name/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.getBillPlanName
+  );
+
+
+ 
+
+
+  router
+  .route("/ update-special-event-FixedbillPlan/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.updateSpecialEventFixedBillPlanName
+  );
+
+  
+
 //get Special Event Bill id for front end TOU
 router
   .route("/get-special-event-tou-bill-id/:id")
@@ -259,6 +279,16 @@ router
     specialEventTOUBillCalculate.getSpecialEventBillPlans
   );
 
+
+  router
+  .route("/special-event-fixed/:id")
+  .post(
+    authService.validateToken,
+    specialEventFixedBillCalculate.getSpecialEventFixedMoreDetails
+  );
+
+  
+
 //calculate the main bill
 router
   .route("/delete-bill-main-plan/:id")
@@ -281,6 +311,7 @@ router
     specialEventFixedBillCalculate.calculatedFixedBillValue
   );
 
+  
 //calculate the main bill
 router
   .route("/save-special-event-Fixedbill/:id")

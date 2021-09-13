@@ -270,16 +270,21 @@ module.exports.getBillPlanName = (CustId,BillId) => {
 
 
 
-module.exports.updateBillPlanName = (CustId,BillId,bill_plan_name) => {
+module.exports.updateBillPlanName = (Bill_details,Cust_id,bill_plan_name) => {
 
     return new Promise(async (resolve, reject) => {
+        var bill_id = Bill_details.billId;
+        var Total_units = Bill_details.total_units;
+        
 
+        
 
-        console.log("Inside Update Bill Plan name :"+ CustId);
+        console.log("Inside Update Bill Plan name :"+ Cust_id);
         
 
         var updateSpecialEventBillPlanName = `UPDATE ebill_special_event
-        SET bill_plan_name='${bill_plan_name}'  WHERE Cust_id='${CustId}' AND bill_id='${bill_id}' ;`;
+        SET bill_plan_name='${bill_plan_name}',Total_units='${Total_units}' WHERE Cust_id='${Cust_id}' AND bill_id='${bill_id}' ;`;
+
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 

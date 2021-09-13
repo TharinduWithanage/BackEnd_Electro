@@ -144,7 +144,7 @@ router
 
 
   router
-  .route("/ update-special-event-FixedbillPlan/:id")
+  .route("/update-special-event-FixedbillPlan/:id")
   .post(
     authService.validateToken,
     specialEventFixedBillCalculate.updateSpecialEventFixedBillPlanName
@@ -285,6 +285,14 @@ router
   .post(
     authService.validateToken,
     specialEventFixedBillCalculate.getSpecialEventFixedMoreDetails
+  );
+
+
+  router
+  .route("/TOU-Event-Form/:id")
+  .post(
+    authService.validateToken,
+    specialEventTOUBillCalculate.getSpecialEvenTOUMoreDetails
   );
 
   

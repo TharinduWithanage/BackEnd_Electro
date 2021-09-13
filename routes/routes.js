@@ -149,7 +149,7 @@ router
 
 
   router
-  .route("/ update-special-event-FixedbillPlan/:id")
+  .route("/update-special-event-FixedbillPlan/:id")
   .post(
     authService.validateToken,
     specialEventFixedBillCalculate.updateSpecialEventFixedBillPlanName

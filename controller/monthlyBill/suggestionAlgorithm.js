@@ -14,7 +14,6 @@ function suggestion() {
   obj.Cust_id = 0;
   obj.bill_id = 0;
   obj.device_id = 0;
-  obj.save_units = 0.0;
   return obj;
 }
 
@@ -36,12 +35,16 @@ async function makeSuggestions(devicedata, id) {
 
     var can_change_time;
     var can_change_unit;
+    var DeviceId = await suggestionModel.getDeviceId(devicedata.bill_id ,id);
+    var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
+    // console.log("device id get from database", DeviceId.data);
+
 
     newSug.bill_id = devicedata.bill_id;
     newSug.appliance = devicedata.appliance;
     newSug.quantity = devicedata.quantity;
     newSug.priority = devicedata.priority;
-    newSug.device_id = devicedata.device_id;
+    newSug.device_id = DeviceId.data[0].device_id;
     newSug.Cust_id = id;
 
     var using_minutes_peak_time = devicedata.using_minutes_peak_time
@@ -49,21 +52,7 @@ async function makeSuggestions(devicedata, id) {
     var using_minutes_day_time = devicedata.using_minutes_day_time
 
 
-    // var peak_cost = devicedata.cost_peak_time
-    // var day_cost = devicedata.cost_day_time
-    // power = devicedata.power
-
-    // var total_units = devicedata.total_units
-    // var units_peak_time = devicedata.units_peak_time
-    // var units_off_peak_time = devicedata.units_off_peak_time
-    // var units_day_time = devicedata.units_day_time
-    // total_cost_TOU = devicedata.total_cost_TOU
     
-    //console.log(newSug);
-
-    // var Device_details = request.body.data;
-
-    var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
 
     var DayUnitCost = UnitPrice.data[0].Unit_charge;
     var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
@@ -96,7 +85,7 @@ async function makeSuggestions(devicedata, id) {
         newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
 
         //add to suggestion to database
-        suggestionModel.getDeviceUsageTou(newSug);
+        suggestionModel.addSuggestion(newSug);
 
         
       }
@@ -122,7 +111,7 @@ async function makeSuggestions(devicedata, id) {
         newSug.save_amount = parseFloat(Saving_amount_Switch_day);
 
         //add to suggestion to database
-        suggestionModel.getDeviceUsageTou(newSug);
+        suggestionModel.addSuggestion(newSug);
 
       }
 
@@ -147,7 +136,7 @@ async function makeSuggestions(devicedata, id) {
         newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
 
         //add to suggestion to database
-        suggestionModel.getDeviceUsageTou(newSug);
+        suggestionModel.addSuggestion(newSug);
   
       }
     }

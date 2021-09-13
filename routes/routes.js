@@ -287,6 +287,13 @@ router
     specialEventFixedBillCalculate.getSpecialEventFixedMoreDetails
   );
 
+  router
+  .route("/TOU-Event-Form/:id")
+  .post(
+    authService.validateToken,
+    specialEventTOUBillCalculate.getSpecialEvenTOUMoreDetails
+  );
+
   
 
 //calculate the main bill

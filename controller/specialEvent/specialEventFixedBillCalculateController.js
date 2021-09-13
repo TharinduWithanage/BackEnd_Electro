@@ -318,7 +318,7 @@ async function getBillPlanName(request, response){
         var bill_plan_name = await addSpecialEventDeviceModel.getBillPlanName(Cust_id, bill_id);
 
         
-        commonResponseService.successWithMessage(response, bill_plan_name);
+        commonResponseService.responseWithData(response,bill_plan_name.data);
         
 
     } catch (error) {
@@ -335,12 +335,10 @@ async function updateSpecialEventFixedBillPlanName(request, response){
         console.log(request.body);
         var bill_id = request.body.bill_id;
         var bill_plan_name = request.body.fixed_plan_name;
-        
-         await addSpecialEventDeviceModel.updateBillPlanName(Cust_id, bill_id,bill_plan_name);
-
-        
-        
-        
+        var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(bill_id, Cust_id);
+        Bill_details.data[0].billId = parseInt(bill_id);
+         const update_status=await addSpecialEventDeviceModel.updateBillPlanName(Bill_details.data[0],Cust_id,bill_plan_name);
+         commonResponseService.successWithMessage(response, update_status.mesg);
 
     } catch (error) {
         console.log(error);

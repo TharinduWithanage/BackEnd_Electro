@@ -12,6 +12,7 @@ var calculation = require("../controller/monthlyBill/calculation");
 var deviceWiseController = require("../controller/monthlyBill/deviceWiseController");
 var billPlanController = require("../controller/monthlyBill/billPlanController");
 var specialEventController = require("../controller/specialEvent/specialEventController");
+var SuggestionsController = require("../controller/monthlyBill/SuggestionsController")
 
 
 var authService = require("../service/authServices");
@@ -339,6 +340,10 @@ router
 //Get Spceial event device wise details
 router
   .route("/get-specialEvent-details-devicewise-tou/:id").post(authService.validateToken,specialEventController.GetSpecialEventDeviceDataTOU);
+
+//Get device wise suggestions
+router
+  .route("/get-suggestions/:id").post(authService.validateToken,SuggestionsController.GetDeviceWiseSuggestions);
 
 
 module.exports = router;

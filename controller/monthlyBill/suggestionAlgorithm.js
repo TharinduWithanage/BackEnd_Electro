@@ -1,69 +1,150 @@
-// We don’t run the algorithm, if the priority is “high” peak =4 , day = 13 , off_peak =7
-// If (priority != high) {
-// 	// Get the saving amount when the device transfer from peak to Offpeak
-// 	If (Using_hours_Peak > 0 && (7 - Using_hours_Off_peak  > 0)) {
-// 		If  (7 - Using_hours_Off_peak  >= Using_hours_Peak) {
-// 			Float can_change_time = Using_hours_Peak
-// 			Float Saving_amount_Switch_offPeak = 
-// PeaktoOffpeak(Using_hours_Peak, peak_cost);
+var commonResponseService = require("../../service/responseService");
+var suggestionModel = require("../../model/monthlyBill/suggestionModel");
+var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 
-// 		} else {
-// Float can_change_time = 7 - Using_hours_Peak
-// Float Saving_amount_Switch_offPeak = 
-// PeaktoOffpeak( 7 - Using_hours_Peak , peak_cost );
+function suggestion() {
+  const obj = {};
+  obj.appliance = "";
+  obj.priority = "";
+  obj.quantity = 0;
+  obj.cur_time = "";
+  obj.change_time = "";
+  obj.can_change_minutes_per_day = 0;
+  obj.save_amount = 0.0;
+  obj.Cust_id = 0;
+  obj.bill_id = 0;
+  obj.device_id = 0;
+  return obj;
+}
 
-// }
+function getNoOfUnits(power, minutes, quantity){
 
-// Add new suggestion to Database {
-// 	Current_time = “peak”;   
-// Change_time = “off peak”;
-// Change_time = can_change_time;
-// Saving_cost = Saving_amount_Switch_offPeak;
-// }
-		
-// }
+    var numOfUnits = quantity* power * minutes * 60 * 30 / 3600000;
+    return numOfUnits;
+}
 
-// If (Using_hours_Peak > 0 && (13 - Using_hours_Day  > 0)) {
-// 		If  (13 - Using_hours_Day  >= Using_hours_Peak){
-// 			Float can_change_time = Using_hours_Peak
-// 			Float Saving_amount_Switch_day = 
-// PeaktoOffpeak(Using_hours_Peak, peak_cost);
-
-// 		} else {
-// 			Float can_change_time = 13 - Using_hours_Peak
-// Float Saving_amount_Switch_day = 
-// PeaktoOffpeak( 13 - Using_hours_Peak , peak_cost );
-// }
-
-// Add new suggestion to Database {
-// 	Current_time = “peak”;   
-// Change_time = “day”;
-// Change_time = can_change_time;
-// Saving_cost = Saving_amount_Switch_offPeak;
-// }
-// }
+function getSavingAmount(units, curr_time_unit_cost, change_time_unit_cost){
+    var saving_amount = parseFloat(units*curr_time_unit_cost) - parseFloat(units*change_time_unit_cost);
+    return parseFloat(saving_amount);
+}
 
 
-// If (Using_hours_Day > 0 && (7 - Using_hours_Off_peak  > 0)) {
-// 		If  (7 - Using_hours_Off_peak  >= Using_hours_Day){
-// 			Float can_change_time = Using_hours_Day
-// 			Float Saving_amount_Switch_offPeak = 
-// PeaktoOffpeak(Using_hours_Day, peak_cost);
+async function makeSuggestions(devicedata, id) {
+  try {
+    const newSug = suggestion();
 
-// 		} else {
-// 			Float can_change_time = 7 - Using_hours_Day
-// Float Saving_amount_Switch_offPeak = 
-// PeaktoOffpeak( 7 - Using_hours_Day, peak_cost );
+    var can_change_time;
+    var can_change_unit;
+    var DeviceId = await suggestionModel.getDeviceId(devicedata.bill_id ,id);
+    var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
+    // console.log("device id get from database", DeviceId.data);
 
-// }
 
-// Add new suggestion to Database {
-// 	Current_time = “peak”;   
-// Change_time = “off peak”;
-// Change_time = can_change_time;
-// Saving_cost = Saving_amount_Switch_offPeak;
-// }
-		
-// }
+    newSug.bill_id = devicedata.bill_id;
+    newSug.appliance = devicedata.appliance;
+    newSug.quantity = devicedata.quantity;
+    newSug.priority = devicedata.priority;
+    newSug.device_id = DeviceId.data[0].device_id;
+    newSug.Cust_id = id;
 
-// }
+    var using_minutes_peak_time = devicedata.using_minutes_peak_time
+    var using_minutes_off_peak_time = devicedata.using_minutes_off_peak_time
+    var using_minutes_day_time = devicedata.using_minutes_day_time
+
+
+    
+
+    var DayUnitCost = UnitPrice.data[0].Unit_charge;
+    var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
+    var PeakUnitCost = UnitPrice.data[2].Unit_charge;
+
+   
+// We don’t run the algorithm, if the priority is “high” peak = 240 , day = 780 , off_peak = 420
+    if (devicedata.priority != "high") {
+
+      // Get the saving amount when the device transfer from peak to Offpeak
+      if (using_minutes_peak_time > 0 && (420 - using_minutes_off_peak_time) > 0) {
+
+        if ( (420 - using_minutes_off_peak_time) >= using_minutes_peak_time) {
+
+          can_change_time = using_minutes_peak_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_offPeak = getSavingAmount(can_change_unit, PeakUnitCost, OffPeakUnitCost);
+
+        } else {
+
+          can_change_time = 420 - using_minutes_off_peak_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_offPeak = getSavingAmount( can_change_unit, PeakUnitCost, OffPeakUnitCost);
+
+        }
+
+        newSug.cur_time = "peak";
+        newSug.change_time = "off peak";
+        newSug.can_change_minutes_per_day = can_change_time;
+        newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
+
+        //add to suggestion to database
+        suggestionModel.addSuggestion(newSug);
+
+        
+      }
+
+      if (using_minutes_peak_time > 0 && 780 - using_minutes_day_time > 0) {
+        if (780 - using_minutes_day_time >= using_minutes_peak_time) {
+
+          can_change_time = using_minutes_peak_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_day = getSavingAmount(can_change_unit, PeakUnitCost, DayUnitCost);
+
+        } else {
+
+          can_change_time = 780 - using_minutes_day_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_day = getSavingAmount(can_change_unit, PeakUnitCost, DayUnitCost);
+
+        }
+
+        newSug.cur_time = "peak";
+        newSug.change_time = "day";
+        newSug.can_change_minutes_per_day = can_change_time;
+        newSug.save_amount = parseFloat(Saving_amount_Switch_day);
+
+        //add to suggestion to database
+        suggestionModel.addSuggestion(newSug);
+
+      }
+
+      if (using_minutes_day_time > 0 && 420 - using_minutes_off_peak_time > 0) {
+        if (420 - using_minutes_off_peak_time >= using_minutes_day_time) {
+
+          can_change_time = using_minutes_day_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_offPeak = getSavingAmount(can_change_unit, DayUnitCost, OffPeakUnitCost);
+
+        } else {
+
+          can_change_time = 420 - using_minutes_off_peak_time;
+          can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
+          var Saving_amount_Switch_offPeak = getSavingAmount(can_change_unit , DayUnitCost, OffPeakUnitCost);
+
+        }
+
+        newSug.cur_time = "day";
+        newSug.change_time = "off peak";
+        newSug.can_change_minutes_per_day = can_change_time;
+        newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
+
+        //add to suggestion to database
+        suggestionModel.addSuggestion(newSug);
+  
+      }
+    }
+
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { makeSuggestions };

@@ -36,6 +36,7 @@ module.exports.addSuggestion = (suggestion) => {
 
             }
 
+
         });
    });
 
@@ -52,8 +53,7 @@ module.exports.getDeviceId = (BillId, CustId) => {
 
 
         db.query(selectQuery, async function (error, result) {
-
-            if (error) {
+        if (error) {
                 console.log(error);
 
                 reject({ status: false, mesg: "error getting data" });
@@ -67,3 +67,32 @@ module.exports.getDeviceId = (BillId, CustId) => {
     });
 
 }
+
+
+
+module.exports.getSuggestions = (billId, userId) => {
+    return new Promise(async (resolve, reject) => {
+
+        var selectDeviceWiseSuggestions = `SELECT * FROM suggestions where bill_id = ${billId} AND Cust_id = ${userId};`;
+        console.log(selectDeviceWiseSuggestions)
+
+        db.query(selectDeviceWiseSuggestions, async function (error, result) {
+
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+
+}
+

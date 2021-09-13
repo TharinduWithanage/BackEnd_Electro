@@ -65,6 +65,39 @@ module.exports.AddSpecialEventDeviceDataTOU = (devicedataTOU, id) => {
 
 
 
+module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Get Special Event TOU More Details Model");
+        console.log("TOU Bill id",billId);
+
+        var selectQuery = `SELECT device_id as id,appliance,quantity,power,hPeak,mPeak,hOffPeak,mOffPeak,hDay,mDay,numberOfDays FROM electric_device_special_event_tou WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                console.log("Fixed More data is : "+result);
+                resolve({ status: true,  data: result  });
+
+            }
+
+        });
+    });
+
+}
+
+
+
+
+
 module.exports.getTOUBillIdFunc = (CustId) => {
     return new Promise(async (resolve, reject) => {
 

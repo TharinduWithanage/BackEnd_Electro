@@ -335,8 +335,37 @@ async function calculatedTOUBillValue(request, response){
 }
 
 
+async function getSpecialEvenTOUMoreDetails(request, response) {
+
+    try {
+
+        console.log("inside get special Event TOU more details Controller");
+        var Cust_id = request.params.id;
+        var TOU_Bill_id=request.body.bill_id;
+        console.log("Customer id for fixed is:",Cust_id);
+        console.log("TOU bill id:",TOU_Bill_id);
+        var TOU_Special_Moredetails = await addSpecialEventDeviceModel.getSpecialEventDetailsTOU(Cust_id, TOU_Bill_id);
+
+        if (TOU_Special_Moredetails.data != null) {
+            console.log("The TOU More Details are:");
+           console.log(TOU_Special_Moredetails.data);
+            commonResponseService.responseWithData(response, TOU_Special_Moredetails.data);
+
+        } else {
+
+            commonResponseService.responseWithData(response, "No data");
+
+        }
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+}
 
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue,getSpecialEventBillPlans};
+
+
+module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue,getSpecialEventBillPlans,getSpecialEvenTOUMoreDetails};
 

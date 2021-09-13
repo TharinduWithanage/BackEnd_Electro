@@ -1,5 +1,5 @@
 var commonResponseService = require('../../service/responseService');
-var SuggestionsModel = require('../../model/monthlyBill/SuggestionsModel');
+var SuggestionsModel = require('../../model/monthlyBill/suggestionModel');
 
 
 /**

@@ -285,6 +285,7 @@ module.exports.updateBillPlanName = (Bill_details,Cust_id,bill_plan_name) => {
         var updateSpecialEventBillPlanName = `UPDATE ebill_special_event
         SET bill_plan_name='${bill_plan_name}',Total_units='${Total_units}' WHERE Cust_id='${Cust_id}' AND bill_id='${bill_id}' ;`;
 
+
         //console.log("Inside get bill id model function query"+ selectQuery);
 
 

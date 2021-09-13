@@ -9,7 +9,7 @@ function suggestion() {
   obj.quantity = 0;
   obj.cur_time = "";
   obj.change_time = "";
-  obj.can_change_minutes = 0;
+  obj.can_change_minutes_per_day = 0;
   obj.save_amount = 0.0;
   obj.Cust_id = 0;
   obj.bill_id = 0;
@@ -73,7 +73,7 @@ async function makeSuggestions(devicedata, id) {
 
         } else {
 
-          can_change_time = 420 - using_minutes_peak_time;
+          can_change_time = 420 - using_minutes_off_peak_time;
           can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
           var Saving_amount_Switch_offPeak = getSavingAmount( can_change_unit, PeakUnitCost, OffPeakUnitCost);
 
@@ -81,7 +81,7 @@ async function makeSuggestions(devicedata, id) {
 
         newSug.cur_time = "peak";
         newSug.change_time = "off peak";
-        newSug.can_change_minutes = can_change_time;
+        newSug.can_change_minutes_per_day = can_change_time;
         newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
 
         //add to suggestion to database
@@ -90,8 +90,8 @@ async function makeSuggestions(devicedata, id) {
         
       }
 
-      if (using_minutes_peak_time > 0 && 720 - using_minutes_day_time > 0) {
-        if (720 - using_minutes_day_time >= using_minutes_peak_time) {
+      if (using_minutes_peak_time > 0 && 780 - using_minutes_day_time > 0) {
+        if (780 - using_minutes_day_time >= using_minutes_peak_time) {
 
           can_change_time = using_minutes_peak_time;
           can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
@@ -99,7 +99,7 @@ async function makeSuggestions(devicedata, id) {
 
         } else {
 
-          can_change_time = 720 - Using_hours_Peak;
+          can_change_time = 780 - using_minutes_day_time;
           can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
           var Saving_amount_Switch_day = getSavingAmount(can_change_unit, PeakUnitCost, DayUnitCost);
 
@@ -107,7 +107,7 @@ async function makeSuggestions(devicedata, id) {
 
         newSug.cur_time = "peak";
         newSug.change_time = "day";
-        newSug.can_change_minutes = can_change_time;
+        newSug.can_change_minutes_per_day = can_change_time;
         newSug.save_amount = parseFloat(Saving_amount_Switch_day);
 
         //add to suggestion to database
@@ -124,7 +124,7 @@ async function makeSuggestions(devicedata, id) {
 
         } else {
 
-          can_change_time = 420 - using_minutes_day_time;
+          can_change_time = 420 - using_minutes_off_peak_time;
           can_change_unit = getNoOfUnits( devicedata.power, can_change_time, devicedata.quantity);
           var Saving_amount_Switch_offPeak = getSavingAmount(can_change_unit , DayUnitCost, OffPeakUnitCost);
 
@@ -132,7 +132,7 @@ async function makeSuggestions(devicedata, id) {
 
         newSug.cur_time = "day";
         newSug.change_time = "off peak";
-        newSug.can_change_minutes = can_change_time;
+        newSug.can_change_minutes_per_day = can_change_time;
         newSug.save_amount = parseFloat(Saving_amount_Switch_offPeak);
 
         //add to suggestion to database

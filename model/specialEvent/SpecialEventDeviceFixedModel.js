@@ -136,10 +136,10 @@ module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
     return new Promise(async (resolve, reject) => {
 
 
-        console.log("getSpecialEventDetailsFixed");
-        console.log(billId);
+        console.log("Get Special Event Fixed More Details Model");
+        console.log("Fixed Bill id",billId);
 
-        var selectQuery = `SELECT device_id,appliance,quantity,hfixed,mfixed,power,numberOfDays FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+        var selectQuery = `SELECT device_id as id,appliance,quantity,power,hfixed,mfixed,numberOfDays FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 
@@ -151,7 +151,7 @@ module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
 
                 reject({ status: false, mesg: "error getting data" });
             } else {
-                console.log("data is : "+result);
+                console.log("Fixed More data is : "+result);
                 resolve({ status: true,  data: result  });
 
             }
@@ -234,7 +234,139 @@ module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
 
 }
 
+
+
+
+
+module.exports.getBillPlanName = (CustId,BillId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Inside get all device derails :"+ CustId);
+        
+
+        var selectQuery = `SELECT bill_plan_name FROM ebill_special_event WHERE Cust_id = ${CustId} AND bill_id=${BillId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+
+
+module.exports.updateBillPlanName = (CustId,BillId,bill_plan_name) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Inside Update Bill Plan name :"+ CustId);
+        
+
+        var updateSpecialEventBillPlanName = `UPDATE ebill_special_event
+        SET bill_plan_name='${bill_plan_name}'  WHERE Cust_id='${CustId}' AND bill_id='${bill_id}' ;`;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        console.log(updateSpecialEventBillPlanName);
+        db.query(updateSpecialEventBillPlanName, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error update data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully update data" });
+
+            }
+
+        });
+    });
+
+}
+
 module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Inside get all device derails :"+ CustId);
+        
+
+        var selectQuery = `SELECT SUM(total_units_fixed) AS total_units
+        FROM electric_device_special_event_fixed Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+
+module.exports.getPlanName= (BillId, CustId) => {
+
+    return new Promise(async (resolve, reject) => {
+
+
+        console.log("Inside get Plan name :"+ CustId);
+        
+
+        var selectQuery = `SELECT bill_plan_name FROM ebill_special_event  Where Cust_id = ${CustId} AND bill_id=${BillId}; `;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+        console.log("Plan name is:",selectQuery);
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+
+
+module.exports.editSpecialEventFixed = (BillId, CustId) => {
 
     return new Promise(async (resolve, reject) => {
 

@@ -61,7 +61,7 @@ async function AddDeviceDataMain(request, response) {
         Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
 
         
-        console.log("inside addDeviceDataMain Controller");
+        console.log("inside addDeviceDataMain Controller-------------------------------");
         // console.log(request.params.id);
         var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);

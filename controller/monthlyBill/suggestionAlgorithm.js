@@ -44,6 +44,7 @@ async function makeSuggestions(devicedata, id) {
     newSug.appliance = devicedata.appliance;
     newSug.quantity = devicedata.quantity;
     newSug.priority = devicedata.priority;
+    newSug.total_cost_TOU = devicedata.total_cost_TOU;
     newSug.device_id = DeviceId.data[0].device_id;
     newSug.Cust_id = id;
 

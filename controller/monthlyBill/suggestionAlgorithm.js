@@ -35,7 +35,16 @@ async function makeSuggestions(devicedata, id) {
 
     var can_change_time;
     var can_change_unit;
-    var DeviceId = await suggestionModel.getDeviceId(devicedata.bill_id ,id);
+
+    if(devicedata.device_id > 0){
+      newSug.device_id = devicedata.device_id;
+    }else{
+      var DeviceId = await suggestionModel.getDeviceId(devicedata.bill_id ,id);
+      newSug.device_id = DeviceId.data[0].device_id;
+    }
+
+
+    
     var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
     // console.log("device id get from database", DeviceId.data);
 
@@ -45,7 +54,7 @@ async function makeSuggestions(devicedata, id) {
     newSug.quantity = devicedata.quantity;
     newSug.priority = devicedata.priority;
     newSug.total_cost_TOU = devicedata.total_cost_TOU;
-    newSug.device_id = DeviceId.data[0].device_id;
+    
     newSug.Cust_id = id;
 
     var using_minutes_peak_time = devicedata.using_minutes_peak_time

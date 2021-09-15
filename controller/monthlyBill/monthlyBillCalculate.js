@@ -2,6 +2,7 @@ var commonResponseService = require('../../service/responseService');
 var addDeviceModel = require('../../model/monthlyBill/addDevicesModel');
 var unitChargesModel = require('../../model/cebengineer/unitChargesModel');
 var suggestionAlgorithm = require('../monthlyBill/suggestionAlgorithm');
+var suggestionModel = require('../../model/monthlyBill/suggestionModel')
 
 
 function CalculateUnits(power, minutes, quantity) {
@@ -61,7 +62,7 @@ async function AddDeviceDataMain(request, response) {
         Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
 
         
-        console.log("inside addDeviceDataMain Controller-------------------------------");
+     
         // console.log(request.params.id);
         var DeviceData = await addDeviceModel.AddDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);
@@ -115,6 +116,9 @@ async function updateDeviceDataMain(request, response) {
         console.log(Device_details);
         var DeviceData = await addDeviceModel.updateDeviceMailBill(Device_details, request.params.id);
         // console.log(profileData.data);
+
+        await suggestionModel.deleteSuggestions(Device_details.device_id, request.params.id, Device_details.bill_id)
+        await suggestionAlgorithm.makeSuggestions(Device_details, request.params.id);
 
         commonResponseService.responseWithData(response, DeviceData.mesg);
 

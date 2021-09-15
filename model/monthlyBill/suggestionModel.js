@@ -98,3 +98,30 @@ module.exports.getSuggestions = (billId, userId) => {
 
 }
 
+module.exports.deleteSuggestions = (device_id, CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+
+        var deleteDeviceSuggestions = `DELETE FROM suggestions WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        db.query(deleteDeviceSuggestions, async function (error, result) {
+
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+
+                resolve({ status: true, data: "Successfully delete suggestions" });
+
+            }
+
+        });
+    });
+
+
+}
+
+
+

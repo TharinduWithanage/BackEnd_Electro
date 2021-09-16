@@ -33,7 +33,9 @@ module.exports.getDeviceUsageFixed = (billId, userId) => {
 
 
 
-        var selectDeviceWiseFixedQuery = `SELECT appliance, quantity, total_units FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId} ORDER BY total_units DESC;`;
+        // var selectDeviceWiseFixedQuery = `SELECT appliance, quantity, total_units FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId} ORDER BY total_units DESC;`;
+        var selectDeviceWiseFixedQuery = `SELECT * FROM electric_device_mplan WHERE Cust_id=${userId} AND bill_id=${billId} ORDER BY total_units DESC;`;
+
         console.log(selectDeviceWiseFixedQuery)
 
         db.query(selectDeviceWiseFixedQuery, async function (error, result) {

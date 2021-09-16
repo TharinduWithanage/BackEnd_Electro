@@ -152,9 +152,15 @@ router
   .route("/update-special-event-FixedbillPlan/:id")
   .post(
     authService.validateToken,
-    specialEventFixedBillCalculate.updateSpecialEventFixedBillPlanName
+    specialEventFixedBillCalculate.updateSpecialEventFixedBillPlan
   );
 
+  router
+  .route("/update-special-event-TOUbillPlan/:id")
+  .post(
+    authService.validateToken,
+    specialEventTOUBillCalculate.updateSpecialEventTOUBillPlan
+  );
   
 
 //get Special Event Bill id for front end TOU

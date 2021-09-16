@@ -270,7 +270,7 @@ module.exports.getBillPlanName = (CustId,BillId) => {
 
 
 
-module.exports.updateBillPlanName = (Bill_details,Cust_id,bill_plan_name) => {
+module.exports.updateBillPlan = (Bill_details,Cust_id,bill_plan_name) => {
 
     return new Promise(async (resolve, reject) => {
         var bill_id = Bill_details.billId;

@@ -365,7 +365,29 @@ async function getSpecialEvenTOUMoreDetails(request, response) {
 
 
 
+async function updateSpecialEventTOUBillPlan(request, response){
+try {
+
+    console.log("inside Update TOU bill  Plan ");
+    var Cust_id = request.params.id;
+    console.log(request.body);
+    var bill_id = request.body.bill_id;
+    var bill_plan_name = request.body.tou_plan_name;
+    var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(bill_id, Cust_id);
+    console.log("The bill details are:",Bill_details);
+    Bill_details.data[0].billId = parseInt(bill_id);
+     const update_status=await addSpecialEventDeviceModel.updateBillPlan(Bill_details.data[0],Cust_id,bill_plan_name);
+     commonResponseService.successWithMessage(response, update_status.mesg);
+
+} catch (error) {
+    console.log(error);
+    commonResponseService.errorWithMessage(response, "something went wrong");
+}
+}
 
 
-module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue,getSpecialEventBillPlans,getSpecialEvenTOUMoreDetails};
+
+
+
+module.exports = { AddSpecialEventDeviceDataTOU , getTOUBillId, GetSpecialEventDeviceDataTOU, updateDeviceDataSpecialEventTOU,deleteSpecialEventDeviceData,calculatedTOUBillValue,saveTOUBillValue,getSpecialEventBillPlans,getSpecialEvenTOUMoreDetails,updateSpecialEventTOUBillPlan};
 

@@ -9,8 +9,8 @@ var db = require('../../database/databaseConnection');
 module.exports.getUnitChargesDataFun = (id) => {
     return new Promise(async (resolve, reject) => {
 
-        console.log(id);
-        console.log("inside getUnitChargesData");
+        //console.log(id);
+        //console.log("inside getUnitChargesData");
 
         if (id == "60+") {
             var selectQuery = `SELECT * From fixed_ucharge WHERE NOT Unit_category="31-60" AND NOT Unit_category="00-30";`;
@@ -46,7 +46,7 @@ module.exports.getUnitChargesDataFun = (id) => {
 
                     reject({ status: false, mesg: "error getting data" });
                 } else {
-                    console.log(result);
+                    //console.log(result);
 
                     resolve({ status: true, data: result });
 
@@ -72,8 +72,8 @@ module.exports.getUnitChargesDataFun = (id) => {
                         } else {
 
                             var result = { result1, result2 };
-                            console.log(" this is result:", result.result1);
-                            console.log(" end this is result:");
+                            //console.log(" this is result:", result.result1);
+                            //console.log(" end this is result:");
 
                             resolve({ status: true, data: result });
 

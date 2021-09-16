@@ -16,13 +16,14 @@ module.exports.addSuggestion = (suggestion) => {
         var can_change_hours = Math.floor(suggestion.can_change_minutes_per_day/60) 
         var can_change_minutes = parseInt(suggestion.can_change_minutes_per_day) - parseInt(can_change_hours*60)
         var save_amount = suggestion.save_amount
+        var total_cost_TOU = suggestion.total_cost_TOU
        
 
         var addDeviceQuery = `INSERT INTO suggestions 
         (Cust_id, device_id, bill_id, appliance, quantity, priority,
-         cur_time, change_time, can_change_hours, can_change_minutes, save_amount) 
+         cur_time, change_time, can_change_hours, can_change_minutes, save_amount,total_cost_TOU) 
         VALUES("${Cust_id}","${device_id}","${bill_id}","${appliance}","${quantity}","${priority}",
-        "${cur_time}","${change_time}","${can_change_hours}","${can_change_minutes}","${save_amount}");`;
+        "${cur_time}","${change_time}","${can_change_hours}","${can_change_minutes}","${save_amount}","${total_cost_TOU}");`;
 
         db.query(addDeviceQuery, async function (error, result) {
 
@@ -96,4 +97,31 @@ module.exports.getSuggestions = (billId, userId) => {
 
 
 }
+
+module.exports.deleteSuggestions = (device_id, CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+
+        var deleteDeviceSuggestions = `DELETE FROM suggestions WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        db.query(deleteDeviceSuggestions, async function (error, result) {
+
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+
+
+                resolve({ status: true, data: "Successfully delete suggestions" });
+
+            }
+
+        });
+    });
+
+
+}
+
+
 

@@ -318,7 +318,9 @@ async function getBillPlanName(request, response){
         var bill_plan_name = await addSpecialEventDeviceModel.getBillPlanName(Cust_id, bill_id);
 
         
+
         commonResponseService.responseWithData(response,bill_plan_name.data);
+
         
 
     } catch (error) {
@@ -339,6 +341,7 @@ async function updateSpecialEventFixedBillPlan(request, response){
         Bill_details.data[0].billId = parseInt(bill_id);
          const update_status=await addSpecialEventDeviceModel.updateBillPlan(Bill_details.data[0],Cust_id,bill_plan_name);
          commonResponseService.successWithMessage(response, update_status.mesg);
+
 
     } catch (error) {
         console.log(error);

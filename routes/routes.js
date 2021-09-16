@@ -140,11 +140,6 @@ router
   );
 
 
-  
-
-
-  
-
  
 
 
@@ -297,6 +292,7 @@ router
     authService.validateToken,
     specialEventFixedBillCalculate.getSpecialEventFixedMoreDetails
   );
+
 
   router
   .route("/TOU-Event-Form/:id")

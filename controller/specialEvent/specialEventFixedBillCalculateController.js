@@ -329,7 +329,7 @@ async function getBillPlanName(request, response){
     }
 }
 
-async function updateSpecialEventFixedBillPlanName(request, response){
+async function updateSpecialEventFixedBillPlan(request, response){
     try {
 
         console.log("inside Update bill  Plan Name");
@@ -339,7 +339,7 @@ async function updateSpecialEventFixedBillPlanName(request, response){
         var bill_plan_name = request.body.fixed_plan_name;
         var Bill_details = await addSpecialEventDeviceModel.getDeviceDetailsToCalculate(bill_id, Cust_id);
         Bill_details.data[0].billId = parseInt(bill_id);
-         const update_status=await addSpecialEventDeviceModel.updateBillPlanName(Bill_details.data[0],Cust_id,bill_plan_name);
+         const update_status=await addSpecialEventDeviceModel.updateBillPlan(Bill_details.data[0],Cust_id,bill_plan_name);
          commonResponseService.successWithMessage(response, update_status.mesg);
 
 
@@ -382,5 +382,5 @@ async function deleteBillPlan(request, response){
 
 
 
-module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue,getSpecialEventFixedMoreDetails,getBillPlanName,updateSpecialEventFixedBillPlanName};
+module.exports = { deleteBillPlan, AddSpecialEventDeviceDataTOU , AddSpecialEventDeviceDataFixed , getFixedBillId, GetSpecialEventDeviceDataFixed, updateDeviceDataSpecialEvent,deleteSpecialEventDeviceData, calculatedFixedBillValue, saveFixedBillValue,getSpecialEventFixedMoreDetails,getBillPlanName,updateSpecialEventFixedBillPlan};
 

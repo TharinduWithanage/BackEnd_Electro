@@ -310,6 +310,43 @@ module.exports.getTOUUnitsAndCost= (devicedata,CustId) => {
 }
 
 
+
+
+module.exports.updateBillPlan = (Bill_details,Cust_id,bill_plan_name) => {
+
+    return new Promise(async (resolve, reject) => {
+        var bill_id = Bill_details.billId;
+        var Total_units = Bill_details.Total_units;
+        console.log("The tou total units are:",Total_units);
+        console.log("Inside Update Bill Plan name :"+ Cust_id);
+        
+
+        var updateSpecialEventBillPlan = `UPDATE ebill_special_event
+        SET bill_plan_name='${bill_plan_name}',Total_units='${Total_units}' WHERE Cust_id='${Cust_id}' AND bill_id='${bill_id}' ;`;
+
+        //console.log("Inside get bill id model function query"+ selectQuery);
+
+
+        console.log(updateSpecialEventBillPlan);
+        db.query(updateSpecialEventBillPlan, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error update data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, mesg: "successfully update data" });
+
+            }
+
+        });
+    });
+
+}
+
+
 module.exports.getDeviceDetailsToCalculate = (BillId, CustId) => {
 
     return new Promise(async (resolve, reject) => {

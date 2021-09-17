@@ -139,7 +139,7 @@ module.exports.getSpecialEventDetailsFixed = (CustId,billId) => {
         console.log("Get Special Event Fixed More Details Model");
         console.log("Fixed Bill id",billId);
 
-        var selectQuery = `SELECT device_id as id,appliance,quantity,power,hfixed,mfixed,numberOfDays FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+        var selectQuery = `SELECT device_id,appliance,quantity,power,hfixed,mfixed,numberOfDays FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 
@@ -216,7 +216,7 @@ module.exports.deleteSpecialEventDeviceFunc = (CustId, deleteData) => {
 
         //console.log("Inside get bill id model function query"+ selectQuery);
 
-
+         console.log("Delete query is:",deleteQuery);
         db.query(deleteQuery, async function (error, result) {
 
             if (error) {

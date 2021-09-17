@@ -83,14 +83,8 @@ async function updateDeviceDataMain(request, response) {
     try {
 
         var Device_details = request.body.data;
-        // console.log("Inside of updateDeviceDataMain");
-        // console.log(Device_details);
-        // console.log(request.params.id);
 
         var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
-        // console.log(UnitPrice.data[0].Unit_charge);
-        // console.log(UnitPrice.data[1].Unit_charge);
-        // console.log(UnitPrice.data[2].Unit_charge);
 
         var DayUnitCost = UnitPrice.data[0].Unit_charge;
         var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
@@ -204,6 +198,49 @@ async function getDeviceDataMain(request, response) {
     }
 }
 
+async function updateDeviceWithApplySugestion(device_data, Cust_id) {
+
+    try {
+
+        var Device_details = device_data;
+
+        var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
+
+        var DayUnitCost = UnitPrice.data[0].Unit_charge;
+        var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
+        var PeakUnitCost = UnitPrice.data[2].Unit_charge;
 
 
-module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain };
+
+
+        Device_details.using_minutes_peak_time = await CalculateNumberOfMinutes(Device_details.hPeak, Device_details.mPeak);
+        Device_details.using_minutes_off_peak_time = await CalculateNumberOfMinutes(Device_details.hOffPeak, Device_details.mOffPeak);
+        Device_details.using_minutes_day_time = await CalculateNumberOfMinutes(Device_details.hDay, Device_details.mDay);
+        Device_details.units_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_peak_time, Device_details.quantity);
+        Device_details.units_off_peak_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_off_peak_time, Device_details.quantity);
+        Device_details.units_day_time = await CalculateUnits(Device_details.power, Device_details.using_minutes_day_time, Device_details.quantity);
+        Device_details.cost_peak_time = await CalculateCost(PeakUnitCost, Device_details.units_peak_time);
+        Device_details.cost_off_peak_time = await CalculateCost(OffPeakUnitCost, Device_details.units_off_peak_time);
+        Device_details.cost_day_time = await CalculateCost(DayUnitCost, Device_details.units_day_time);
+        Device_details.total_units = Device_details.units_peak_time + Device_details.units_off_peak_time + Device_details.units_day_time;
+        Device_details.total_cost_TOU = Device_details.cost_peak_time + Device_details.cost_off_peak_time + Device_details.cost_day_time;
+
+
+        console.log("inside addDeviceDataMain Controller");
+        console.log(Device_details);
+        var DeviceData = await addDeviceModel.updateDeviceMailBill(Device_details, Cust_id);
+        // console.log(profileData.data);
+
+        await suggestionModel.deleteSuggestions(Device_details.device_id, Cust_id, Device_details.bill_id)
+        await suggestionAlgorithm.makeSuggestions(Device_details, Cust_id);
+
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
+
+module.exports = { AddDeviceDataMain, getDeviceDataMain, getBillId, updateDeviceDataMain,deleteDeviceDataMain, updateDeviceWithApplySugestion };

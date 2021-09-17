@@ -136,7 +136,7 @@ module.exports.updateDeviceMailBill = (devicedata, id) => {
 
                 reject({ status: false, mesg: "error update data" });
             } else {
-                // console.log(result);
+                console.log(result);
 
                 resolve({ status: true, mesg: "successfully update data" });
 
@@ -213,3 +213,32 @@ module.exports.getDeviceMailBill = (billId, userId) => {
     });
 
 }
+
+
+module.exports.getDeviceDetailsMailBill = (billId, userId, device_id) => {
+    return new Promise(async (resolve, reject) => {
+
+
+
+
+        var selectQuery = `SELECT * From electric_device_mplan WHERE bill_id=${billId} AND Cust_id=${userId} AND device_id=${device_id} ;`;
+        console.log(selectQuery)
+
+        db.query(selectQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error getting data" });
+            } else {
+                // console.log(result);
+
+                resolve({ status: true, data: result });
+
+            }
+
+        });
+    });
+
+}
+

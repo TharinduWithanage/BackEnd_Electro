@@ -360,4 +360,9 @@ router
   .route("/get-suggestions/:id").post(authService.validateToken,SuggestionsController.GetDeviceWiseSuggestions);
 
 
+//Apply suggestions
+router
+  .route("/apply-suggestions/:id").post(authService.validateToken, SuggestionsController.ApplySuggestions);
+
+
 module.exports = router;

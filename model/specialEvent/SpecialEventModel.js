@@ -11,7 +11,8 @@ module.exports.getSpecialEventDetailFixed = (CustId,billId) => {
     return new Promise(async (resolve, reject) => {
 
 
-            var selectQuery = `SELECT appliance,quantity,total_units_fixed FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+            // var selectQuery = `SELECT appliance,quantity,total_units_fixed FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
+            var selectQuery = `SELECT * FROM electric_device_special_event_fixed WHERE bill_id = ${billId} AND Cust_id = ${CustId}; `;
 
     
             db.query(selectQuery, async function (error, result) {

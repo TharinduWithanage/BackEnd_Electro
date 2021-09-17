@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2021 at 10:44 AM
+-- Generation Time: Sep 17, 2021 at 08:25 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -67,6 +67,14 @@ CREATE TABLE `ebill_monthly_plan` (
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `ebill_monthly_plan`
+--
+
+INSERT INTO `ebill_monthly_plan` (`bill_id`, `Total_cost_tou`, `Cost_day_time`, `Cost_off_peak_time`, `Cost_peak_time`, `Total_cost_fixed`, `Units_day_time`, `Units_off_peak_time`, `Units_peak_time`, `Total_units`, `Best_model`, `Cust_id`) VALUES
+(1, 25104, 7875, 5187, 11502, 37678.5, 315, 399, 213, 927, 'TOU', 1020),
+(2, 807.6, 60, 78, 129.6, 57, 2, 6, 2, 11, 'Fixed', 1020);
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +94,7 @@ CREATE TABLE `ebill_special_event` (
 --
 
 INSERT INTO `ebill_special_event` (`bill_id`, `bill_plan_name`, `bill_model`, `Total_units`, `Cust_id`) VALUES
+(1, 'Pirith Ceremony', 'fixed', 5.4, 1020),
 (1, ' My Plan 1', '', 203.42, 1024),
 (2, ' My Plan 2', '', 36.36, 1024),
 (3, ' My Plan3', 'fixed', 162, 1024),
@@ -155,6 +164,21 @@ CREATE TABLE `electric_device_mplan` (
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `electric_device_mplan`
+--
+
+INSERT INTO `electric_device_mplan` (`device_id`, `bill_id`, `appliance`, `quantity`, `hPeak`, `mPeak`, `hOffPeak`, `mOffPeak`, `hDay`, `mDay`, `priority`, `using_minutes_peak_time`, `using_minutes_off_peak_time`, `using_minutes_day_time`, `power`, `total_units`, `units_peak_time`, `units_off_peak_time`, `units_day_time`, `total_cost_TOU`, `cost_peak_time`, `cost_off_peak_time`, `cost_day_time`, `Cust_id`) VALUES
+(1, 1, 'fan 1', 2, 3, 0, 6, 0, 7, 0, 'mid', 180, 360, 420, 200, 192, 36, 72, 84, 4980, 1944, 936, 2100, 1020),
+(2, 1, 'TV', 2, 3, 0, 4, 0, 4, 0, 'low', 180, 240, 240, 150, 99, 27, 36, 36, 2826, 1458, 468, 900, 1020),
+(3, 1, 'radio', 2, 2, 0, 3, 0, 2, 0, 'mid', 120, 180, 120, 250, 105, 30, 45, 30, 2955, 1620, 585, 750, 1020),
+(4, 1, 'Tv2', 2, 3, 0, 0, 0, 0, 0, 'mid', 180, 0, 0, 200, 36, 36, 0, 0, 1944, 1944, 0, 0, 1020),
+(5, 1, 'Table Lamp', 1, 4, 0, 5, 0, 11, 30, 'low', 240, 300, 690, 200, 123, 24, 30, 69, 3411, 1296, 390, 1725, 1020),
+(6, 1, 'Fan3', 2, 2, 0, 7, 0, 3, 0, 'mid', 120, 420, 180, 500, 360, 60, 210, 90, 8220, 3240, 2730, 2250, 1020),
+(7, 1, 'Light 2', 2, 0, 0, 5, 0, 5, 0, 'mid', 0, 300, 300, 20, 12, 0, 6, 6, 228, 0, 78, 150, 1020),
+(8, 2, 'bg', 2, 0, 0, 3, 0, 0, 0, 'mid', 0, 180, 0, 20, 3.6, 0, 3.6, 0, 46.8, 0, 46.8, 0, 1020),
+(9, 2, 'bbb', 2, 2, 0, 2, 0, 2, 0, 'mid', 120, 120, 120, 20, 7.2, 2.4, 2.4, 2.4, 220.8, 129.6, 31.2, 60, 1020);
+
 -- --------------------------------------------------------
 
 --
@@ -174,6 +198,15 @@ CREATE TABLE `electric_device_special_event_fixed` (
   `numberOfDays` int(11) NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `electric_device_special_event_fixed`
+--
+
+INSERT INTO `electric_device_special_event_fixed` (`device_id`, `bill_id`, `appliance`, `quantity`, `hfixed`, `mfixed`, `using_minutes_fixed`, `power`, `total_units_fixed`, `numberOfDays`, `Cust_id`) VALUES
+(1, 1, 'Flash Light', 2, 2, 30, 150, 500, 5, 2, 1020),
+(2, 1, 'fan', 2, 2, 0, 120, 50, 0.4, 2, 1020),
+(3, 2, 'aaa', 2, 2, 0, 120, 20, 0.08, 1, 1020);
 
 -- --------------------------------------------------------
 
@@ -287,6 +320,7 @@ CREATE TABLE `suggestions` (
   `can_change_hours` int(11) NOT NULL,
   `can_change_minutes` int(11) NOT NULL,
   `save_amount` float NOT NULL,
+  `total_cost_TOU` float NOT NULL,
   `Cust_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -294,25 +328,44 @@ CREATE TABLE `suggestions` (
 -- Dumping data for table `suggestions`
 --
 
-INSERT INTO `suggestions` (`suggest_id`, `device_id`, `bill_id`, `appliance`, `priority`, `quantity`, `cur_time`, `change_time`, `can_change_hours`, `can_change_minutes`, `save_amount`, `Cust_id`) VALUES
-(1, 33, 3, 'Fan', 'mid', 2, 'peak', 'off peak', 0, 120, 98.4, 1020),
-(2, 33, 3, 'Fan', 'mid', 2, 'peak', 'day', 0, 120, 69.6, 1020),
-(3, 33, 3, 'Fan', 'mid', 2, 'day', 'off peak', 0, 120, 28.8, 1020),
-(4, 34, 4, 'vsdh', 'mid', 3, 'peak', 'off peak', 2, 0, 3763.8, 1020),
-(5, 34, 4, 'vsdh', 'mid', 3, 'peak', 'day', 2, 0, 2662.2, 1020),
-(6, 34, 4, 'vsdh', 'mid', 3, 'day', 'off peak', 2, 0, 1101.6, 1020),
-(7, 35, 4, 'jb ', 'mid', 2, 'peak', 'off peak', 3, 0, 369, 1020),
-(8, 35, 4, 'jb ', 'mid', 2, 'peak', 'day', 4, 0, 348, 1020),
-(9, 35, 4, 'jb ', 'mid', 2, 'day', 'off peak', 1, 0, 36, 1020),
-(10, 36, 4, 'fan2', 'mid', 2, 'peak', 'off peak', 2, 0, 984, 1020),
-(11, 36, 4, 'fan2', 'mid', 2, 'peak', 'day', 1, 30, 522, 1020),
-(12, 36, 4, 'fan2', 'mid', 2, 'day', 'off peak', 2, 0, 288, 1020),
-(13, 37, 4, 'sssss', 'low', 1, 'peak', 'off peak', 2, 0, 49.2, 1020),
-(14, 37, 4, 'sssss', 'low', 1, 'peak', 'day', 2, 0, 34.8, 1020),
-(15, 37, 4, 'sssss', 'low', 1, 'day', 'off peak', 2, 0, 14.4, 1020),
-(16, 38, 4, 'cccc', 'mid', 2, 'peak', 'off peak', 0, 30, 24.6, 1020),
-(17, 38, 4, 'cccc', 'mid', 2, 'peak', 'day', 1, 40, 58, 1020),
-(18, 38, 4, 'cccc', 'mid', 2, 'day', 'off peak', 0, 30, 7.2, 1020);
+INSERT INTO `suggestions` (`suggest_id`, `device_id`, `bill_id`, `appliance`, `priority`, `quantity`, `cur_time`, `change_time`, `can_change_hours`, `can_change_minutes`, `save_amount`, `total_cost_TOU`, `Cust_id`) VALUES
+(1, 33, 3, 'Fan', 'mid', 2, 'peak', 'off peak', 0, 120, 98.4, 0, 1020),
+(2, 33, 3, 'Fan', 'mid', 2, 'peak', 'day', 0, 120, 69.6, 0, 1020),
+(3, 33, 3, 'Fan', 'mid', 2, 'day', 'off peak', 0, 120, 28.8, 0, 1020),
+(4, 34, 4, 'vsdh', 'mid', 3, 'peak', 'off peak', 2, 0, 3763.8, 0, 1020),
+(5, 34, 4, 'vsdh', 'mid', 3, 'peak', 'day', 2, 0, 2662.2, 0, 1020),
+(6, 34, 4, 'vsdh', 'mid', 3, 'day', 'off peak', 2, 0, 1101.6, 0, 1020),
+(7, 35, 4, 'jb ', 'mid', 2, 'peak', 'off peak', 3, 0, 369, 0, 1020),
+(8, 35, 4, 'jb ', 'mid', 2, 'peak', 'day', 4, 0, 348, 0, 1020),
+(9, 35, 4, 'jb ', 'mid', 2, 'day', 'off peak', 1, 0, 36, 0, 1020),
+(10, 36, 4, 'fan2', 'mid', 2, 'peak', 'off peak', 2, 0, 984, 0, 1020),
+(11, 36, 4, 'fan2', 'mid', 2, 'peak', 'day', 1, 30, 522, 0, 1020),
+(12, 36, 4, 'fan2', 'mid', 2, 'day', 'off peak', 2, 0, 288, 0, 1020),
+(13, 37, 4, 'sssss', 'low', 1, 'peak', 'off peak', 2, 0, 49.2, 0, 1020),
+(14, 37, 4, 'sssss', 'low', 1, 'peak', 'day', 2, 0, 34.8, 0, 1020),
+(15, 37, 4, 'sssss', 'low', 1, 'day', 'off peak', 2, 0, 14.4, 0, 1020),
+(16, 38, 4, 'cccc', 'mid', 2, 'peak', 'off peak', 0, 30, 24.6, 0, 1020),
+(17, 38, 4, 'cccc', 'mid', 2, 'peak', 'day', 1, 40, 58, 0, 1020),
+(18, 38, 4, 'cccc', 'mid', 2, 'day', 'off peak', 0, 30, 7.2, 0, 1020),
+(39, 1, 1, 'fan 1', 'mid', 2, 'peak', 'off peak', 1, 0, 492, 4980, 1020),
+(40, 1, 1, 'fan 1', 'mid', 2, 'peak', 'day', 3, 0, 1044, 4980, 1020),
+(41, 1, 1, 'fan 1', 'mid', 2, 'day', 'off peak', 1, 0, 144, 4980, 1020),
+(42, 2, 1, 'TV', 'low', 2, 'peak', 'off peak', 3, 0, 1107, 2826, 1020),
+(43, 2, 1, 'TV', 'low', 2, 'peak', 'day', 3, 0, 783, 2826, 1020),
+(44, 2, 1, 'TV', 'low', 2, 'day', 'off peak', 3, 0, 324, 2826, 1020),
+(45, 3, 1, 'radio', 'mid', 2, 'peak', 'off peak', 2, 0, 1230, 2955, 1020),
+(46, 3, 1, 'radio', 'mid', 2, 'peak', 'day', 2, 0, 870, 2955, 1020),
+(47, 3, 1, 'radio', 'mid', 2, 'day', 'off peak', 2, 0, 360, 2955, 1020),
+(50, 4, 1, 'Tv2', 'mid', 2, 'peak', 'off peak', 3, 0, 1476, 1944, 1020),
+(51, 4, 1, 'Tv2', 'mid', 2, 'peak', 'day', 3, 0, 1044, 1944, 1020),
+(52, 5, 1, 'Table Lamp', 'low', 1, 'peak', 'off peak', 2, 0, 492, 3411, 1020),
+(53, 5, 1, 'Table Lamp', 'low', 1, 'peak', 'day', 1, 30, 261, 3411, 1020),
+(54, 5, 1, 'Table Lamp', 'low', 1, 'day', 'off peak', 2, 0, 144, 3411, 1020),
+(55, 6, 1, 'Fan3', 'mid', 2, 'peak', 'day', 2, 0, 1740, 8220, 1020),
+(56, 7, 1, 'Light 2', 'mid', 2, 'day', 'off peak', 2, 0, 28.8, 228, 1020),
+(57, 9, 2, 'bbb', 'mid', 2, 'peak', 'off peak', 2, 0, 98.4, 220.8, 1020),
+(58, 9, 2, 'bbb', 'mid', 2, 'peak', 'day', 2, 0, 69.6, 220.8, 1020),
+(59, 9, 2, 'bbb', 'mid', 2, 'day', 'off peak', 2, 0, 28.8, 220.8, 1020);
 
 -- --------------------------------------------------------
 
@@ -437,12 +490,12 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `electric_device_mplan`
 --
 ALTER TABLE `electric_device_mplan`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_fixed`
 --
 ALTER TABLE `electric_device_special_event_fixed`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `electric_device_special_event_tou`
 --
@@ -457,7 +510,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `suggestions`
 --
 ALTER TABLE `suggestions`
-  MODIFY `suggest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `suggest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- Constraints for dumped tables
 --

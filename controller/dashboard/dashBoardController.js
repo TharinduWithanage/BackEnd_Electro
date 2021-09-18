@@ -6,9 +6,12 @@ var dashBoardModel = require("../../model/dashboard/dashBoardModel");
  * @param {*} request
  * @param {*} response
  */
+
+// Get Number of bill plans for a particular customer controller
+
 async function getDashboardData(request, response) {
   try {
-    console.log("inside getDashboardData Controller");
+    // console.log("inside getDashboardData Controller");
     if (request.params.id > 1000) {
       var dashboardData = await dashBoardModel.custDashboardDataCountFun(
         request.params.id
@@ -25,7 +28,7 @@ async function getDashboardData(request, response) {
 }
 
 /**
- * Get Pending Normal Unit Charges Function
+ * Get Pending Normal Unit Charges Function controller
  * @param {*} request
  * @param {*} response
  */
@@ -45,7 +48,7 @@ async function PendingNormalUnitCharges(request, response) {
 }
 
 /**
- * Get Pending Tou Unit Charges Function
+ * Get Pending Tou Unit Charges Function controller
  * @param {*} request
  * @param {*} response
  */

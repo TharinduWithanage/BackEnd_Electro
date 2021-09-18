@@ -285,20 +285,39 @@ async function updateDeviceDataSpecialEvent(request, response) {
  * @param {*} response
  */
 async function deleteSpecialEventDeviceData(request, response) {
-  try {
-    // console.log("inside deleteDeviceDataMain Controller");
-    var Cust_id = request.params.id;
-    var device_delete =
-      await addSpecialEventDeviceModel.deleteSpecialEventDeviceFunc(
-        Cust_id,
-        request.body
-      );
 
-    commonResponseService.successWithMessage(response, device_delete.mesg);
-  } catch (error) {
-    // console.log(error);
-    commonResponseService.errorWithMessage(response, "something went wrong");
-  }
+
+    try {
+
+        console.log("inside deleteDeviceDataMain Controller");
+        var Cust_id = request.params.id;
+        console.log("Request body:");
+        console.log(request.body);
+        var device_delete = await addSpecialEventDeviceModel.deleteSpecialEventDeviceFunc(Cust_id,request.body);
+        console.log("The device delete is:",device_delete);
+        commonResponseService.successWithMessage(response, device_delete.mesg);
+        
+
+    } catch (error) {
+        console.log(error);
+        commonResponseService.errorWithMessage(response, "something went wrong");
+    }
+
+  // try {
+  //   // console.log("inside deleteDeviceDataMain Controller");
+  //   var Cust_id = request.params.id;
+  //   var device_delete =
+  //     await addSpecialEventDeviceModel.deleteSpecialEventDeviceFunc(
+  //       Cust_id,
+  //       request.body
+  //     );
+
+  //   commonResponseService.successWithMessage(response, device_delete.mesg);
+  // } catch (error) {
+  //   // console.log(error);
+  //   commonResponseService.errorWithMessage(response, "something went wrong");
+  // }
+
 }
 
 /**

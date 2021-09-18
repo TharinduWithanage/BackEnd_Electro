@@ -43,7 +43,7 @@ module.exports.empDashboardDataFun = () => {
 };
 
 /**
- *
+ *Customer dashboard detail function
  * @returns customer dashboard data
  */
 module.exports.custDashboardDataCountFun = (Cust_id) => {
@@ -52,7 +52,7 @@ module.exports.custDashboardDataCountFun = (Cust_id) => {
     console.log("inside getReqCountFun");
 
     var selectQuery = `SELECT COUNT(bill_id) AS normalBill_count FROM ebill_monthly_plan WHERE Cust_id=${Cust_id};`;
-    var selectQuery1 = `SELECT COUNT(bill_id) AS specialBill_count FROM ebill_special_event_tou WHERE Cust_id=${Cust_id};`;
+    var selectQuery1 = `SELECT COUNT(bill_id) AS specialBill_count FROM ebill_special_event WHERE Cust_id=${Cust_id};`;
 
     db.query(selectQuery, async function (error, result1) {
       if (error) {

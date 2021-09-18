@@ -43,7 +43,7 @@ module.exports.empDashboardDataFun = () => {
 };
 
 /**
- *
+ *Customer dashboard detail function
  * @returns customer dashboard data
  */
 module.exports.custDashboardDataCountFun = (Cust_id) => {

@@ -75,7 +75,9 @@ module.exports.getDeviceId = (BillId, CustId) => {
 module.exports.getSuggestions = (billId, userId) => {
     return new Promise(async (resolve, reject) => {
 
-        var selectDeviceWiseSuggestions = `SELECT * FROM suggestions where bill_id = ${billId} AND Cust_id = ${userId};`;
+        // var selectDeviceWiseSuggestions = `SELECT * FROM (SELECT * FROM suggestions where bill_id = ${billId} AND Cust_id = ${userId} ORDER BY priority ASC) where bill_id = ${billId} AND Cust_id = ${userId} ORDER BY save_amount DESC ;`;
+        var selectDeviceWiseSuggestions = `SELECT * FROM suggestions where bill_id = ${billId} AND Cust_id = ${userId} ORDER BY  priority ASC,save_amount DESC ;`;
+
         console.log(selectDeviceWiseSuggestions)
 
         db.query(selectDeviceWiseSuggestions, async function (error, result) {

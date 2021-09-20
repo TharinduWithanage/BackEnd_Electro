@@ -11,14 +11,14 @@ module.exports.profileGetDataFunc = (id) => {
     return new Promise(async (resolve, reject) => {
 
         // console.log(requestData);
-        console.log("inside profileGetDataFunc");
+        // console.log("inside profileGetDataFunc");
 
 
         if (id < 1000) {
-            console.log("inside admin and ceb engineer");
+            // console.log("inside admin and ceb engineer");
             var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
         } else {
-            console.log("inside user");
+            // console.log("inside user");
             var selectQuery = `SELECT * From customer WHERE Cust_id='${id}'; `;
 
         }
@@ -51,7 +51,7 @@ module.exports.profileUpdateFunc = (requestData, id) => {
     return new Promise(async (resolve, reject) => {
 
         // console.log(requestData);
-        console.log("inside profileUpdateFunc");
+        // console.log("inside profileUpdateFunc");
         // var id = requestData.id;
         var firstName = requestData.firstName;
         var email = requestData.userEmail;
@@ -61,13 +61,13 @@ module.exports.profileUpdateFunc = (requestData, id) => {
         var address = requestData.address;
         // var password = await userServiceModel.encryptPassword(requestData.userPassword);
 
-        console.log(id);
+        // console.log(id);
         if (id < 1000) {
-            console.log("inside admin and ceb engineer");
+            // console.log("inside admin and ceb engineer");
             var updateQuery = `UPDATE employee SET First_name ='${firstName}', Last_name ='${lastName}', Conatact_no ='${contact}', NIC ='${nic}', Address ='${address}'   WHERE Emp_id='${id}';`;
             var selectQuery = `SELECT * From employee WHERE Emp_id='${id}'; `;
         } else {
-            console.log("inside user");
+            // console.log("inside user");
             var updateQuery = `UPDATE customer SET First_name ='${firstName}', Last_name ='${lastName}', Email ='${email}' WHERE Cust_id='${id}';`;
             var selectQuery = `SELECT * From customer WHERE Cust_id='${id}'; `;
 
@@ -99,7 +99,7 @@ module.exports.getAllEmailsFunc = () => {
     return new Promise(async (resolve, reject) => {
 
 
-        console.log("inside getAllEmailsFunc");
+        // console.log("inside getAllEmailsFunc");
 
         var selectQuery = `SELECT Email From customer ; `;
 

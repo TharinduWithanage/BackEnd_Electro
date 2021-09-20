@@ -13,9 +13,9 @@ async function createUser(request, response) {
     // console.log("inside userregisterController");
 
     var createUser = await userRegisterModel.createUserFunc(request.body);
-    console.log(createUser);
+    // console.log(createUser);
     commonResponseService.responseWithData(response, createUser);
-    console.log("createUser");
+    // console.log("createUser");
   } catch (error) {
     console.log(error);
     commonResponseService.errorWithMessage(response, "something went wrong");
@@ -27,8 +27,8 @@ async function loginUser(request, response) {
   try {
     var loginUserStatus = await userRegisterModel.loginUserFunc(request.body);
 
-    console.log("inside loginUser controller");
-    console.log(loginUserStatus);
+    // console.log("inside loginUser controller");
+    // console.log(loginUserStatus);
     // response.send(loginUserStatus);
     if (loginUserStatus.status) {
       commonResponseService.responseWithToken(
@@ -56,7 +56,7 @@ async function checkEmail(request, response) {
   try {
     var chechMailStatus = await userRegisterModel.checkEmailFunc(request.body);
 
-    console.log("inside checkEmail controller");
+    // console.log("inside checkEmail controller");
 
     if (chechMailStatus.status) {
       commonResponseService.successWithMessage(response, chechMailStatus.mesg);
@@ -77,7 +77,7 @@ async function resetPassword(request, response) {
       request.params.eid
     );
 
-    console.log("inside resetPassword controller");
+    // console.log("inside resetPassword controller");
 
     if (resetPasswordStatus.status) {
       commonResponseService.successWithMessage(
@@ -108,9 +108,9 @@ async function addNewCebEngineer(request, response) {
     var createUser = await userRegisterModel.addNewCebEngineerFunc(
       request.body
     );
-    console.log(createUser);
+    // console.log(createUser);
     commonResponseService.responseWithData(response, createUser);
-    console.log("createUser");
+    // console.log("createUser");
   } catch (error) {
     console.log(error);
     commonResponseService.errorWithMessage(response, "something went wrong");
@@ -126,7 +126,7 @@ async function addNewCebEngineer(request, response) {
 //Removing a CEB Engineer from the system
 async function removeCebEngineer(request, response) {
   try {
-    console.log("removeUser controller");
+    // console.log("removeUser controller");
 
     var removeUser = await userRegisterModel.removeCebEngineerFunc(
       request.params.id
@@ -148,7 +148,7 @@ async function removeCebEngineer(request, response) {
 //Getting CEB Engineer details
 async function getCebEngineer(request, response) {
   try {
-    console.log("getCebEngineer controller");
+    // console.log("getCebEngineer controller");
 
     var getCebengineer = await userRegisterModel.getCebEngineerFunc();
 

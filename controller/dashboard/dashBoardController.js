@@ -34,7 +34,7 @@ async function getDashboardData(request, response) {
  */
 async function PendingNormalUnitCharges(request, response) {
   try {
-    console.log("inside PendingNormalUnitCharges Controller");
+    // console.log("inside PendingNormalUnitCharges Controller");
     var PendingNormalUnitChargesData =
       await dashBoardModel.PendingNormalUnitChargesFun(request.params.id);
     commonResponseService.responseWithData(
@@ -54,7 +54,7 @@ async function PendingNormalUnitCharges(request, response) {
  */
 async function PendingTouUnitCharges(request, response) {
   try {
-    console.log("inside PendingTouUnitCharges Controller");
+    // console.log("inside PendingTouUnitCharges Controller");
     var PendingTouUnitChargesData =
       await dashBoardModel.PendingTouUnitChargesFun(request.params.id);
     commonResponseService.responseWithData(

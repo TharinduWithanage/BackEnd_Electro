@@ -7,7 +7,7 @@ var db = require("../../database/databaseConnection");
 module.exports.empDashboardDataFun = () => {
   return new Promise(async (resolve, reject) => {
     // console.log(requestData);
-    console.log("inside getReqCountFun");
+    // console.log("inside getReqCountFun");
 
     var selectQuery = `SELECT SUM(Update_ucharge_status + Update_fcharge_status) AS request_count FROM tou_ucharge;`;
     var selectQuery1 = `SELECT SUM(Update_ucharge_status + Update_fcharge_status) AS request_count FROM fixed_ucharge;`;
@@ -49,7 +49,7 @@ module.exports.empDashboardDataFun = () => {
 module.exports.custDashboardDataCountFun = (Cust_id) => {
   return new Promise(async (resolve, reject) => {
     // console.log(requestData);
-    console.log("inside getReqCountFun");
+    // console.log("inside getReqCountFun");
 
     var selectQuery = `SELECT COUNT(bill_id) AS normalBill_count FROM ebill_monthly_plan WHERE Cust_id=${Cust_id};`;
     var selectQuery1 = `SELECT COUNT(bill_id) AS specialBill_count FROM ebill_special_event WHERE Cust_id=${Cust_id};`;
@@ -83,7 +83,7 @@ module.exports.custDashboardDataCountFun = (Cust_id) => {
 module.exports.PendingNormalUnitChargesFun = (unit_id) => {
   return new Promise(async (resolve, reject) => {
     // console.log(requestData);
-    console.log("inside PendingNormalUnitChargesFun");
+    // console.log("inside PendingNormalUnitChargesFun");
     // console.log(unit_id);
     if (unit_id == "unit") {
       // console.log("inside if unit");
@@ -113,7 +113,7 @@ module.exports.PendingNormalUnitChargesFun = (unit_id) => {
 module.exports.PendingTouUnitChargesFun = (unit_id) => {
   return new Promise(async (resolve, reject) => {
     // console.log(requestData);
-    console.log("inside PendingTouUnitChargesFun");
+    // console.log("inside PendingTouUnitChargesFun");
     // console.log(unit_id);
     if (unit_id == "unit") {
       // console.log("inside if unit");

@@ -81,8 +81,21 @@ module.exports.profileUpdateFunc = (requestData, id) => {
 
                 reject({ status: false, mesg: "error updating user" });
             } else {
-                resolve({ status: true, mesg: "updated successfully" });
+                // resolve({ status: true, mesg: "updated successfully" });
+                db.query(selectQuery, async function (error, result) {
 
+                    if (error) {
+                        console.log(error);
+
+                        reject({ status: false, mesg: "error getting data" });
+                    } else {
+                        // console.log(result);
+
+                        resolve({ status: true, data: result });
+
+                    }
+
+                });
 
 
                 // resolve({ status: false, mesg: "user updated sucessfully" });

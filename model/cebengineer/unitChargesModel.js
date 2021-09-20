@@ -101,7 +101,7 @@ module.exports.updateUnitChargesDataFun = (requestData, id) => {
     return new Promise(async (resolve, reject) => {
 
 
-        console.log("inside updateUnitChargesDataFun");
+        // console.log("inside updateUnitChargesDataFun");
         // var id = requestData.id;
         var newPrice = requestData.newPrice;
         var categoryName = requestData.categoryName;
@@ -112,22 +112,22 @@ module.exports.updateUnitChargesDataFun = (requestData, id) => {
 
         if (id == "normal") {
             if (categoryName == "Unit") {
-                console.log("inside normal Unit charges");
+                // console.log("inside normal Unit charges");
                 var updateQuery = `UPDATE fixed_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='1',Unit_charges_requested_date='${requestedDate}' WHERE Unit_category='${unitPeriod}';`;
 
             } else {
-                console.log("inside normal Fixed charges");
+                // console.log("inside normal Fixed charges");
                 var updateQuery = `UPDATE fixed_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='1',Fixed_charges_requested_date='${requestedDate}' WHERE Unit_category='${unitPeriod}';`;
 
 
             }
         } else {
             if (categoryName == "Unit") {
-                console.log("inside tou Unit charges");
+                // console.log("inside tou Unit charges");
                 var updateQuery = `UPDATE tou_ucharge SET Update_unit_charges ='${newPrice}',Update_ucharge_status='1',Unit_charges_requested_date='${requestedDate}' WHERE Time_category='${timePeriod}';`;
 
             } else {
-                console.log("inside tou Fixed charges");
+                // console.log("inside tou Fixed charges");
                 var updateQuery = `UPDATE tou_ucharge SET Update_fixed_charges ='${newPrice}',Update_fcharge_status='1',Fixed_charges_requested_date='${requestedDate}' WHERE Time_category='${timePeriod}';`;
 
 
@@ -143,7 +143,7 @@ module.exports.updateUnitChargesDataFun = (requestData, id) => {
 
                 reject({ status: false, mesg: "error updating user" });
             } else {
-                console.log("updated successfully11")
+                // console.log("updated successfully11")
                 resolve({ status: true, mesg: "updated successfully" });
 
 
@@ -167,7 +167,7 @@ module.exports.acceptedUnitChargesUpdateFun = (requestData, id) => {
     return new Promise(async (resolve, reject) => {
 
 
-        console.log("inside acceptedUnitChargesUpdateFun");
+        // console.log("inside acceptedUnitChargesUpdateFun");
         // var id = requestData.id;
         var newPrice = requestData.newPrice;
         var categoryName = requestData.categoryName;

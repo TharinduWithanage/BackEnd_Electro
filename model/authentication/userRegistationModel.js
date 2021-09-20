@@ -97,16 +97,16 @@ module.exports.checkEmailFunc = (requestData) => {
     var email = requestData.userEmail.trim();
 
     if (email.substr(0, 5) == "admin" || email.substr(0, 5) == "ceben") {
-      console.log("inside admin and ceb");
+      // console.log("inside admin and ceb");
       var selectQuery = `SELECT COUNT(Email) email_count FROM employee WHERE Email='${email}' ;`;
     } else {
-      console.log("inside user");
+      // console.log("inside user");
       var selectQuery = `SELECT COUNT(Email) as email_count FROM customer WHERE Email='${email}';`;
     }
 
     db.query(selectQuery, async function (err, result) {
       if (err) {
-        console.log("inserting error", err);
+        // console.log("inserting error", err);
         reject({ status: false, mesg: "Invalid Email" });
       } else {
 
@@ -136,7 +136,7 @@ module.exports.checkEmailFunc = (requestData) => {
  */
 module.exports.resetPasswordFunc = (requestData, eid) => {
   return new Promise(async (resolve, reject) => {
-    console.log(requestData);
+    // console.log(requestData);
 
 
     var userPassword = requestData.userPassword.trim();
@@ -144,10 +144,10 @@ module.exports.resetPasswordFunc = (requestData, eid) => {
     var password = await userServiceModel.encryptPassword(userPassword);
 
     if (userMail.substr(0, 5) == "admin" || userMail.substr(0, 5) == "ceben") {
-      console.log("inside admin and ceb engineer");
+      // console.log("inside admin and ceb engineer");
       var updateQuery = `UPDATE employee SET Password ='${password}'  WHERE Email='${userMail}';`;
     } else {
-      console.log("inside user");
+      // console.log("inside user");
       var updateQuery = `UPDATE customer SET Password ='${password}'  WHERE Email='${userMail}';`;
 
     }
@@ -179,7 +179,7 @@ module.exports.resetPasswordFunc = (requestData, eid) => {
  */
 module.exports.addNewCebEngineerFunc = (requestData) => {
   return new Promise(async (resolve, reject) => {
-    console.log(requestData);
+    // console.log(requestData);
 
     var firstName = requestData.firstName;
     var email = requestData.email.trim();

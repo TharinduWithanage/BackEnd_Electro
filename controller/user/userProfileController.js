@@ -40,7 +40,7 @@ async function profileUpdate(request, response) {
       request.params.id
     );
     // console.log(profileUpdate);
-    commonResponseService.successWithMessage(response, profileUpdate.mesg);
+    commonResponseService.responseWithData(response, profileUpdate.data);
     // console.log(profileUpdate.data);
   } catch (error) {
     console.log(error);

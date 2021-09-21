@@ -7,6 +7,8 @@ var db = require('../../database/databaseConnection');
  */
 module.exports.AddDeviceMailBill = (devicedata, id) => {
     return new Promise(async (resolve, reject) => {
+        console.log("Add device main bill");
+        console.log(devicedata);
 
         var bill_id = devicedata.bill_id
         var appliance = devicedata.appliance
@@ -65,10 +67,10 @@ module.exports.AddDeviceMailBill = (devicedata, id) => {
 
 module.exports.deleteDeviceFunc = (CustId, deleteData) => {
     return new Promise(async (resolve, reject) => {
+        
+
         var device_id = deleteData.device_id;
         var bill_id = deleteData.bill_id;
-
-        //console.log("Inside get bill id model function query"+ CustId);
 
         var deleteQuery = `DELETE FROM electric_device_mplan WHERE device_id='${device_id}' AND bill_id='${bill_id}' AND Cust_id='${CustId}';`;
 
@@ -95,6 +97,7 @@ module.exports.deleteDeviceFunc = (CustId, deleteData) => {
 
 module.exports.updateDeviceMailBill = (devicedata, id) => {
     return new Promise(async (resolve, reject) => {
+        console.log(devicedata);
 
         var device_id = devicedata.device_id
         var bill_id = devicedata.bill_id

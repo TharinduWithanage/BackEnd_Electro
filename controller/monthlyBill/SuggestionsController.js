@@ -40,6 +40,7 @@ async function ApplySuggestions(request, response) {
     // console.log("inside ApplySuggestions Controller");
 
     var CustId = request.params.id;
+    console.log(request.body);
 
     var suggestDetails = request.body.suggestDetails;
 

@@ -20,22 +20,36 @@ function calculateTOUBill(TOU_bill_sum, fixed_charge) {
  * @param {*} quantity
  * @returns
  */
-function CalculateUnits(power, minutes, quantity) {
-  var numOfUnits = (quantity * power * minutes * 60) / 3600000;
-  // console.log("Calculate Units:",numOfUnits);
-  return parseFloat(numOfUnits);
+ function CalculateUnits(power, minutes, quantity, days) {
+  if(power === '' || power === null){
+    power = 0;
+  }
+  if(quantity === '' || quantity === null){
+    quantity = 0;
+  }
+  if(days === '' || days === null){
+    days = 0;
+  }
+  var numOfUnits = (parseFloat(quantity) * parseFloat(power) * parseFloat(minutes) * 60 * parseFloat(days)) / 3600000;
+  return parseFloat(numOfUnits).toFixed(4);
 }
 
 /**
  * Calculate the total number of minutes for each devices in ToU special event
- * @param {*} hors
+ * @param {*} hours
  * @param {*} minutes
  * @returns
  */
-function CalculateNumberOfMinutes(hors, minutes) {
-  var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
-  // console.log("Number Of Minutes : ",numOfMinutes);
-  return numOfMinutes;
+function CalculateNumberOfMinutes(hours, minutes) {
+
+  if(hours === '' || hours === null){
+    hours = 0;
+  }
+  if(minutes === '' || minutes === null){
+    minutes = 0;
+  }
+  var numOfMinutes = (parseInt(hours) * 60) + parseInt(minutes);
+  return parseFloat(numOfMinutes);
 }
 
 /**
@@ -85,17 +99,20 @@ async function AddSpecialEventDeviceDataTOU(request, response) {
     Device_details_TOU.units_peak_time = await CalculateUnits(
       Device_details_TOU.power,
       Device_details_TOU.using_minutes_peak_time,
-      Device_details_TOU.quantity
+      Device_details_TOU.quantity,
+      Device_details_TOU.numberOfDays
     );
     Device_details_TOU.units_off_peak_time = await CalculateUnits(
       Device_details_TOU.power,
       Device_details_TOU.using_minutes_off_peak_time,
-      Device_details_TOU.quantity
+      Device_details_TOU.quantity,
+      Device_details_TOU.numberOfDays
     );
     Device_details_TOU.units_day_time = await CalculateUnits(
       Device_details_TOU.power,
       Device_details_TOU.using_minutes_day_time,
-      Device_details_TOU.quantity
+      Device_details_TOU.quantity,
+      Device_details_TOU.numberOfDays
     );
     Device_details_TOU.cost_peak_time = await CalculateCost(
       PeakUnitCost,
@@ -199,8 +216,9 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
 
     var special_event_deviceTOUDetails = request.body.data;
     var bill_id = request.body.bill_id;
-    // console.log(special_event_deviceTOUDetails);
-    // console.log(request.params.id);
+    // console.log("updateDeviceDataSpecialEventTOU");
+    //  console.log(special_event_deviceTOUDetails);
+    
 
     var Cust_id = request.params.id;
 
@@ -227,17 +245,20 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
     special_event_deviceTOUDetails.units_peak_time = await CalculateUnits(
       special_event_deviceTOUDetails.power,
       special_event_deviceTOUDetails.using_minutes_peak_time,
-      special_event_deviceTOUDetails.quantity
+      special_event_deviceTOUDetails.quantity,
+      special_event_deviceTOUDetails.numberOfDays
     );
     special_event_deviceTOUDetails.units_off_peak_time = await CalculateUnits(
       special_event_deviceTOUDetails.power,
       special_event_deviceTOUDetails.using_minutes_off_peak_time,
-      special_event_deviceTOUDetails.quantity
+      special_event_deviceTOUDetails.quantity,
+      special_event_deviceTOUDetails.numberOfDays
     );
     special_event_deviceTOUDetails.units_day_time = await CalculateUnits(
       special_event_deviceTOUDetails.power,
       special_event_deviceTOUDetails.using_minutes_day_time,
-      special_event_deviceTOUDetails.quantity
+      special_event_deviceTOUDetails.quantity,
+      special_event_deviceTOUDetails.numberOfDays
     );
     special_event_deviceTOUDetails.cost_peak_time = await CalculateCost(
       PeakUnitCost,
@@ -252,20 +273,21 @@ async function updateDeviceDataSpecialEventTOU(request, response) {
       special_event_deviceTOUDetails.units_day_time
     );
     special_event_deviceTOUDetails.total_units =
-      special_event_deviceTOUDetails.units_peak_time +
-      special_event_deviceTOUDetails.units_off_peak_time +
-      special_event_deviceTOUDetails.units_day_time;
+      parseFloat(special_event_deviceTOUDetails.units_peak_time) +
+      parseFloat(special_event_deviceTOUDetails.units_off_peak_time) +
+      parseFloat(special_event_deviceTOUDetails.units_day_time);
+      
     special_event_deviceTOUDetails.total_cost_TOU =
-      special_event_deviceTOUDetails.cost_peak_time +
-      special_event_deviceTOUDetails.cost_off_peak_time +
-      special_event_deviceTOUDetails.cost_day_time;
-    special_event_deviceTOUDetails.total_units =
-      special_event_deviceTOUDetails.units_peak_time +
-      special_event_deviceTOUDetails.units_off_peak_time +
-      special_event_deviceTOUDetails.units_day_time;
+      parseFloat(special_event_deviceTOUDetails.cost_peak_time) +
+      parseFloat(special_event_deviceTOUDetails.cost_off_peak_time) +
+      parseFloat(special_event_deviceTOUDetails.cost_day_time);
+
 
     //special_event_deviceFixedDetails.using_minutes_fixed = await CalculateNumberOfMinutes(special_event_deviceFixedDetails.hfixed, special_event_deviceFixedDetails.mfixed);
     //special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(special_event_deviceFixedDetails.power, special_event_deviceFixedDetails.using_minutes_fixed);
+
+    // console.log("updateDeviceDataSpecialEventTOU finally");
+    //  console.log(special_event_deviceTOUDetails);
 
     var bill_id = await addSpecialEventDeviceModel.updateSpecialEventDetailsTOU(
       special_event_deviceTOUDetails,

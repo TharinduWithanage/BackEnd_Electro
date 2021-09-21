@@ -11,19 +11,34 @@ var unitChargesModel = require("../../model/cebengineer/unitChargesModel");
  * @returns
  */
 function CalculateUnits(power, minutes, quantity, days) {
-  var numOfUnits = (quantity * power * minutes * 60 * days) / 3600000;
+  if(power === '' || power === null){
+    power = 0;
+  }
+  if(quantity === '' || quantity === null){
+    quantity = 0;
+  }
+  if(days === '' || days === null){
+    days = 0;
+  }
+  var numOfUnits = (parseFloat(quantity) * parseFloat(power) * parseFloat(minutes) * 60 * parseFloat(days)) / 3600000;
   return parseFloat(numOfUnits).toFixed(4);
 }
 
 /**
  * Calculate the total number of time in minutes for the special events
- * @param {*} hors
+ * @param {*} hours
  * @param {*} minutes
  * @returns
  */
-function CalculateNumberOfMinutes(hors, minutes) {
-  var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
-  return parseInt(numOfMinutes);
+function CalculateNumberOfMinutes(hours, minutes) {
+  if(hours === '' || hours === null){
+    hours = 0;
+  }
+  if(minutes === '' || minutes === null){
+    minutes = 0;
+  }
+  var numOfMinutes = (parseInt(hours) * 60) + parseInt(minutes);
+  return parseFloat(numOfMinutes);
 }
 
 /**
@@ -42,78 +57,79 @@ function CalculateCost(uPrice, Units) {
  * @param {*} request
  * @param {*} response
  */
-async function AddSpecialEventDeviceDataTOU(request, response) {
-  try {
-    var Device_details_TOU = request.body.data;
-    // console.log(Device_details_TOU);
-    // console.log(request.params.id);
+// async function AddSpecialEventDeviceDataTOU(request, response) {
+//   try {
+//     console.log("fix eken yanne haloo -------------------------")
+//     var Device_details_TOU = request.body.data;
+//     // console.log(Device_details_TOU);
+//     // console.log(request.params.id);
 
-    var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
-    // console.log(UnitPrice.data[0].Unit_charge);
-    // console.log(UnitPrice.data[1].Unit_charge);
-    // console.log(UnitPrice.data[2].Unit_charge);
+//     var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
+//     // console.log(UnitPrice.data[0].Unit_charge);
+//     // console.log(UnitPrice.data[1].Unit_charge);
+//     // console.log(UnitPrice.data[2].Unit_charge);
 
-    var DayUnitCost = UnitPrice.data[0].Unit_charge;
-    var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
-    var PeakUnitCost = UnitPrice.data[2].Unit_charge;
+//     var DayUnitCost = UnitPrice.data[0].Unit_charge;
+//     var OffPeakUnitCost = UnitPrice.data[1].Unit_charge;
+//     var PeakUnitCost = UnitPrice.data[2].Unit_charge;
 
-    Device_details_TOU.using_minutes_peak_time = await CalculateNumberOfMinutes(
-      Device_details_TOU.hPeak,
-      Device_details_TOU.mPeak
-    );
-    Device_details_TOU.using_minutes_off_peak_time =
-      await CalculateNumberOfMinutes(
-        Device_details_TOU.hOffPeak,
-        Device_details_TOU.mOffPeak
-      );
-    Device_details_TOU.using_minutes_day_time = await CalculateNumberOfMinutes(
-      Device_details_TOU.hDay,
-      Device_details_TOU.mDay
-    );
-    Device_details_TOU.units_peak_time = await CalculateUnits(
-      Device_details_TOU.power,
-      Device_details_TOU.using_minutes_peak_time
-    );
-    Device_details_TOU.units_off_peak_time = await CalculateUnits(
-      Device_details_TOU.power,
-      Device_details_TOU.using_minutes_off_peak_time
-    );
-    Device_details_TOU.units_day_time = await CalculateUnits(
-      Device_details_TOU.power,
-      Device_details_TOU.using_minutes_day_time
-    );
-    Device_details_TOU.cost_peak_time = await CalculateCost(
-      PeakUnitCost,
-      Device_details_TOU.units_peak_time
-    );
-    Device_details_TOU.cost_off_peak_time = await CalculateCost(
-      OffPeakUnitCost,
-      Device_details_TOU.units_off_peak_time
-    );
-    Device_details_TOU.cost_day_time = await CalculateCost(
-      DayUnitCost,
-      Device_details_TOU.units_day_time
-    );
-    Device_details_TOU.total_cost_TOU =
-      Device_details_TOU.cost_peak_time +
-      Device_details_TOU.cost_off_peak_time +
-      Device_details_TOU.cost_day_time;
+//     Device_details_TOU.using_minutes_peak_time = await CalculateNumberOfMinutes(
+//       Device_details_TOU.hPeak,
+//       Device_details_TOU.mPeak
+//     );
+//     Device_details_TOU.using_minutes_off_peak_time =
+//       await CalculateNumberOfMinutes(
+//         Device_details_TOU.hOffPeak,
+//         Device_details_TOU.mOffPeak
+//       );
+//     Device_details_TOU.using_minutes_day_time = await CalculateNumberOfMinutes(
+//       Device_details_TOU.hDay,
+//       Device_details_TOU.mDay
+//     );
+//     Device_details_TOU.units_peak_time = await CalculateUnits(
+//       Device_details_TOU.power,
+//       Device_details_TOU.using_minutes_peak_time
+//     );
+//     Device_details_TOU.units_off_peak_time = await CalculateUnits(
+//       Device_details_TOU.power,
+//       Device_details_TOU.using_minutes_off_peak_time
+//     );
+//     Device_details_TOU.units_day_time = await CalculateUnits(
+//       Device_details_TOU.power,
+//       Device_details_TOU.using_minutes_day_time
+//     );
+//     Device_details_TOU.cost_peak_time = await CalculateCost(
+//       PeakUnitCost,
+//       Device_details_TOU.units_peak_time
+//     );
+//     Device_details_TOU.cost_off_peak_time = await CalculateCost(
+//       OffPeakUnitCost,
+//       Device_details_TOU.units_off_peak_time
+//     );
+//     Device_details_TOU.cost_day_time = await CalculateCost(
+//       DayUnitCost,
+//       Device_details_TOU.units_day_time
+//     );
+//     Device_details_TOU.total_cost_TOU =
+//       Device_details_TOU.cost_peak_time +
+//       Device_details_TOU.cost_off_peak_time +
+//       Device_details_TOU.cost_day_time;
 
-    // console.log("inside addDeviceDataMain Controller");
-    // console.log(request.params.id);
-    var DeviceData_TOU =
-      await addSpecialEventDeviceModel.AddSpecialEventDeviceDataTOU(
-        Device_details_TOU,
-        request.params.id
-      );
-    // console.log(profileData.data);
+//     // console.log("inside addDeviceDataMain Controller");
+//     // console.log(request.params.id);
+//     var DeviceData_TOU =
+//       await addSpecialEventDeviceModel.AddSpecialEventDeviceDataTOU(
+//         Device_details_TOU,
+//         request.params.id
+//       );
+//     // console.log(profileData.data);
 
-    commonResponseService.successWithMessage(response, DeviceData_TOU.mesg);
-  } catch (error) {
-    console.log(error);
-    commonResponseService.errorWithMessage(response, "something went wrong");
-  }
-}
+//     commonResponseService.successWithMessage(response, DeviceData_TOU.mesg);
+//   } catch (error) {
+//     console.log(error);
+//     commonResponseService.errorWithMessage(response, "something went wrong");
+//   }
+// }
 
 /**
  * Add Device data of the special events in Fixed model
@@ -249,6 +265,7 @@ async function updateDeviceDataSpecialEvent(request, response) {
 
     var special_event_deviceFixedDetails = request.body.data;
     var bill_id = request.body.bill_id;
+    // console.log("Inside of update device data special event");
     // console.log(special_event_deviceFixedDetails);
     // console.log(request.params.id);
 
@@ -261,8 +278,11 @@ async function updateDeviceDataSpecialEvent(request, response) {
       );
     special_event_deviceFixedDetails.total_units_fixed = await CalculateUnits(
       special_event_deviceFixedDetails.power,
-      special_event_deviceFixedDetails.using_minutes_fixed
+      special_event_deviceFixedDetails.using_minutes_fixed,
+      special_event_deviceFixedDetails.quantity,
+      special_event_deviceFixedDetails.numberOfDays
     );
+    
 
     var updateData =
       await addSpecialEventDeviceModel.updateSpecialEventDetailsFixed(
@@ -271,7 +291,9 @@ async function updateDeviceDataSpecialEvent(request, response) {
         bill_id
       );
 
-    // console.log(updateData.data);
+      // console.log("End of update device data special event");
+      // console.log(special_event_deviceFixedDetails);
+
     commonResponseService.responseWithData(response, updateData.data);
   } catch (error) {
     console.log(error);
@@ -289,12 +311,11 @@ async function deleteSpecialEventDeviceData(request, response) {
 
     try {
 
-        console.log("inside deleteDeviceDataMain Controller");
         var Cust_id = request.params.id;
         console.log("Request body:");
         console.log(request.body);
         var device_delete = await addSpecialEventDeviceModel.deleteSpecialEventDeviceFunc(Cust_id,request.body);
-        console.log("The device delete is:",device_delete);
+        //console.log("The device delete is:",device_delete);
         commonResponseService.successWithMessage(response, device_delete.mesg);
         
 
@@ -494,7 +515,6 @@ async function deleteBillPlan(request, response) {
 
 module.exports = {
   deleteBillPlan,
-  AddSpecialEventDeviceDataTOU,
   AddSpecialEventDeviceDataFixed,
   getFixedBillId,
   GetSpecialEventDeviceDataFixed,

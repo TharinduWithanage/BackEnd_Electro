@@ -12,19 +12,31 @@ var suggestionModel = require("../../model/monthlyBill/suggestionModel");
  * @returns
  */
 function CalculateUnits(power, minutes, quantity) {
-  var numOfUnits = (quantity * power * minutes * 60 * 30) / 3600000;
-  return numOfUnits;
+  if(power === '' || power === null){
+    power = 0;
+  }
+  if(quantity === '' || quantity === null){
+    quantity = 0;
+  }
+  var numOfUnits = (parseFloat(quantity) * parseFloat(power) * parseFloat(minutes) * 60 * 30) / 3600000;
+  return parseFloat(numOfUnits);
 }
 
 /**
  * Calculate Total number of minutes for a device controller
- * @param {*} hors
+ * @param {*} hours
  * @param {*} minutes
  * @returns
  */
-function CalculateNumberOfMinutes(hors, minutes) {
-  var numOfMinutes = parseInt(hors * 60) + parseInt(minutes);
-  return numOfMinutes;
+function CalculateNumberOfMinutes(hours, minutes) {
+  if(hours === '' || hours === null){
+    hours = 0;
+  }
+  if(minutes === '' || minutes === null){
+    minutes = 0;
+  }
+  var numOfMinutes = (parseInt(hours) * 60) + parseInt(minutes);
+  return parseFloat(numOfMinutes);
 }
 
 /**
@@ -129,6 +141,7 @@ async function AddDeviceDataMain(request, response) {
 async function updateDeviceDataMain(request, response) {
   try {
     var Device_details = request.body.data;
+    console.log(Device_details);
 
     var UnitPrice = await unitChargesModel.getUnitChargesDataFun("tou");
 

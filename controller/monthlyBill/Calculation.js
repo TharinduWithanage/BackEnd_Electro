@@ -10,9 +10,9 @@ var calculateModel = require("../../model/monthlyBill/calculateModel");
  */
 function caculateFixedBill(noOfUnits, unitDetails) {
   var billValue;
-  // console.log("call inside calculate fixed bill function");
-  //  console.log(unitDetails[0].Fixed_charge);
-  // console.log(noOfUnits);
+    console.log("call inside calculate fixed bill function");
+    console.log(unitDetails);
+    console.log(noOfUnits);
   if (noOfUnits <= 30) {
     billValue =
       noOfUnits * unitDetails[0].Unit_charge +
@@ -20,9 +20,10 @@ function caculateFixedBill(noOfUnits, unitDetails) {
     return billValue.toFixed(2);
   } else if (noOfUnits <= 60) {
     billValue =
-      parseFloat((noOfUnits - 60) * unitDetails[3].Unit_charge) +
+      parseFloat((noOfUnits - 30) * unitDetails[3].Unit_charge) +
       parseFloat(30 * unitDetails[0].Unit_charge) +
       parseFloat(unitDetails[3].Fixed_charge);
+      console.log(billValue);
     return billValue.toFixed(2);
   } else if (noOfUnits <= 90) {
     billValue =
@@ -226,14 +227,11 @@ async function calculatedBillValueUpdate(request, response) {
 
     total_units = Bill_details.data[0].TotalUnits;
 
-    // console.log(Bill_details.data)
-    // console.log(Bill_details.data[0].TotalUnits)
+    console.log(Bill_details.data[0].TotalUnits)
+
     var fixed_bill_cost = caculateFixedBill(total_units, UnitPrice.data);
-    var TOU_bill_cost = calculateTOUBill(
-      Bill_details.data[0].TOU_bill_sum,
-      540
-    );
-    // console.log(fixed_bill_cost);
+    var TOU_bill_cost = calculateTOUBill(Bill_details.data[0].TOU_bill_sum,540);
+    console.log(fixed_bill_cost);
     Bill_details.data[0].fixed_bill_cost = parseFloat(fixed_bill_cost);
     Bill_details.data[0].TOU_bill_cost = parseFloat(TOU_bill_cost);
     Bill_details.data[0].billId = parseInt(billId);

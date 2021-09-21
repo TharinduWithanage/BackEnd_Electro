@@ -223,6 +223,8 @@ async function deleteDeviceDataMain(request, response) {
       request.body
     );
 
+    await suggestionModel.deleteSuggestions(request.body.device_id, Cust_id, request.body.bill_id);
+
     commonResponseService.successWithMessage(response, device_delete.mesg);
   } catch (error) {
     console.log(error);

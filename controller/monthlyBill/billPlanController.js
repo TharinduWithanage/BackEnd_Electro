@@ -42,10 +42,10 @@ async function deleteMonthlyBillPlans(request, response) {
       Cust_id,
       request.body
     );
-    var Devices_delete = await billPlanModel.deleteBillPlanDevices(
-      Cust_id,
-      request.body
-    );
+    var Devices_delete = await billPlanModel.deleteBillPlanDevices(Cust_id,request.body);
+
+    var Sug_delete = await billPlanModel.deleteAllSug(Cust_id, request.body.bill_id )
+
     commonResponseService.successWithMessage(response, bill_plan_delete.mesg);
   } catch (error) {
     console.log(error);

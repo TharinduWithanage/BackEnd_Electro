@@ -85,3 +85,29 @@ module.exports.deleteBillPlanDevices = (CustId, deleteData) => {
     });
 
 }
+
+module.exports.deleteAllSug = (CustId, bill_id) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        var deleteQuery = `DELETE FROM suggestions WHERE bill_id='${bill_id}' AND Cust_id='${CustId}';`;
+
+        console.log( deleteQuery);
+
+
+        db.query(deleteQuery, async function (error, result) {
+
+            if (error) {
+                console.log(error);
+
+                reject({ status: false, mesg: "error deleting data" });
+            } else {
+
+                resolve({ status: true, mesg: "Delete  device Success!!" });
+
+            }
+
+        });
+    });
+
+}

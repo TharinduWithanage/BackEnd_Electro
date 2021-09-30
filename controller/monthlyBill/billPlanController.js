@@ -3,7 +3,7 @@ var billPlanModel = require("../../model/monthlyBill/billPlanModel");
 
 
 /**
- * Get Main bill plans controller
+ * Get Main bill plans -  controller
  * @param {*} request
  * @param {*} response
  */

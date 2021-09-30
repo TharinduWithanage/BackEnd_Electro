@@ -1,8 +1,9 @@
 var commonResponseService = require("../../service/responseService");
 var billPlanModel = require("../../model/monthlyBill/billPlanModel");
 
+
 /**
- * Get Main bill plan controller
+ * Get Main bill plans controller
  * @param {*} request
  * @param {*} response
  */

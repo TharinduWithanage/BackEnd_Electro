@@ -8,7 +8,7 @@ module.exports.getMonthlyBillPlans = (CustId) => {
 
         var selectQuery = `SELECT LEAST(Total_cost_tou,Total_cost_fixed) AS total_cost, bill_id, Best_model FROM ebill_monthly_plan WHERE Cust_id = ${CustId}; `;
 
-        //console.log("Inside get bill id model function query"+ selectQuery);
+        //console.log("Inside get bill id model function model"+ selectQuery);
 
 
         db.query(selectQuery, async function (error, result) {
